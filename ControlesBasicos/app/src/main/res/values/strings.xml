@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">ControlesBasicos</string>
+    <string name="nombre">Nombre:</string>
+    <string name="hintNombre">Introduce el nombre...</string>
 </resources>
