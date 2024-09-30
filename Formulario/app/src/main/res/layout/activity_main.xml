@@ -12,134 +12,175 @@
         android:id="@+id/txNombre"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="75dp"
+        android:layout_marginEnd="31dp"
         android:text="@string/nombre"
         app:layout_constraintBottom_toBottomOf="@+id/ptNombre"
-        app:layout_constraintTop_toTopOf="@+id/ptNombre"
-        tools:layout_editor_absoluteX="75dp" />
+        app:layout_constraintEnd_toStartOf="@+id/ptNombre"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/ptNombre" />
 
     <EditText
         android:id="@+id/ptNombre"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="31dp"
         android:ems="10"
         android:hint="@string/introducirNombre"
         android:inputType="text"
-        tools:layout_editor_absoluteX="160dp"
-        tools:layout_editor_absoluteY="70dp" />
+        app:layout_constraintStart_toEndOf="@+id/txNombre"
+        tools:layout_editor_absoluteY="71dp" />
 
     <TextView
         android:id="@+id/txApellido1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="46dp"
+        android:layout_marginEnd="26dp"
+        android:layout_marginBottom="37dp"
         android:text="@string/apellido1"
-        tools:layout_editor_absoluteX="72dp"
-        tools:layout_editor_absoluteY="148dp" />
+        app:layout_constraintBottom_toTopOf="@+id/txApellido2"
+        app:layout_constraintEnd_toStartOf="@+id/ptApellido1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txNombre" />
 
     <EditText
         android:id="@+id/ptApellido1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="26dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="24dp"
         android:ems="10"
         android:hint="@string/introduceApellido1"
         android:inputType="text"
-        app:layout_constraintBottom_toBottomOf="@+id/txApellido1"
-        app:layout_constraintTop_toTopOf="@+id/txApellido1"
-        tools:layout_editor_absoluteX="160dp" />
+        app:layout_constraintBottom_toTopOf="@+id/ptApellido2"
+        app:layout_constraintStart_toEndOf="@+id/txApellido1"
+        app:layout_constraintTop_toBottomOf="@+id/ptNombre" />
 
     <TextView
         android:id="@+id/txApellido2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="72dp"
+        android:layout_marginEnd="28dp"
+        android:layout_marginBottom="45dp"
         android:text="@string/apellido2"
-        tools:layout_editor_absoluteX="72dp"
-        tools:layout_editor_absoluteY="205dp" />
+        app:layout_constraintBottom_toTopOf="@+id/txTelefono"
+        app:layout_constraintEnd_toStartOf="@+id/ptApellido2"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/ptApellido2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
         android:ems="10"
         android:hint="@string/introduceApellido2"
         android:inputType="text"
         app:layout_constraintBottom_toBottomOf="@+id/txApellido2"
-        app:layout_constraintTop_toTopOf="@+id/txApellido2"
-        tools:layout_editor_absoluteX="162dp" />
+        app:layout_constraintStart_toEndOf="@+id/txApellido2"
+        app:layout_constraintTop_toTopOf="@+id/txApellido2" />
 
     <TextView
         android:id="@+id/txTelefono"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="45dp"
+        android:layout_marginEnd="28dp"
         android:text="@string/telefono"
-        tools:layout_editor_absoluteX="72dp"
-        tools:layout_editor_absoluteY="269dp" />
+        app:layout_constraintEnd_toStartOf="@+id/phTelefono"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txApellido2" />
 
     <EditText
         android:id="@+id/phTelefono"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
         android:ems="10"
         android:hint="@string/introoduceTelefono"
         android:inputType="phone"
         app:layout_constraintBottom_toBottomOf="@+id/txTelefono"
-        app:layout_constraintTop_toTopOf="@+id/txTelefono"
-        tools:layout_editor_absoluteX="159dp" />
+        app:layout_constraintStart_toEndOf="@+id/txTelefono"
+        app:layout_constraintTop_toTopOf="@+id/txTelefono" />
 
     <TextView
         android:id="@+id/txFecha"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="42dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="45dp"
         android:text="@string/fecha"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="331dp" />
+        app:layout_constraintBottom_toTopOf="@+id/txEmail"
+        app:layout_constraintEnd_toStartOf="@+id/dtFechas"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txTelefono" />
 
     <EditText
         android:id="@+id/dtFechas"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
         android:ems="10"
         android:hint="@string/introduceFecha"
         android:inputType="date"
         app:layout_constraintBottom_toBottomOf="@+id/txFecha"
-        app:layout_constraintTop_toTopOf="@+id/txFecha"
-        tools:layout_editor_absoluteX="163dp" />
+        app:layout_constraintStart_toEndOf="@+id/txFecha"
+        app:layout_constraintTop_toTopOf="@+id/txFecha" />
 
     <TextView
         android:id="@+id/txEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="91dp"
+        android:layout_marginTop="46dp"
+        android:layout_marginEnd="34dp"
         android:text="@string/email"
-        tools:layout_editor_absoluteX="91dp"
-        tools:layout_editor_absoluteY="395dp" />
+        app:layout_constraintEnd_toStartOf="@+id/emEmail"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txFecha" />
 
     <EditText
         android:id="@+id/emEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="34dp"
         android:ems="10"
         android:hint="@string/introducirEmail"
         android:inputType="textEmailAddress"
-        app:layout_constraintBottom_toBottomOf="@+id/txEmail"
-        app:layout_constraintTop_toTopOf="@+id/txEmail"
-        tools:layout_editor_absoluteX="163dp" />
+        app:layout_constraintStart_toEndOf="@+id/txEmail"
+        app:layout_constraintTop_toTopOf="@+id/txEmail" />
 
     <TextView
         android:id="@+id/txContrasenia"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="59dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="29dp"
+        android:layout_marginBottom="145dp"
         android:text="@string/contrasenia"
-        tools:layout_editor_absoluteX="59dp"
-        tools:layout_editor_absoluteY="456dp" />
+        app:layout_constraintBottom_toTopOf="@+id/btValidar"
+        app:layout_constraintEnd_toStartOf="@+id/psContrasenia1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txEmail" />
 
     <EditText
         android:id="@+id/psContrasenia1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="29dp"
         android:ems="10"
         android:hint="@string/introducirContrasenia1"
         android:inputType="textPassword"
         app:layout_constraintBottom_toBottomOf="@+id/txContrasenia"
-        app:layout_constraintTop_toTopOf="@+id/txContrasenia"
-        tools:layout_editor_absoluteX="163dp" />
+        app:layout_constraintStart_toEndOf="@+id/txContrasenia"
+        app:layout_constraintTop_toTopOf="@+id/txContrasenia" />
 
     <EditText
         android:id="@+id/psContrasenia2"
@@ -159,17 +200,24 @@
         android:id="@+id/btValidar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="69dp"
+        android:layout_marginEnd="85dp"
         android:text="@string/validar"
         app:layout_constraintBottom_toBottomOf="@+id/btLimpiar"
-        app:layout_constraintTop_toTopOf="@+id/btLimpiar"
-        tools:layout_editor_absoluteX="69dp" />
+        app:layout_constraintEnd_toStartOf="@+id/btLimpiar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btLimpiar" />
 
     <Button
         android:id="@+id/btLimpiar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="85dp"
+        android:layout_marginTop="68dp"
+        android:layout_marginBottom="63dp"
         android:text="@string/limpiar"
-        tools:layout_editor_absoluteX="247dp"
-        tools:layout_editor_absoluteY="620dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btValidar"
+        app:layout_constraintTop_toBottomOf="@+id/psContrasenia2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
