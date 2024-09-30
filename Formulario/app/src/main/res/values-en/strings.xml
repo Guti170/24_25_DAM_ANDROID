@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">" Form"</string>
+    <string name="nombre">Name:</string>
+    <string name="introducirNombre">" Enter the name..."</string>
+    <string name="apellido1">Last name1:</string>
+    <string name="introduceApellido1">" First surname..."</string>
+    <string name="apellido2">Last name2:</string>
+    <string name="introduceApellido2">Second surname...</string>
+    <string name="telefono">Phone:</string>
+    <string name="introoduceTelefono">Enter your phone...</string>
+    <string name="fecha">Birthdate:</string>
+    <string name="introduceFecha">Date you were born...</string>
+    <string name="email">E-mail:</string>
+    <string name="introducirEmail">Enter your email...</string>
+    <string name="contrasenia">Password:</string>
+    <string name="introducirContrasenia1">Enter your password...</string>
+    <string name="introduceContrasenia2">Repeat your password...</string>
+    <string name="validar">Validate</string>
+    <string name="limpiar">Clean</string>
+    <string name="formulario">Form</string>
+</resources>
