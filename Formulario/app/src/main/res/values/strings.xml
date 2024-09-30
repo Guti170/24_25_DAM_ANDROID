@@ -1,3 +1,21 @@
 <resources>
     <string name="app_name">Formulario</string>
+    <string name="nombre">Nombre:</string>
+    <string name="introducirNombre">Introduce un nombre...</string>
+    <string name="apellido1">Apellido1:</string>
+    <string name="introduceApellido1">Primero apellido...</string>
+    <string name="apellido2">Apellido2:</string>
+    <string name="introduceApellido2">Segundo Apellido...</string>
+    <string name="telefono">Telefono:</string>
+    <string name="introoduceTelefono">Introduce su telefono...</string>
+    <string name="fecha">Fecha de Nacimiento:</string>
+    <string name="introduceFecha">Fecha en que naciste...</string>
+    <string name="email">Email:</string>
+    <string name="introducirEmail">Introduce su email...</string>
+    <string name="contrasenia">Contraseña:</string>
+    <string name="introducirContrasenia1">Introduce su contraseña...</string>
+    <string name="introduceContrasenia2">Repita su contraseña...</string>
+    <string name="validar">Validar</string>
+    <string name="limpiar">Limpiar</string>
+    <string name="formulario">Formulario</string>
 </resources>
