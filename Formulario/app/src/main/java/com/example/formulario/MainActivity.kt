@@ -35,6 +35,10 @@ class MainActivity : AppCompatActivity() {
 
         btValidar.setOnClickListener {
             val numeroTelefono = phTelefono.text.toString()
+            phTelefono.setBackgroundColor(ContextCompat.getColor(this, R.color.AzulClaro))
+            emEmail.setBackgroundColor(ContextCompat.getColor(this, R.color.AzulClaro))
+            psContrasenia1.setBackgroundColor(ContextCompat.getColor(this, R.color.AzulClaro))
+            psContrasenia2.setBackgroundColor(ContextCompat.getColor(this, R.color.AzulClaro))
             if (numeroTelefono.length != 9) {
                 Toast.makeText(this, "El número de teléfono debe tener 9 dígitos", Toast.LENGTH_SHORT).show()
                 phTelefono.setBackgroundColor(ContextCompat.getColor(this, R.color.errorColor))
