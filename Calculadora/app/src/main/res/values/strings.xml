@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Calculadora</string>
+    <string name="tvCalculadora">CALCULADORA</string>
+    <string name="tvNumero1">Primer Numero:</string>
+    <string name="tvNumero2">Segundo Numero:</string>
+    <string name="htNumero1">Introduce un numero</string>
+    <string name="htNumero2">Introduce un numero</string>
+    <string name="tvTotal">Total:</string>
+    <string name="tvResto">Resto:</string>
+    <string name="btSumar">Sumar</string>
+    <string name="btRestar">Restar</string>
+    <string name="btMultiplicar">Multiplicar</string>
+    <string name="btDividir">Dividir</string>
+</resources>
