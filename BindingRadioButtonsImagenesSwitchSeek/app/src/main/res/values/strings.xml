@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">BindingRadioButtonsImagenesSwitchSeek</string>
+    <string name="nombre">Nombre:</string>
+    <string name="hintNombre">Introduce tu nombre...</string>
+</resources>
