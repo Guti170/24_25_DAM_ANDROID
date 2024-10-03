@@ -14,76 +14,65 @@
         android:id="@+id/ptNombre"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="48dp"
+        android:layout_marginEnd="39dp"
         android:drawableStart="@drawable/ic_pizza"
         android:ems="10"
         android:hint="@string/hintNombre"
         android:inputType="text"
         android:minHeight="48dp"
         android:paddingStart="5dp"
-        app:layout_constraintBottom_toBottomOf="@+id/txNombre"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/txNombre"
-        app:layout_constraintTop_toTopOf="@+id/txNombre" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/txNombre"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/txNombre"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginBottom="50dp"
         android:text="@string/nombre"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.206"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.387" />
+        app:layout_constraintBottom_toTopOf="@+id/btAceptar"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/btBorrar"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="332dp"
+        android:layout_marginStart="77dp"
+        android:layout_marginEnd="76dp"
+        android:layout_marginBottom="4dp"
         android:text="Borrar"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/cbBacon"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.755"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txNombre"
-        app:layout_constraintVertical_bias="0.96" />
+        app:layout_constraintStart_toEndOf="@+id/btAceptar" />
 
     <Button
         android:id="@+id/btAceptar"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
+        android:layout_marginBottom="5dp"
         android:text="Aceptar"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.186"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txNombre"
-        app:layout_constraintVertical_bias="0.005" />
+        app:layout_constraintBottom_toTopOf="@+id/cbQueso"
+        app:layout_constraintEnd_toEndOf="@+id/cbQueso"
+        app:layout_constraintStart_toEndOf="@+id/cbQueso" />
 
     <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
-        app:layout_constraintBottom_toTopOf="@+id/txNombre"
-        app:layout_constraintTop_toTopOf="@+id/guideline2"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@mipmap/ic_comida"
-        tools:layout_editor_absoluteX="69dp" />
+        android:id="@+id/ivImagen"
+        android:layout_width="76dp"
+        android:layout_height="86dp"
+        android:layout_marginStart="69dp"
+        android:layout_marginTop="87dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@mipmap/ic_comida" />
 
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/barrier9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="top"
-        app:constraint_referenced_ids="imageView" />
+        app:constraint_referenced_ids="ivImagen" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
@@ -91,5 +80,82 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="35dp" />
+
+    <ImageButton
+        android:id="@+id/ibCambiarImagen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="49dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="49dp"
+        app:layout_constraintEnd_toStartOf="@+id/cbBacon"
+        app:layout_constraintStart_toEndOf="@+id/ivImagen"
+        app:layout_constraintTop_toTopOf="@+id/ivImagen"
+        app:srcCompat="@android:drawable/ic_media_play" />
+
+    <RadioGroup
+        android:id="@+id/rgBordes"
+        android:layout_width="124dp"
+        android:layout_height="86dp"
+        android:layout_marginStart="55dp"
+        android:layout_marginTop="184dp"
+        android:layout_marginEnd="56dp"
+        android:layout_marginBottom="186dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/cbCebolla"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/txNombre">
+
+        <RadioButton
+            android:id="@+id/rbGordo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Borde Gordo" />
+
+        <RadioButton
+            android:id="@+id/rbFino"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Borde Fino" />
+    </RadioGroup>
+
+    <CheckBox
+        android:id="@+id/cbQueso"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="34dp"
+        android:layout_marginBottom="278dp"
+        android:text="Queso"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <CheckBox
+        android:id="@+id/cbCebolla"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cebolla"
+        app:layout_constraintEnd_toStartOf="@+id/btBorrar"
+        app:layout_constraintTop_toBottomOf="@+id/btAceptar" />
+
+    <CheckBox
+        android:id="@+id/cbBacon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bacon"
+        app:layout_constraintEnd_toEndOf="@+id/btBorrar"
+        app:layout_constraintStart_toEndOf="@+id/btBorrar"
+        app:layout_constraintTop_toTopOf="@+id/cbCebolla" />
+
+    <Switch
+        android:id="@+id/stLicencia"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="19dp"
+        android:layout_marginTop="53dp"
+        android:layout_marginEnd="20dp"
+        android:text="Licencia"
+        app:layout_constraintEnd_toEndOf="@+id/cbBacon"
+        app:layout_constraintStart_toEndOf="@+id/cbCebolla"
+        app:layout_constraintTop_toBottomOf="@+id/cbBacon" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
