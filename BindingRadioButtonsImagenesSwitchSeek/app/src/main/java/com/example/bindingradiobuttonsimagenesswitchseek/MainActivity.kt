@@ -31,22 +31,37 @@ class MainActivity : AppCompatActivity() {
         var currentImage = R.drawable.ic_comida_foreground
         var imagen1 = R.drawable.ic_comida_foreground
         var imagen2 = R.drawable.ic_pizza
+        var mensaje = ""
 
         binding.btAceptar.setOnClickListener {
             if(binding.stLicencia.isChecked){
-
+                mensaje = "Hola ${binding.ptNombre.text} has pedido una pizza con "
+                if (binding.cbBacon.isChecked) {
+                    mensaje += "bacon, "
+                }
+                if (binding.cbCebolla.isChecked) {
+                    mensaje += "cebolla, "
+                }
+                if (binding.cbQueso.isChecked) {
+                    mensaje += "queso, "
+                }
+                if (binding.rbFino.isChecked) {
+                    mensaje += "y con el borde Fino"
+                } else {
+                    mensaje += "y con el borde Gordo"
+                }
+                Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show()
+                val order = PedidoPizzeria(binding.ptNombre.text.toString(),
+                    binding.cbBacon.isChecked,
+                    binding.cbCebolla.isChecked,
+                    binding.cbQueso.isChecked,
+                    binding.rbFino.isChecked,
+                    binding.rbGordo.isChecked)
+                Log.d(miTag, order.toString())
             } else {
                 Toast.makeText(this, "Debes aceptar la licencia", Toast.LENGTH_SHORT).show()
             }
         }
-
-        val order = PedidoPizzeria(binding.ptNombre.text.toString(),
-            binding.cbBacon.isChecked,
-            binding.cbCebolla.isChecked,
-            binding.cbQueso.isChecked,
-            binding.rbFino.isChecked,
-            binding.rbGordo.isChecked)
-        Log.d(miTag, order.toString())
 
         binding.btBorrar.setOnClickListener {
             binding.ptNombre.text.clear()
