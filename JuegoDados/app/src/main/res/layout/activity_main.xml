@@ -5,15 +5,194 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/AzulClaro"
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/tvTitulo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="26dp"
+        android:text="@string/tvTitulo"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/tvGanadas1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:text="@string/tvGanadas1"
+        android:textSize="16sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tvGPuntos1"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tvGanadas2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="54dp"
+        android:layout_marginEnd="19dp"
+        android:text="@string/tvGanadas2"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@+id/tvGPuntos2"
+        app:layout_constraintTop_toBottomOf="@+id/tvTitulo" />
+
+    <TextView
+        android:id="@+id/tvPuntos1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:text="@string/tvPuntos1"
+        android:textSize="16sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tvPtPuntos1"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tvPuntos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="23dp"
+        android:layout_marginBottom="30dp"
+        android:text="@string/tvPuntos1"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/tvTiradas2"
+        app:layout_constraintEnd_toStartOf="@+id/tvPtPuntos2" />
+
+    <TextView
+        android:id="@+id/tvTiradas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tvTiradas1"
+        android:textSize="16sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tvTPuntos1"
+        app:layout_constraintStart_toStartOf="@+id/tvPuntos1" />
+
+    <TextView
+        android:id="@+id/tvTiradas2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="19dp"
+        android:layout_marginBottom="55dp"
+        android:text="@string/tvTiradas1"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/ivDado2"
+        app:layout_constraintEnd_toStartOf="@+id/tvTPuntos2" />
+
+    <TextView
+        android:id="@+id/tvGPuntos1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="19dp"
+        android:layout_marginTop="54dp"
+        android:text="@string/tvGPuntos1"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@+id/tvGanadas1"
+        app:layout_constraintTop_toBottomOf="@+id/tvTitulo" />
+
+    <TextView
+        android:id="@+id/tvGPuntos2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tvGPuntos2"
+        android:textSize="16sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tvGanadas2"
+        app:layout_constraintStart_toEndOf="@+id/tvTitulo" />
+
+    <TextView
+        android:id="@+id/tvTPuntos1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="19dp"
+        android:layout_marginTop="30dp"
+        android:text="@string/tvTPuntos1"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@+id/tvTiradas"
+        app:layout_constraintTop_toBottomOf="@+id/tvPtPuntos1" />
+
+    <TextView
+        android:id="@+id/tvPtPuntos2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="9dp"
+        android:text="@string/tvPtPuntos2"
+        android:textSize="16sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tvPuntos"
+        app:layout_constraintEnd_toEndOf="@+id/tvGPuntos2"
+        app:layout_constraintStart_toEndOf="@+id/tvGanadas2" />
+
+    <TextView
+        android:id="@+id/tvTPuntos2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tvTPuntos2"
+        android:textSize="16sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tvTiradas2"
+        app:layout_constraintStart_toStartOf="@+id/tvPtPuntos2" />
+
+    <TextView
+        android:id="@+id/tvPtPuntos1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="23dp"
+        android:layout_marginTop="79dp"
+        android:text="@string/tvPtPuntos1"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@+id/tvPuntos1"
+        app:layout_constraintTop_toBottomOf="@+id/tvGPuntos1" />
+
+    <ImageView
+        android:id="@+id/ivDado1"
+        android:layout_width="0dp"
+        android:layout_height="109dp"
+        android:layout_marginTop="55dp"
+        app:layout_constraintEnd_toEndOf="@+id/btJugador1"
+        app:layout_constraintStart_toStartOf="@+id/tvTiradas"
+        app:layout_constraintTop_toBottomOf="@+id/tvTiradas"
+        app:srcCompat="@drawable/ic_dado_aleatorio" />
+
+    <ImageView
+        android:id="@+id/ivDado2"
+        android:layout_width="136dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="57dp"
+        app:layout_constraintBottom_toBottomOf="@+id/ivDado1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/ivDado1"
+        app:srcCompat="@drawable/ic_dado_aleatorio" />
+
+    <Button
+        android:id="@+id/btJugador1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="45dp"
+        android:layout_marginEnd="58dp"
+        android:text="@string/btJugador1"
+        app:layout_constraintEnd_toStartOf="@+id/btJugador2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivDado1" />
+
+    <Button
+        android:id="@+id/btJugador2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="33dp"
+        android:text="@string/btJugador2"
+        app:layout_constraintBottom_toTopOf="@+id/btReiniciar"
+        app:layout_constraintEnd_toEndOf="@+id/ivDado2" />
+
+    <Button
+        android:id="@+id/btReiniciar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="33dp"
+        android:text="@string/btReiniciar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btJugador1" />
 </androidx.constraintlayout.widget.ConstraintLayout>

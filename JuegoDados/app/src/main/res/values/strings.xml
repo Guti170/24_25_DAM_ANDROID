@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">JuegoDados</string>
+    <string name="tvTitulo">JUEGO DE LOS DADOS</string>
+    <string name="tvGanadas1">Ganadas:</string>
+    <string name="tvGanadas2">Ganadas:</string>
+    <string name="tvPuntos1">Puntos:</string>
+    <string name="tvTiradas1">Tiradas:</string>
+    <string name="tvTiradas2">Tiradas:</string>
+    <string name="tvGPuntos1">0</string>
+    <string name="tvGPuntos2">0</string>
+    <string name="tvPtPuntos1">0</string>
+    <string name="tvPtPuntos2">0</string>
+    <string name="tvTPuntos1">0</string>
+    <string name="tvTPuntos2">0</string>
+    <string name="btJugador1">Jugador 1</string>
+    <string name="btJugador2">Jugador 2</string>
+    <string name="btReiniciar">Reiniciar</string>
 </resources>
