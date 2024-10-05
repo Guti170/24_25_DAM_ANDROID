@@ -14,5 +14,8 @@
     <string name="tvTPuntos2">0</string>
     <string name="btJugador1">Jugador 1</string>
     <string name="btJugador2">Jugador 2</string>
-    <string name="btReiniciar">Reiniciar</string>
+    <string name="btReiniciar">Reiniciar Ronda</string>
+    <string name="btReiniciarTotal">Reiniciar Partida</string>
+    <string name="tvCampeon1">CAMPEON!!!</string>
+    <string name="tvCampeon2">CAMPEON!!!</string>
 </resources>

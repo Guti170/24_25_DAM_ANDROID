@@ -74,12 +74,12 @@
         android:id="@+id/tvTiradas2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="19dp"
-        android:layout_marginBottom="55dp"
+        android:layout_marginEnd="17dp"
         android:text="@string/tvTiradas1"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/ivDado2"
-        app:layout_constraintEnd_toStartOf="@+id/tvTPuntos2" />
+        app:layout_constraintBottom_toBottomOf="@+id/tvTPuntos1"
+        app:layout_constraintEnd_toStartOf="@+id/tvTPuntos2"
+        app:layout_constraintTop_toTopOf="@+id/tvTPuntos1" />
 
     <TextView
         android:id="@+id/tvGPuntos1"
@@ -147,52 +147,82 @@
     <ImageView
         android:id="@+id/ivDado1"
         android:layout_width="0dp"
-        android:layout_height="109dp"
-        android:layout_marginTop="55dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/ivDado2"
         app:layout_constraintEnd_toEndOf="@+id/btJugador1"
         app:layout_constraintStart_toStartOf="@+id/tvTiradas"
-        app:layout_constraintTop_toBottomOf="@+id/tvTiradas"
+        app:layout_constraintTop_toTopOf="@+id/ivDado2"
         app:srcCompat="@drawable/ic_dado_aleatorio" />
 
     <ImageView
         android:id="@+id/ivDado2"
         android:layout_width="136dp"
-        android:layout_height="0dp"
+        android:layout_height="109dp"
+        android:layout_marginTop="128dp"
         android:layout_marginEnd="57dp"
-        app:layout_constraintBottom_toBottomOf="@+id/ivDado1"
+        android:layout_marginBottom="126dp"
+        app:layout_constraintBottom_toTopOf="@+id/btReiniciar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/ivDado1"
+        app:layout_constraintTop_toTopOf="@+id/tvPtPuntos2"
         app:srcCompat="@drawable/ic_dado_aleatorio" />
 
     <Button
         android:id="@+id/btJugador1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="45dp"
-        android:layout_marginEnd="58dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="24dp"
         android:text="@string/btJugador1"
-        app:layout_constraintEnd_toStartOf="@+id/btJugador2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivDado1" />
+        app:layout_constraintStart_toStartOf="@+id/tvCampeon1"
+        app:layout_constraintTop_toBottomOf="@+id/tvCampeon1" />
 
     <Button
         android:id="@+id/btJugador2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
         android:layout_marginEnd="10dp"
-        android:layout_marginBottom="33dp"
         android:text="@string/btJugador2"
-        app:layout_constraintBottom_toTopOf="@+id/btReiniciar"
-        app:layout_constraintEnd_toEndOf="@+id/ivDado2" />
+        app:layout_constraintEnd_toEndOf="@+id/ivDado2"
+        app:layout_constraintTop_toBottomOf="@+id/tvCampeon2" />
 
     <Button
         android:id="@+id/btReiniciar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="33dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="24dp"
         android:text="@string/btReiniciar"
+        app:layout_constraintBottom_toTopOf="@+id/btReiniciarTotal"
+        app:layout_constraintEnd_toEndOf="@+id/btReiniciarTotal" />
+
+    <Button
+        android:id="@+id/btReiniciarTotal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="33dp"
+        android:text="@string/btReiniciarTotal"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tvCampeon1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="3dp"
+        android:text="@string/tvCampeon1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btJugador1" />
+        app:layout_constraintTop_toBottomOf="@+id/ivDado1" />
+
+    <TextView
+        android:id="@+id/tvCampeon2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="2dp"
+        android:text="@string/tvCampeon2"
+        app:layout_constraintStart_toStartOf="@+id/ivDado2"
+        app:layout_constraintTop_toBottomOf="@+id/ivDado2" />
 </androidx.constraintlayout.widget.ConstraintLayout>
