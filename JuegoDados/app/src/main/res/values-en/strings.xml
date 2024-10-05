@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">JuegoDados</string>
+    <string name="tvTitulo">DICE GAME</string>
+    <string name="tvGanadas1">Earned:</string>
+    <string name="tvGanadas2">Earned:</string>
+    <string name="tvPuntos1">Points:</string>
+    <string name="tvTiradas1">Rolls:</string>
+    <string name="tvTiradas2">Rolls:</string>
+    <string name="tvGPuntos1">0</string>
+    <string name="tvGPuntos2">0</string>
+    <string name="tvPtPuntos1">0</string>
+    <string name="tvPtPuntos2">0</string>
+    <string name="tvTPuntos1">0</string>
+    <string name="tvTPuntos2">0</string>
+    <string name="btJugador1">Player 1</string>
+    <string name="btJugador2">Player 2</string>
+    <string name="btReiniciar">Restart Round</string>
+    <string name="btReiniciarTotal">Restart Game</string>
+    <string name="tvCampeon1">CHAMPION!!!</string>
+    <string name="tvCampeon2">CHAMPION!!!</string>
+</resources>
