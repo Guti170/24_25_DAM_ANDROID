@@ -2,7 +2,7 @@ package com.example.bindingradiobuttonsimagenesswitchseek
 
 import android.os.Bundle
 import android.util.Log
-import android.widget.ImageButton
+import android.widget.SeekBar
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -51,16 +51,20 @@ class MainActivity : AppCompatActivity() {
                     mensaje += "y con el borde Gordo"
                 }
                 Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show()
-                val order = PedidoPizzeria(binding.ptNombre.text.toString(),
+                val pedido = PedidoPizzeria(binding.ptNombre.text.toString(),
                     binding.cbBacon.isChecked,
                     binding.cbCebolla.isChecked,
                     binding.cbQueso.isChecked,
                     binding.rbFino.isChecked,
-                    binding.rbGordo.isChecked)
-                Log.d(miTag, order.toString())
+                    binding.rbGordo.isChecked,
+                    binding.sbSatisfaccion.progress)
+                Log.i(miTag, pedido.toString())
             } else {
                 Toast.makeText(this, "Debes aceptar la licencia", Toast.LENGTH_SHORT).show()
             }
+
+            Log.i(miTag, mensaje)
+
         }
 
         binding.btBorrar.setOnClickListener {
@@ -71,6 +75,7 @@ class MainActivity : AppCompatActivity() {
             binding.stLicencia.isChecked = false
             binding.rbFino.isChecked = false
             binding.rbGordo.isChecked = false
+            binding.sbSatisfaccion.progress = 0
         }
         binding.ibCambiarImagen.setOnClickListener {
             if (currentImage == imagen1) {
@@ -85,5 +90,18 @@ class MainActivity : AppCompatActivity() {
             binding.ivImagen.setImageResource(R.drawable.pizza)
         }
 
+        binding.sbSatisfaccion.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                Log.i(miTag, "Progress: $progress")
+            }
+
+            override fun onStartTrackingTouch(p0: SeekBar?) {
+                Log.i(miTag, "Start tracking ${binding.sbSatisfaccion.progress}")
+            }
+
+            override fun onStopTrackingTouch(p0: SeekBar?) {
+                Log.i(miTag, "Stop tracking ${binding.sbSatisfaccion.progress}")
+            }
+        })
     }
 }

@@ -14,7 +14,7 @@
         android:id="@+id/ptNombre"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="39dp"
+        android:layout_marginEnd="38dp"
         android:drawableStart="@drawable/ic_pizza"
         android:ems="10"
         android:hint="@string/hintNombre"
@@ -59,11 +59,13 @@
 
     <ImageView
         android:id="@+id/ivImagen"
-        android:layout_width="76dp"
+        android:layout_width="0dp"
         android:layout_height="86dp"
-        android:layout_marginStart="69dp"
+        android:layout_marginStart="9dp"
         android:layout_marginTop="87dp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginEnd="9dp"
+        app:layout_constraintEnd_toStartOf="@+id/cbCebolla"
+        app:layout_constraintStart_toStartOf="@+id/sbSatisfaccion"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@mipmap/ic_comida" />
 
@@ -98,13 +100,13 @@
         android:layout_width="124dp"
         android:layout_height="86dp"
         android:layout_marginStart="55dp"
-        android:layout_marginTop="184dp"
+        android:layout_marginTop="107dp"
         android:layout_marginEnd="56dp"
-        android:layout_marginBottom="186dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="105dp"
+        app:layout_constraintBottom_toTopOf="@+id/sbSatisfaccion"
         app:layout_constraintEnd_toEndOf="@+id/cbCebolla"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/txNombre">
+        app:layout_constraintTop_toTopOf="@+id/btAceptar">
 
         <RadioButton
             android:id="@+id/rbGordo"
@@ -157,5 +159,20 @@
         app:layout_constraintEnd_toEndOf="@+id/cbBacon"
         app:layout_constraintStart_toEndOf="@+id/cbCebolla"
         app:layout_constraintTop_toBottomOf="@+id/cbBacon" />
+
+    <SeekBar
+        android:id="@+id/sbSatisfaccion"
+        android:layout_width="0dp"
+        android:layout_height="19dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginEnd="60dp"
+        android:layout_marginBottom="62dp"
+        android:max="10"
+        android:progress="0"
+        android:progressTint="#4CAF50"
+        android:thumb="@drawable/ic_pizza"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
