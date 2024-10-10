@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">VariasActivitys</string>
+    <string name="txNombre">Nombre:</string>
+    <string name="txEdad">Edad:</string>
+    <string name="htNombre">Dime tu nombre</string>
+    <string name="htEdad">Dime tu edad</string>
+    <string name="txPasar">Pasar a la segunda</string>
+    <string name="txtVolver">Volver</string>
+</resources>
