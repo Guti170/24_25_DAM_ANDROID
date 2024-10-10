@@ -7,58 +7,89 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/tvNombre"
+    <EditText
+        android:id="@+id/etEdad"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="38dp"
-        android:layout_marginBottom="36dp"
-        android:text="@string/txNombre"
-        app:layout_constraintBottom_toTopOf="@+id/etEdad"
-        app:layout_constraintEnd_toStartOf="@+id/etNombre" />
+        android:layout_marginTop="23dp"
+        android:layout_marginEnd="31dp"
+        android:ems="10"
+        android:hint="@string/htEdad"
+        android:inputType="text"
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etNombre" />
 
-    <TextView
-        android:id="@+id/tvEdad"
+    <Button
+        android:id="@+id/btReiniciar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
-        android:layout_marginEnd="20dp"
-        android:text="@string/txEdad"
-        app:layout_constraintEnd_toEndOf="@+id/tvNombre"
-        app:layout_constraintTop_toBottomOf="@+id/tvNombre" />
+        android:layout_marginStart="32dp"
+        android:layout_marginBottom="17dp"
+        android:text="@string/txReiniciar"
+        app:layout_constraintBottom_toTopOf="@+id/btLlamar1"
+        app:layout_constraintStart_toStartOf="@+id/btPasar" />
+
+    <Button
+        android:id="@+id/btLlamar2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="19dp"
+        android:layout_marginTop="26dp"
+        android:text="@string/txLlamar2"
+        app:layout_constraintStart_toStartOf="@+id/btLlamar1"
+        app:layout_constraintTop_toBottomOf="@+id/btLlamar1" />
 
     <EditText
         android:id="@+id/etNombre"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
+        android:layout_marginTop="130dp"
+        android:layout_marginEnd="31dp"
         android:ems="10"
         android:hint="@string/htNombre"
-        android:inputType="text"
-        android:minHeight="48dp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/tvNombre"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <EditText
-        android:id="@+id/etEdad"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="320dp"
-        android:layout_marginEnd="32dp"
-        android:ems="10"
-        android:hint="@string/htEdad"
         android:inputType="text"
         android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
+        android:id="@+id/btLlamar1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="231dp"
+        android:text="@string/txLlamar1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tvEdad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="13dp"
+        android:text="@string/txEdad"
+        app:layout_constraintBottom_toBottomOf="@+id/etEdad"
+        app:layout_constraintEnd_toEndOf="@+id/tvNombre" />
+
+    <TextView
+        android:id="@+id/tvNombre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="38dp"
+        android:text="@string/txNombre"
+        app:layout_constraintBaseline_toBaselineOf="@+id/etNombre"
+        app:layout_constraintEnd_toStartOf="@+id/etNombre" />
+
+    <Button
         android:id="@+id/btPasar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="9dp"
-        android:layout_marginTop="51dp"
+        android:layout_marginBottom="39dp"
         android:text="@string/txPasar"
-        app:layout_constraintStart_toEndOf="@+id/tvEdad"
-        app:layout_constraintTop_toBottomOf="@+id/etEdad" />
+        app:layout_constraintBottom_toTopOf="@+id/btReiniciar"
+        app:layout_constraintStart_toEndOf="@+id/tvEdad" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

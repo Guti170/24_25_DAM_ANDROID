@@ -1,11 +1,13 @@
 package com.example.variasactivitys
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.variasactivitys.databinding.ActivityVentana2Binding
+import modelo.Almacen
 import modelo.Persona
 
 class Ventana2 : AppCompatActivity() {
@@ -31,15 +33,32 @@ class Ventana2 : AppCompatActivity() {
 //        var p = intent.getSerializableExtra("obj") as Persona
 //        binding.txtCaja2.text = p.toString()
         // con Bundle
-        val bundle = intent.getBundleExtra("objeto")
-        val nombre = bundle!!.getString("nombre1")
-        val edad = bundle!!.getString("edad1")
-        val p = bundle!!.getSerializable("persona")
-        binding.txtCaja2.text = "Con Bundle el objeto: " + p.toString()
+//        val bundle = intent.getBundleExtra("objeto")
+//        val nombre = bundle!!.getString("nombre1")
+//        val edad = bundle!!.getString("edad1")
+//        val p = bundle!!.getSerializable("persona")
+//        binding.txtCaja2.text = "Con Bundle el objeto: " + p.toString()
+
+        binding.txtCaja2.text = Almacen.getPersonas().toString()
 
         binding.btVolver.setOnClickListener {
             finish()
         }
 
+        binding.btDevolver1.setOnClickListener {
+            val stringToPassBack = binding.etValor.text.toString()
+            val returnIntent = Intent()
+            returnIntent.putExtra("valor", stringToPassBack)
+            setResult(RESULT_OK, returnIntent)
+            finish()
+        }
+
+        binding.btDevolver2.setOnClickListener {
+            val stringToPassBack = binding.etValor.text.toString()
+            val intent = Intent()
+            intent.putExtra("valor", stringToPassBack)
+            setResult(RESULT_OK, intent)
+            finish()
+        }
     }
 }

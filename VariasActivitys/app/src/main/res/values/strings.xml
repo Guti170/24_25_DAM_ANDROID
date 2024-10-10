@@ -6,4 +6,10 @@
     <string name="htEdad">Dime tu edad</string>
     <string name="txPasar">Pasar a la segunda</string>
     <string name="txtVolver">Volver</string>
+    <string name="txReiniciar">Reiniciar</string>
+    <string name="txLlamar1">LLamar y esperar respuesta deprecated</string>
+    <string name="txLlamar2">Llamar y esperar respuesta actual</string>
+    <string name="htValor">Valor a devolver a la ventana 1</string>
+    <string name="txDevolver1">Devolver valor a la ventana 1 Deprecated</string>
+    <string name="txDevolver2">Devolver valor a la ventana 1 Actual</string>
 </resources>

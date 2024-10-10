@@ -14,8 +14,8 @@
         android:layout_marginStart="75dp"
         android:layout_marginTop="33dp"
         android:layout_marginEnd="75dp"
-        android:layout_marginBottom="77dp"
-        app:layout_constraintBottom_toTopOf="@+id/btVolver"
+        android:layout_marginBottom="326dp"
+        app:layout_constraintBottom_toTopOf="@+id/etValor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -30,4 +30,41 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtCaja2" />
+
+    <EditText
+        android:id="@+id/etValor"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginEnd="36dp"
+        android:layout_marginBottom="48dp"
+        android:ems="10"
+        android:hint="@string/htValor"
+        android:inputType="text"
+        app:layout_constraintBottom_toTopOf="@+id/btDevolver1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtCaja2" />
+
+    <Button
+        android:id="@+id/btDevolver1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="44dp"
+        android:text="@string/txDevolver1"
+        app:layout_constraintBottom_toTopOf="@+id/btDevolver2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etValor" />
+
+    <Button
+        android:id="@+id/btDevolver2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="104dp"
+        android:text="@string/txDevolver2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/btDevolver1"
+        app:layout_constraintTop_toBottomOf="@+id/btDevolver1" />
 </androidx.constraintlayout.widget.ConstraintLayout>
