@@ -5,8 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
-
+    tools:context=".VentanaDatos2">
     <View
         android:id="@+id/ViewEncuesta"
         android:layout_width="409dp"
@@ -24,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:text="@string/txEncuesta"
+        android:text="@string/txEncuestaResultado"
         android:textColor="@color/white"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -52,27 +51,15 @@
         android:id="@+id/edNombre"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:ems="10"
         android:hint="@string/htNombre"
         android:inputType="text"
         android:minHeight="48dp"
         app:layout_constraintBottom_toBottomOf="@+id/tvNombre"
-        app:layout_constraintEnd_toStartOf="@+id/swAnonimo"
         app:layout_constraintStart_toEndOf="@+id/tvNombre"
         app:layout_constraintTop_toTopOf="@+id/tvNombre"
-        tools:ignore="MissingConstraints" />
-
-    <Switch
-        android:id="@+id/swAnonimo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="1dp"
-        android:minHeight="48dp"
-        android:text="@string/txAnonimo"
-        app:layout_constraintBottom_toBottomOf="@+id/edNombre"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/edNombre"
-        app:layout_constraintTop_toTopOf="@+id/edNombre"
+        app:layout_constraintVertical_bias="0.482"
         tools:ignore="MissingConstraints" />
 
     <TextView
@@ -170,10 +157,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="28dp"
         android:layout_marginEnd="26dp"
-        android:layout_marginBottom="13dp"
         android:text="@string/txHoras"
-        app:layout_constraintBottom_toTopOf="@+id/btValidar"
         app:layout_constraintEnd_toStartOf="@+id/sbHoras"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cbDAW"
@@ -206,61 +192,11 @@
         tools:ignore="MissingConstraints" />
 
     <Button
-        android:id="@+id/btValidar"
+        android:id="@+id/btVolver"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="2dp"
-        android:layout_marginEnd="1dp"
-        android:text="@string/txValidar"
-        app:layout_constraintBottom_toTopOf="@+id/tvDatos"
-        app:layout_constraintEnd_toStartOf="@+id/btReiniciar"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvHoras"
-        tools:ignore="MissingConstraints" />
-
-    <Button
-        android:id="@+id/btReiniciar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/txReiniciar"
-        app:layout_constraintBottom_toBottomOf="@+id/btValidar"
-        app:layout_constraintEnd_toStartOf="@+id/btCuantas"
-        app:layout_constraintStart_toEndOf="@+id/btValidar"
-        app:layout_constraintTop_toTopOf="@+id/btValidar"
-        tools:ignore="MissingConstraints" />
-
-    <Button
-        android:id="@+id/btCuantas"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/txCuantas"
-        app:layout_constraintBottom_toBottomOf="@+id/btReiniciar"
-        app:layout_constraintEnd_toStartOf="@+id/btResumen"
-        app:layout_constraintStart_toEndOf="@+id/btReiniciar"
-        app:layout_constraintTop_toTopOf="@+id/btReiniciar"
-        tools:ignore="MissingConstraints" />
-
-    <Button
-        android:id="@+id/btResumen"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/txResumen"
-        app:layout_constraintBottom_toBottomOf="@+id/btCuantas"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btCuantas"
-        app:layout_constraintTop_toTopOf="@+id/btCuantas"
-        tools:ignore="MissingConstraints" />
-
-    <TextView
-        android:id="@+id/tvDatos"
-        android:layout_width="412dp"
-        android:layout_height="111dp"
-        android:layout_marginBottom="5dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btValidar"
-        tools:ignore="MissingConstraints" />
+        android:text="@string/txVolver"
+        tools:layout_editor_absoluteX="157dp"
+        tools:layout_editor_absoluteY="614dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

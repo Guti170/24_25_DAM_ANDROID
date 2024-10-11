@@ -1,3 +1,23 @@
 <resources>
     <string name="app_name">Encuesta</string>
+    <string name="txEncuesta">Encuesta</string>
+    <string name="txNombre">Nombre:</string>
+    <string name="htNombre">Tu nombre...</string>
+    <string name="txAnonimo">Anonimo</string>
+    <string name="txSistemaOperativo">Sistema operativo preferido</string>
+    <string name="txMac">Mac</string>
+    <string name="txWindows">Windows</string>
+    <string name="txLinux">Linux</string>
+    <string name="txEspecialidad">Especialidad</string>
+    <string name="txDAM">DAM</string>
+    <string name="txASIR">ASIR</string>
+    <string name="txDAW">DAW</string>
+    <string name="txHoras">Horas de estudio</string>
+    <string name="txContador">0</string>
+    <string name="txValidar">Validar</string>
+    <string name="txReiniciar">Reiniciar</string>
+    <string name="txCuantas">Cuantas</string>
+    <string name="txResumen">Resumen</string>
+    <string name="txVolver">Volver</string>
+    <string name="txEncuestaResultado">Datos Encuesta</string>
 </resources>
