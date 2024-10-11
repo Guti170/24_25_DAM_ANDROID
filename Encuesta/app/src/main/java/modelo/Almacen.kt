@@ -2,10 +2,10 @@ package modelo
 
 object Almacen {
     var listaAlumnos = ArrayList<Alumno>()
-    fun addAlumno(alumno: Alumno) {
+    fun addAlumnos(alumno: Alumno) {
         listaAlumnos.add(alumno)
     }
-    fun getAlumno(): ArrayList<Alumno> {
+    fun getAlumnos(): ArrayList<Alumno> {
         return listaAlumnos
     }
 }

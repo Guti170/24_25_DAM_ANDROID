@@ -6,13 +6,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".VentanaDatos2">
+
     <View
         android:id="@+id/ViewEncuesta"
-        android:layout_width="409dp"
+        android:layout_width="0dp"
         android:layout_height="39dp"
-        android:layout_marginBottom="43dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginEnd="1dp"
         android:background="@color/colorMorado"
-        app:layout_constraintBottom_toTopOf="@+id/tvNombre"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -23,11 +24,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
+        android:layout_marginTop="3dp"
         android:text="@string/txEncuestaResultado"
         android:textColor="@color/white"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/ViewEncuesta"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/ViewEncuesta"
         tools:ignore="MissingConstraints" />
@@ -37,119 +38,37 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginBottom="222dp"
+        android:layout_marginTop="82dp"
+        android:layout_marginBottom="73dp"
         android:text="@string/txNombre"
-        app:layout_constraintBottom_toTopOf="@+id/tvEspecialidad"
-        app:layout_constraintEnd_toStartOf="@+id/edNombre"
-        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvSistemaOperativo"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ViewEncuesta"
-        tools:ignore="MissingConstraints" />
-
-    <EditText
-        android:id="@+id/edNombre"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:ems="10"
-        android:hint="@string/htNombre"
-        android:inputType="text"
-        android:minHeight="48dp"
-        app:layout_constraintBottom_toBottomOf="@+id/tvNombre"
-        app:layout_constraintStart_toEndOf="@+id/tvNombre"
-        app:layout_constraintTop_toTopOf="@+id/tvNombre"
-        app:layout_constraintVertical_bias="0.482"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/tvSistemaOperativo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="155dp"
         android:text="@string/txSistemaOperativo"
-        app:layout_constraintBottom_toTopOf="@+id/rgSistema"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.067"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edNombre"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
-
-    <RadioGroup
-        android:id="@+id/rgSistema"
-        android:layout_width="133dp"
-        android:layout_height="141dp"
-        app:layout_constraintBottom_toTopOf="@+id/cbDAM"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edNombre"
-        tools:ignore="MissingConstraints">
-
-        <RadioButton
-            android:id="@+id/rbMac"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/txMac" />
-
-        <RadioButton
-            android:id="@+id/rbWindows"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/txWindows" />
-
-        <RadioButton
-            android:id="@+id/rbLinux"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="48dp"
-            android:text="@string/txLinux"
-            tools:ignore="TouchTargetSizeCheck" />
-    </RadioGroup>
 
     <TextView
         android:id="@+id/tvEspecialidad"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginBottom="9dp"
+        android:layout_marginTop="45dp"
         android:text="@string/txEspecialidad"
-        app:layout_constraintBottom_toTopOf="@+id/cbDAM"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvNombre"
-        tools:ignore="MissingConstraints" />
-
-    <CheckBox
-        android:id="@+id/cbDAM"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:text="@string/txDAM"
-        app:layout_constraintBottom_toTopOf="@+id/cbASIR"
-        app:layout_constraintStart_toStartOf="@+id/rgSistema"
-        app:layout_constraintTop_toBottomOf="@+id/tvEspecialidad"
-        tools:ignore="MissingConstraints" />
-
-    <CheckBox
-        android:id="@+id/cbDAW"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="22dp"
-        android:text="@string/txDAW"
-        app:layout_constraintBottom_toTopOf="@+id/tvHoras"
-        app:layout_constraintStart_toStartOf="@+id/cbASIR"
-        app:layout_constraintTop_toBottomOf="@+id/cbASIR"
-        tools:ignore="MissingConstraints" />
-
-    <CheckBox
-        android:id="@+id/cbASIR"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/txASIR"
-        app:layout_constraintBottom_toTopOf="@+id/cbDAW"
-        app:layout_constraintStart_toStartOf="@+id/cbDAM"
-        app:layout_constraintTop_toBottomOf="@+id/cbDAM"
+        app:layout_constraintTop_toBottomOf="@+id/tvSistemaOperativo"
         tools:ignore="MissingConstraints" />
 
     <TextView
@@ -157,46 +76,69 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="26dp"
+        android:layout_marginTop="65dp"
         android:text="@string/txHoras"
-        app:layout_constraintEnd_toStartOf="@+id/sbHoras"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cbDAW"
-        tools:ignore="MissingConstraints" />
-
-    <SeekBar
-        android:id="@+id/sbHoras"
-        android:layout_width="0dp"
-        android:layout_height="18dp"
-        android:layout_marginEnd="23dp"
-        android:max="10"
-        android:progressTint="@color/AzulClaro"
-        android:thumbTint="@color/AzulClaro"
-        app:layout_constraintBottom_toBottomOf="@+id/tvHoras"
-        app:layout_constraintEnd_toStartOf="@+id/tvContador"
-        app:layout_constraintStart_toEndOf="@+id/tvHoras"
-        app:layout_constraintTop_toTopOf="@+id/tvHoras"
+        app:layout_constraintTop_toBottomOf="@+id/tvEspecialidad"
         tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/tvContador"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="57dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginEnd="18dp"
         android:text="@string/txContador"
-        app:layout_constraintBottom_toBottomOf="@+id/sbHoras"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/sbHoras"
-        app:layout_constraintTop_toTopOf="@+id/sbHoras"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvHoras"
+        app:layout_constraintEnd_toEndOf="@+id/tvDatosEspecialidad"
+        app:layout_constraintStart_toStartOf="@+id/btVolver"
+        app:layout_constraintTop_toTopOf="@+id/tvHoras"
         tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/btVolver"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="147dp"
+        android:layout_marginBottom="76dp"
         android:text="@string/txVolver"
-        tools:layout_editor_absoluteX="157dp"
-        tools:layout_editor_absoluteY="614dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/tvDatosNombre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="37dp"
+        android:hint="@string/htDatosNombre"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvNombre"
+        app:layout_constraintStart_toEndOf="@+id/tvNombre"
+        app:layout_constraintTop_toTopOf="@+id/tvNombre" />
+
+    <TextView
+        android:id="@+id/tvDatosSistema"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="34dp"
+        android:hint="@string/htDatosSistema"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvSistemaOperativo"
+        app:layout_constraintStart_toEndOf="@+id/tvSistemaOperativo"
+        app:layout_constraintTop_toTopOf="@+id/tvSistemaOperativo" />
+
+    <TextView
+        android:id="@+id/tvDatosEspecialidad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="37dp"
+        android:hint="@string/htDatosEspecialidad"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvEspecialidad"
+        app:layout_constraintStart_toEndOf="@+id/tvEspecialidad"
+        app:layout_constraintTop_toTopOf="@+id/tvEspecialidad" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

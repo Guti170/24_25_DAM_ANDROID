@@ -20,4 +20,7 @@
     <string name="txResumen">Resumen</string>
     <string name="txVolver">Volver</string>
     <string name="txEncuestaResultado">Datos Encuesta</string>
+    <string name="htDatosNombre">Nombre</string>
+    <string name="htDatosSistema">Sistema</string>
+    <string name="htDatosEspecialidad">Especialidad</string>
 </resources>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Encuesta</string>
+    <string name="txEncuesta">Survey</string>
+    <string name="txNombre">Name:</string>
+    <string name="htNombre">Your name...</string>
+    <string name="txAnonimo">Anonymous</string>
+    <string name="txSistemaOperativo">Preferred operating system</string>
+    <string name="txMac">Mac</string>
+    <string name="txWindows">Windows</string>
+    <string name="txLinux">Linux</string>
+    <string name="txEspecialidad">Specialty</string>
+    <string name="txDAM">DAM</string>
+    <string name="txASIR">ASIR</string>
+    <string name="txDAW">DAW</string>
+    <string name="txHoras">Study hours</string>
+    <string name="txContador">0</string>
+    <string name="txValidar">Validate</string>
+    <string name="txReiniciar">Reboot</string>
+    <string name="txCuantas">How many</string>
+    <string name="txResumen">Summary</string>
+    <string name="txVolver">Return</string>
+    <string name="txEncuestaResultado">Survey Data</string>
+    <string name="htDatosNombre">Name</string>
+    <string name="htDatosSistema">System</string>
+    <string name="htDatosEspecialidad">Specialty</string>
+</resources>
