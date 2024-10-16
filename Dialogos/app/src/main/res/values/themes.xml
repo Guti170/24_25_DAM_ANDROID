@@ -6,4 +6,10 @@
     </style>
 
     <style name="Theme.Dialogos" parent="Base.Theme.Dialogos" />
+
+    <style name="MyAlertDialogTheme"
+        parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:background">@color/oro</item>
+        <item name="android:textColorPrimary">@color/color_texto_alert</item>
+    </style>
 </resources>

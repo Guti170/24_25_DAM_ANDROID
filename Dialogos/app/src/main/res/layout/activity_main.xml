@@ -5,4 +5,57 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"/>
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="370dp"
+        android:layout_height="344dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/btAlertaSimple"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Simple Alert" />
+
+        <Button
+            android:id="@+id/btOkCancelar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ok/Cancel Alert" />
+
+        <Button
+            android:id="@+id/btOkNoCancelar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ok/No/Cancel Alert" />
+
+        <Button
+            android:id="@+id/btListaAlerta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="List Alert" />
+
+        <Button
+            android:id="@+id/btSoloChoiceAlerta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Single Choice Alert" />
+
+        <Button
+            android:id="@+id/btMultiChoiceAlerta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Multi Choice Alert" />
+
+        <Button
+            android:id="@+id/btCustomAlerta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Custom Input Alert" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
