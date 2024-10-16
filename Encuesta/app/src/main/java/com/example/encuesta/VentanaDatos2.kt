@@ -1,5 +1,7 @@
 package com.example.encuesta
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -26,6 +28,10 @@ class VentanaDatos2 : AppCompatActivity() {
         binding.tvDatosSistema.text = alumno.sistemaOperativo
         binding.tvDatosEspecialidad.text = alumno.especialidad
         binding.tvContador.text = alumno.horas.toString()
+
+        val intent = Intent()
+        intent.putExtra("borrar_datos", true)
+        setResult(Activity.RESULT_OK, intent)
 
         binding.btVolver.setOnClickListener {
             finish()

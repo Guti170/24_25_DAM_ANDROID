@@ -1,5 +1,6 @@
 package com.example.encuesta
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -15,6 +16,7 @@ import modelo.Alumno
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
+    var CODIGO_SOLICITUD = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -79,13 +81,14 @@ class MainActivity : AppCompatActivity() {
 
             if (datos) {
                 contAlumnos++
+
                 var alumno = Alumno(contAlumnos, nombre, sistema, especialidad, binding.sbHoras.progress)
                 Almacen.addAlumnos(alumno)
                 Toast.makeText(this, "Alumno añadido", Toast.LENGTH_SHORT).show()
 
                 val intent = Intent(this, VentanaDatos2::class.java)
                 intent.putExtra("alumno", alumno)
-                startActivity(intent)
+                startActivityForResult(intent, CODIGO_SOLICITUD)
             }
         }
         binding.btReiniciar.setOnClickListener {
@@ -116,5 +119,20 @@ class MainActivity : AppCompatActivity() {
                 Log.i(miTag, "Stop tracking ${binding.sbHoras.progress}")
             }
         })
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == CODIGO_SOLICITUD && resultCode == Activity.RESULT_OK) {
+            if (data?.getBooleanExtra("borrar_datos", false) == true) {
+                binding.edNombre.text.clear()
+                binding.swAnonimo.isChecked = false
+                binding.rgSistema.clearCheck()
+                binding.cbDAM.isChecked = false
+                binding.cbDAW.isChecked = false
+                binding.cbASIR.isChecked = false
+                binding.sbHoras.progress = 0
+            }
+        }
     }
 }
