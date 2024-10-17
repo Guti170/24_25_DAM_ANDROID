@@ -51,6 +51,8 @@ class MainActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = AdaptadorCantantes(cantantes)
 
+
+
         arrowUp = findViewById(R.id.imUp)
         arrowDown = findViewById(R.id.imDown)
         // Configuramos el RecyclerView
