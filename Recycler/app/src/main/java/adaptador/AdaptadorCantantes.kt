@@ -20,7 +20,13 @@ class AdaptadorCantantes (private val cantantes: ArrayList<String>) : RecyclerVi
 
         // Al hacer clic, el fondo del ítem cambia de color
         holder.itemView.setOnClickListener {
-            holder.itemView.setBackgroundColor(Color.LTGRAY)
+            if (!holder.isBackgroundColorChanged) {
+                holder.itemView.setBackgroundColor(Color.LTGRAY)
+                holder.isBackgroundColorChanged = true
+            } else {
+                holder.itemView.setBackgroundColor(Color.TRANSPARENT) // Or your default color
+                holder.isBackgroundColorChanged = false
+            }
         }
 
         // Al dejar pulsado, se elimina el ítem de la lista

@@ -7,5 +7,6 @@ import com.example.recycler.R
 
 class CantanteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val txCantante: TextView = itemView.findViewById(R.id.txCantante)
+    var isBackgroundColorChanged = false
 
 }
