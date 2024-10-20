@@ -1,9 +1,13 @@
 package adaptador
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recyclerview.R
 import modelo.Planet
@@ -15,7 +19,7 @@ class PlanetAdapter(private val planets: MutableList<Planet>) :
         val nameTextView: TextView = itemView.findViewById(R.id.planetName)
         val sizeTextView: TextView = itemView.findViewById(R.id.planetSize)
         val distanceTextView: TextView = itemView.findViewById(R.id.planetDistance)
-
+        val planetaImageView: ImageView = itemView.findViewById(R.id.ivPlaneta)
     }
     //Este método se llama cuando se necesita crear un nuevo ViewHolder
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlanetViewHolder {
@@ -32,8 +36,10 @@ class PlanetAdapter(private val planets: MutableList<Planet>) :
         holder.sizeTextView.text = "Size: ${planet.sizeKM} km"
         holder.distanceTextView.text = "Distance: ${planet.distanceAU} AU"
 
-        /*val imageResourceId = holder.itemView.context.resources.getIdentifier( // Use holder.itemView.context
+        val imageResourceId = holder.itemView.context.resources.getIdentifier( // Use holder.itemView.context
             planet.imageName,"drawable",holder.itemView.context.packageName)
+
+        holder.planetaImageView.setImageResource(imageResourceId)
 
         //definimos el evento click para cada elemento de la lista
         holder.itemView.setOnClickListener {
@@ -72,7 +78,7 @@ class PlanetAdapter(private val planets: MutableList<Planet>) :
         }
 
         //Si está o no seleccionado, cambiamos el color del fondo
-        if (selectedItems.contains(position)) {
+        /*if (selectedItems.contains(position)) {
             holder.itemView.setBackgroundColor(ContextCompat.getColor(holder.itemView.context, R.color.item_seleccionado))
         } else {
             holder.itemView.setBackgroundColor(ContextCompat.getColor(holder.itemView.context, R.color.item_no_seleccionado))
