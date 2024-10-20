@@ -22,7 +22,6 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        //setContentView(R.layout.activity_main)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -105,6 +104,8 @@ class MainActivity : AppCompatActivity() {
         }
         binding.btResumen.setOnClickListener {
             binding.tvDatos.text = Almacen.getAlumnos().toString()
+            intent = Intent(this, VentanaDatosLista::class.java)
+            startActivityForResult(intent, CODIGO_SOLICITUD)
         }
 
         binding.sbHoras.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {

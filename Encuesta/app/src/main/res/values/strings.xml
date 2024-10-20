@@ -23,4 +23,5 @@
     <string name="htDatosNombre">Nombre</string>
     <string name="htDatosSistema">Sistema</string>
     <string name="htDatosEspecialidad">Especialidad</string>
+    <string name="txDatosAlumnos">Datos Alumnos</string>
 </resources>
