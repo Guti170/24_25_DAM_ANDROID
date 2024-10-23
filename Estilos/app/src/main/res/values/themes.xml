@@ -1,0 +1,20 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.Estilos" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    </style>
+
+    <style name="Theme.Estilos" parent="Base.Theme.Estilos" />
+
+    <style name="misBotones">
+        <item name="backgroundTint">@color/fondoVerde</item>
+        <item name="android:textColor">@color/textoAzul</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:padding">3dp</item>
+        <item name="android:gravity">center</item>
+        <item name="rippleColor">@color/fondoAmarillo</item>
+        <item name="cornerRadius">10dp</item>
+</style>
+</resources>
