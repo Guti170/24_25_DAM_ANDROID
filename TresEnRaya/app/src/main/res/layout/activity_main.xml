@@ -2,18 +2,241 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/tvTituloTresEnRaya"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/holo_purple"
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/tvBienvenidoTER"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:text="@string/txTituloTresEnRaya"
+        android:textColor="@color/md_theme_background"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.066" />
+
+    <ImageView
+        android:id="@+id/ivZombie"
+        android:layout_width="90dp"
+        android:layout_height="81dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.128"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.16"
+        app:srcCompat="@drawable/zombie_tres_en_raya" />
+
+    <ImageView
+        android:id="@+id/ivCalavera"
+        android:layout_width="90dp"
+        android:layout_height="81dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.869"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.16"
+        app:srcCompat="@drawable/calavera_tres_en_raya" />
+
+    <TextView
+        android:id="@+id/tvPuntos1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/txPuntos1"
+        android:textColor="@color/md_theme_background"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.188"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.307" />
+
+    <TextView
+        android:id="@+id/tvZombieCalavera"
+        android:layout_width="88dp"
+        android:layout_height="40dp"
+        android:text="@string/txZombieCalavera"
+        android:textColor="@color/md_theme_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.179" />
+
+    <TextView
+        android:id="@+id/tvPuntos2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/txPuntos2"
+        android:textColor="@color/md_theme_background"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.795"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.307" />
+
+    <TextView
+        android:id="@+id/tvTurno"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/txTurno"
+        android:textColor="@color/md_theme_background"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.181"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.421" />
+
+    <ImageView
+        android:id="@+id/ivTurnoTER"
+        android:layout_width="74dp"
+        android:layout_height="62dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.459"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.414"
+        app:srcCompat="@drawable/zombie_tres_en_raya" />
+
+    <ImageView
+        android:id="@+id/ivPosicion1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="41dp"
+        android:layout_marginTop="379dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/ivPosicion4"
+        app:layout_constraintEnd_toStartOf="@+id/ivPosicion2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/imagen_blanco" />
+
+    <ImageView
+        android:id="@+id/ivPosicion2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="379dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/ivPosicion5"
+        app:layout_constraintEnd_toStartOf="@+id/ivPosicion3"
+        app:layout_constraintStart_toEndOf="@+id/ivPosicion1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/imagen_blanco" />
+
+    <ImageView
+        android:id="@+id/ivPosicion3"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="379dp"
+        android:layout_marginEnd="42dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/ivPosicion6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ivPosicion2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/imagen_blanco" />
+
+    <ImageView
+        android:id="@+id/ivPosicion4"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="41dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="7dp"
+        app:layout_constraintBottom_toTopOf="@+id/ivPosicion7"
+        app:layout_constraintEnd_toStartOf="@+id/ivPosicion5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivPosicion1"
+        app:srcCompat="@drawable/imagen_blanco" />
+
+    <ImageView
+        android:id="@+id/ivPosicion5"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="7dp"
+        app:layout_constraintBottom_toTopOf="@+id/ivPosicion8"
+        app:layout_constraintEnd_toStartOf="@+id/ivPosicion6"
+        app:layout_constraintStart_toEndOf="@+id/ivPosicion4"
+        app:layout_constraintTop_toBottomOf="@+id/ivPosicion2"
+        app:srcCompat="@drawable/imagen_blanco" />
+
+    <ImageView
+        android:id="@+id/ivPosicion6"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="42dp"
+        android:layout_marginBottom="7dp"
+        app:layout_constraintBottom_toTopOf="@+id/ivPosicion9"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ivPosicion5"
+        app:layout_constraintTop_toBottomOf="@+id/ivPosicion3"
+        app:srcCompat="@drawable/imagen_blanco" />
+
+    <ImageView
+        android:id="@+id/ivPosicion7"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="41dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="7dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/ivPosicion8"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivPosicion4"
+        app:srcCompat="@drawable/imagen_blanco" />
+
+    <ImageView
+        android:id="@+id/ivPosicion8"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="7dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/ivPosicion9"
+        app:layout_constraintStart_toEndOf="@+id/ivPosicion7"
+        app:layout_constraintTop_toBottomOf="@+id/ivPosicion5"
+        app:srcCompat="@drawable/imagen_blanco" />
+
+    <ImageView
+        android:id="@+id/ivPosicion9"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="42dp"
+        android:layout_marginBottom="7dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ivPosicion8"
+        app:layout_constraintTop_toBottomOf="@+id/ivPosicion6"
+        app:srcCompat="@drawable/imagen_blanco" />
+
+    <Button
+        android:id="@+id/btReiniciar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/txReiniciar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.891"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.405" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

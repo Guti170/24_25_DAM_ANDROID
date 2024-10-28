@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">TresEnRaya</string>
+    <string name="txTituloTresEnRaya">BIENVENIDO AL TRES EN RAYA</string>
+    <string name="txPuntos1">0</string>
+    <string name="txZombieCalavera">ZOMBIE VS CALAVERA</string>
+    <string name="txPuntos2">0</string>
+    <string name="txTurno">TURNO:</string>
+    <string name="txReiniciar">Reiniciar</string>
 </resources>
