@@ -45,7 +45,7 @@ object Conexion {
         val registro = ContentValues()
         registro.put("nombre", p.nombre)
         registro.put("edad", p.edad)
-       // val cant = bd.update("personas", registro, "dni='${dni}'", null)
+        // val cant = bd.update("personas", registro, "dni='${dni}'", null)
         val cant = bd.update("personas", registro, "dni=?", arrayOf(dni.toString()))
         //val cant = bd.update("personas", registro, "dni=? AND activo=?", arrayOf(dni.toString(), activo.toString()))
         //Esta línea de más arriba es para tener un ejemplo si el where tuviese más condiciones
