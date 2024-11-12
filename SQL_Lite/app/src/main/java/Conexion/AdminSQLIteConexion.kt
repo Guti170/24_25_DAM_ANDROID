@@ -17,6 +17,7 @@ class AdminSQLIteConexion(context: Context, name: String, factory: SQLiteDatabas
         Para BBDD más complejas, ya usarmeos servicios externos.
         */
         db.execSQL("create table personas(dni text primary key, nombre text, edad int)")
+        // Modificar el proyecto, añadiendole un ID y que apartir de ese ID se pueda eliminar una persona.
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {

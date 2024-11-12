@@ -24,4 +24,8 @@
     <string name="htDatosSistema">Sistema</string>
     <string name="htDatosEspecialidad">Especialidad</string>
     <string name="txDatosAlumnos">Datos Alumnos</string>
+    <string name="IDEliminar">Elminar ID</string>
+    <string name="IDModificar">Modificar ID</string>
+    <string name="IDBuscar">Buscar ID</string>
+    <string name="ID">Introduce el Id</string>
 </resources>

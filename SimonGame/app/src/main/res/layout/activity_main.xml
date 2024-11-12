@@ -5,15 +5,89 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/md_theme_background"
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/textViewTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="33dp"
+        android:text="@string/txSimonGame"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/btVerde"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <Button
+        android:id="@+id/btAmarillo"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="13dp"
+        android:backgroundTint="@color/amarilloOscuro"
+        android:onClick="BotonClick"
+        app:layout_constraintBottom_toTopOf="@+id/btIniciar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.35"
+        app:layout_constraintStart_toEndOf="@+id/btAzul"
+        app:layout_constraintTop_toBottomOf="@+id/btVerde"
+        app:layout_constraintWidth_percent="0.45" />
+
+    <Button
+        android:id="@+id/btRojo"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="9dp"
+        android:backgroundTint="@color/rojoOscuro"
+        android:onClick="BotonClick"
+        app:layout_constraintBaseline_toBaselineOf="@+id/btVerde"
+        app:layout_constraintEnd_toStartOf="@+id/btVerde"
+        app:layout_constraintHeight_percent="0.35"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintWidth_percent="0.45" />
+
+    <Button
+        android:id="@+id/btVerde"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="61dp"
+        android:backgroundTint="@color/verdeOscuro"
+        android:onClick="BotonClick"
+        app:layout_constraintBottom_toTopOf="@+id/btAmarillo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.35"
+        app:layout_constraintStart_toEndOf="@+id/btRojo"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTitle"
+        app:layout_constraintWidth_percent="0.45" />
+
+    <Button
+        android:id="@+id/btAzul"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="9dp"
+        android:backgroundTint="@color/azulOscuro"
+        android:onClick="BotonClick"
+        app:layout_constraintBaseline_toBaselineOf="@+id/btAmarillo"
+        app:layout_constraintEnd_toStartOf="@+id/btAmarillo"
+        app:layout_constraintHeight_percent="0.35"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintWidth_percent="0.45" />
+
+    <Button
+        android:id="@+id/btIniciar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="@string/txIniciar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btAmarillo" />
 </androidx.constraintlayout.widget.ConstraintLayout>

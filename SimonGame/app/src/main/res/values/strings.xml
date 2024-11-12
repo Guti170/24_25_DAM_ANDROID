@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">SimonGame</string>
+    <string name="txSimonGame">SIMON GAME</string>
+    <string name="txIniciar">Iniciar</string>
 </resources>

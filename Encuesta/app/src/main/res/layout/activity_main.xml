@@ -217,7 +217,8 @@
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvHoras"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"
+        android:onClick="addAlumno" />
 
     <Button
         android:id="@+id/btReiniciar"
@@ -228,7 +229,8 @@
         app:layout_constraintEnd_toStartOf="@+id/btCuantas"
         app:layout_constraintStart_toEndOf="@+id/btValidar"
         app:layout_constraintTop_toTopOf="@+id/btValidar"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"
+        android:onClick="delAlumno" />
 
     <Button
         android:id="@+id/btCuantas"
@@ -239,7 +241,8 @@
         app:layout_constraintEnd_toStartOf="@+id/btResumen"
         app:layout_constraintStart_toEndOf="@+id/btReiniciar"
         app:layout_constraintTop_toTopOf="@+id/btReiniciar"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"
+        android:onClick="modAlumno" />
 
     <Button
         android:id="@+id/btResumen"
@@ -250,7 +253,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btCuantas"
         app:layout_constraintTop_toTopOf="@+id/btCuantas"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"
+        android:onClick="buscarAlumno" />
 
     <TextView
         android:id="@+id/tvDatos"
@@ -262,5 +266,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btValidar"
         tools:ignore="MissingConstraints" />
+
+    <EditText
+        android:id="@+id/Id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/ID"
+        android:inputType="number"
+        app:layout_constraintBottom_toTopOf="@+id/tvContador"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.058"
+        app:layout_constraintStart_toEndOf="@+id/rgSistema"
+        app:layout_constraintTop_toBottomOf="@+id/swAnonimo"
+        app:layout_constraintVertical_bias="0.551" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
