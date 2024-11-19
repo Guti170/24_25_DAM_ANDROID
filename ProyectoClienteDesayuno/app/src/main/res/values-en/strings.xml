@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">ProyectoClienteDesayuno</string>
+    <string name="app_name">Healthy Breakfast</string>
     <string name="txDesayuno">BREAKFAST</string>
     <string name="txEmail">Email</string>
     <string name="txPass">Password</string>

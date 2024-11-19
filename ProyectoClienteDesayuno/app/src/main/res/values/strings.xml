@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ProyectoClienteDesayuno</string>
+    <string name="app_name">Desayuno Saludable</string>
     <string name="cliente_desayuno" translatable="false">519205515429-ratqtou98su998e3duv6ca9abinc62dv.apps.googleusercontent.com</string>
     <string name="txDesayuno">DESAYUNO</string>
     <string name="txEmail">Correo Electronico</string>
