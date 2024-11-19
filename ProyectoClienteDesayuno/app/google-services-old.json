@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "519205515429",
+    "project_id": "fir-clientedesayuno",
+    "storage_bucket": "fir-clientedesayuno.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:519205515429:android:38a6e591c8f520980bdd4c",
+        "android_client_info": {
+          "package_name": "com.example.proyectoclientedesayuno"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBu9P_RMgWyluBwaO0_uHrA08bWiN_gMYk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

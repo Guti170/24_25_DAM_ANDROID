@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ProyectoClienteDesayuno</string>
+    <string name="txDesayuno">BREAKFAST</string>
+    <string name="txEmail">Email</string>
+    <string name="txPass">Password</string>
+    <string name="txResgistrar">Register</string>
+    <string name="txLogin">Start</string>
+    <string name="txGoogle">Started with Google</string>
+    <string name="txStorage">Test Storage</string>
+    <string name="txBienvenido">Welcome!</string>
+    <string name="txCerrarSesion">Log out</string>
+    <string name="txVolver">Return, without logging out</string>
+    <string name="txBeber">To Drink:</string>
+    <string name="txValorEnergetico">Energy Value:</string>
+    <string name="txComer">To eat:</string>
+    <string name="txComplemento">Complement:</string>
+    <string name="txConfirmar">Confirm</string>
+</resources>

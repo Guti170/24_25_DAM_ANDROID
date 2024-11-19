@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "519205515429",
+    "project_id": "fir-clientedesayuno",
+    "storage_bucket": "fir-clientedesayuno.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:519205515429:android:38a6e591c8f520980bdd4c",
+        "android_client_info": {
+          "package_name": "com.example.proyectoclientedesayuno"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "519205515429-658ob94rr9cbunfsb6sd91plmul5s216.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.proyectoclientedesayuno",
+            "certificate_hash": "a15725cd8fef9c434417d646fc311920fcf4b33e"
+          }
+        },
+        {
+          "client_id": "519205515429-ratqtou98su998e3duv6ca9abinc62dv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBu9P_RMgWyluBwaO0_uHrA08bWiN_gMYk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "519205515429-ratqtou98su998e3duv6ca9abinc62dv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

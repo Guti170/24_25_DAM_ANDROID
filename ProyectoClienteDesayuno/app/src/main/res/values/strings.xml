@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">ProyectoClienteDesayuno</string>
+    <string name="cliente_desayuno" translatable="false">519205515429-ratqtou98su998e3duv6ca9abinc62dv.apps.googleusercontent.com</string>
+    <string name="txDesayuno">DESAYUNO</string>
+    <string name="txEmail">Correo Electronico</string>
+    <string name="txPass">Contraseña</string>
+    <string name="txResgistrar">Registrar</string>
+    <string name="txLogin">Iniciar</string>
+    <string name="txGoogle">Iniciar con Google</string>
+    <string name="txStorage">Probar Almacenamiento</string>
+    <string name="txBienvenido">Bienvenido!</string>
+    <string name="txCerrarSesion">Cerrar sesion</string>
+    <string name="txVolver">Volver, sin cerrar sesion</string>
+    <string name="txBeber">Para Beber:</string>
+    <string name="txValorEnergetico">Valor Energetico:</string>
+    <string name="txComer">Para comer:</string>
+    <string name="txComplemento">Complemento:</string>
+    <string name="txConfirmar">Confirmar</string>
 </resources>
