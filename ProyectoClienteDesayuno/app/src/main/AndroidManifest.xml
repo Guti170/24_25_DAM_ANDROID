@@ -13,7 +13,19 @@
         android:theme="@style/Theme.ProyectoClienteDesayuno"
         tools:targetApi="31">
         <activity
-            android:name=".Home"
+            android:name="comidas.ListaComida"
+            android:exported="false" />
+        <activity
+            android:name="comidas.Comidas"
+            android:exported="false" />
+        <activity
+            android:name="bebidas.Bebidas"
+            android:exported="false" />
+        <activity
+            android:name="bebidas.ListaBebida"
+            android:exported="false" />
+        <activity
+            android:name="registrarIniciarUsuario.Home"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

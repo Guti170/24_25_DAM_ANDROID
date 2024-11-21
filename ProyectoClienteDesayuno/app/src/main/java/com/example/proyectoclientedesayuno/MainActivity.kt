@@ -19,6 +19,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import registrarIniciarUsuario.Home
+import registrarIniciarUsuario.Proveedor
 
 class MainActivity : AppCompatActivity() {
     // en esta fariable llevaremos el objeto que nos conecta con los Users de Firebase.
@@ -51,7 +53,7 @@ class MainActivity : AppCompatActivity() {
             if (email.isNotEmpty() && password.isNotEmpty()){
                 firebaseauth.createUserWithEmailAndPassword(email,password).addOnCompleteListener {
                     if (it.isSuccessful){
-                        irHome(it.result?.user?.email?:"",Proveedor.BASIC)  //Esto de los interrogantes es por si está vacío el email, que enviaría una cadena vacía.
+                        irHome(it.result?.user?.email?:"", Proveedor.BASIC)  //Esto de los interrogantes es por si está vacío el email, que enviaría una cadena vacía.
                     } else {
                         showAlert("Error registrando al usuario. Comprueba el formato del email o que la contraseña sea segura")
                     }
@@ -70,7 +72,7 @@ class MainActivity : AppCompatActivity() {
             if (email.isNotEmpty() && password.isNotEmpty()){
                 firebaseauth.signInWithEmailAndPassword(email,password).addOnCompleteListener {
                     if (it.isSuccessful){
-                        irHome(it.result?.user?.email?:"",Proveedor.BASIC)  //Esto de los interrogantes es por si está vacío el email.
+                        irHome(it.result?.user?.email?:"", Proveedor.BASIC)  //Esto de los interrogantes es por si está vacío el email.
                     } else {
                         showAlert()
                     }
@@ -111,7 +113,7 @@ class MainActivity : AppCompatActivity() {
         val dialog: AlertDialog = builder.create()
         dialog.show()
     }
-    private fun irHome(email:String, provider:Proveedor, nombre:String = "Usuario"){
+    private fun irHome(email:String, provider: Proveedor, nombre:String = "Usuario"){
         Log.e(TAG,"Valores: ${email}, ${provider}, ${nombre}")
         val homeIntent = Intent(this, Home::class.java).apply {
             putExtra("email",email)
@@ -162,7 +164,7 @@ class MainActivity : AppCompatActivity() {
         firebaseauth.signInWithCredential(credential).addOnCompleteListener {
             if (it.isSuccessful){
                 //hacer account. y ver otras propiedades interesantes.
-                irHome(account.email.toString(),Proveedor.GOOGLE, account.displayName.toString())
+                irHome(account.email.toString(), Proveedor.GOOGLE, account.displayName.toString())
             }
             else {
                 Toast.makeText(this,it.exception.toString(), Toast.LENGTH_SHORT).show()

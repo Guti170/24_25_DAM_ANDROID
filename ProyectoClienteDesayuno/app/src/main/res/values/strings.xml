@@ -16,4 +16,5 @@
     <string name="txComer">Para comer:</string>
     <string name="txComplemento">Complemento:</string>
     <string name="txConfirmar">Confirmar</string>
+    <string name="txAceptar">Aceptar</string>
 </resources>
