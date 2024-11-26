@@ -17,4 +17,7 @@
     <string name="txComplemento">Complemento:</string>
     <string name="txConfirmar">Confirmar</string>
     <string name="txAceptar">Aceptar</string>
+    <string name="txComida">Comida</string>
+    <string name="txBebida">Bebida</string>
+    <string name="txEnergetico">Total de Valor Energetico:</string>
 </resources>

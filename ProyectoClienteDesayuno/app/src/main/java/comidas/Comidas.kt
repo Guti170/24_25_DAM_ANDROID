@@ -9,11 +9,10 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proyectoclientedesayuno.R
-import modeloBebida.Bebida
 import modeloComida.Comida
 
-class Comidas(private val comidas: MutableList<Comida>) :
-    RecyclerView.Adapter<Comidas.ComidaViewHolder>() {
+class Comidas(private val comidas: MutableList<Comida>,
+              private val listener: OnComidaSeleccionadaListener) : RecyclerView.Adapter<Comidas.ComidaViewHolder>() {
     private val selectedItems = mutableSetOf<Int>()
 
     inner class ComidaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -27,6 +26,10 @@ class Comidas(private val comidas: MutableList<Comida>) :
         val itemView =
             LayoutInflater.from(parent.context).inflate(R.layout.activity_comidas, parent, false)
         return ComidaViewHolder(itemView)
+    }
+
+    interface OnComidaSeleccionadaListener {
+        fun onComidaSeleccionada(comida: Comida)
     }
 
     override fun onBindViewHolder(holder: ComidaViewHolder, position: Int) {
@@ -43,11 +46,13 @@ class Comidas(private val comidas: MutableList<Comida>) :
         holder.bebidaImageView.setImageResource(imageResourceId)
 
         holder.itemView.setOnClickListener {
+            listener.onComidaSeleccionada(comidas[position])
             if (selectedItems.contains(position)) {
                 selectedItems.remove(position)
             } else {
                 selectedItems.add(position)
             }
+            holder.itemView.isSelected = selectedItems.contains(position)
             Toast.makeText(holder.itemView.context, "Clicked: ${comida.nombre}", Toast.LENGTH_SHORT)
                 .show()
             Log.d("ACSCO", "Clicked: ${selectedItems.joinToString(", ")}")

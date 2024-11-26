@@ -1,5 +1,7 @@
 package comidas
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -9,11 +11,22 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proyectoclientedesayuno.R
 import com.example.proyectoclientedesayuno.databinding.ActivityListaComidaBinding
+import modeloComida.Comida
 import modeloComida.DatosComida
 
-class ListaComida : AppCompatActivity() {
+class ListaComida : AppCompatActivity(), Comidas.OnComidaSeleccionadaListener {
     private lateinit var binding: ActivityListaComidaBinding
     val comidas = DatosComida.getComidas()
+    var caloriasSeleccionadas = 0
+    var proteinasSeleccionadas = 0
+    var nombreImagenSeleccionada: String? = null
+
+    override fun onComidaSeleccionada(comida: Comida) {
+        caloriasSeleccionadas = comida.calorias
+        proteinasSeleccionadas = comida.proteinas
+        nombreImagenSeleccionada = comida.nombreImagen
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -28,10 +41,16 @@ class ListaComida : AppCompatActivity() {
 
         var recyclerView: RecyclerView = findViewById(R.id.rvComidas)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        val comidasAdaptacion = Comidas(comidas.toMutableList())
+        val comidasAdaptacion = Comidas(comidas.toMutableList(), this)
         recyclerView.adapter = comidasAdaptacion
 
         binding.btAceptar.setOnClickListener {
+            val intent = Intent()
+            intent.putExtra("calorias", caloriasSeleccionadas)
+            intent.putExtra("proteinas", proteinasSeleccionadas)
+            intent.putExtra("nombreImagen", nombreImagenSeleccionada)
+            setResult(Activity.RESULT_OK, intent)
+            finish()
             finish()
         }
     }

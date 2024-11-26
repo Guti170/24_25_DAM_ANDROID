@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.proyectoclientedesayuno.R
 import modeloBebida.Bebida
 
-class Bebidas(private val bebidas: MutableList<Bebida>) :
-    RecyclerView.Adapter<Bebidas.BebidaViewHolder>() {
+class Bebidas(private val bebidas: MutableList<Bebida>,
+              private val listener: OnBebidaSeleccionadaListener) : RecyclerView.Adapter<Bebidas.BebidaViewHolder>() {
     private val selectedItems = mutableSetOf<Int>()
 
     inner class BebidaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -26,6 +26,10 @@ class Bebidas(private val bebidas: MutableList<Bebida>) :
         val itemView =
             LayoutInflater.from(parent.context).inflate(R.layout.activity_bebidas, parent, false)
         return BebidaViewHolder(itemView)
+    }
+
+    interface OnBebidaSeleccionadaListener {
+        fun onBebidaSeleccionada(bebida: Bebida)
     }
 
     override fun onBindViewHolder(holder: BebidaViewHolder, position: Int) {
@@ -42,16 +46,19 @@ class Bebidas(private val bebidas: MutableList<Bebida>) :
         holder.bebidaImageView.setImageResource(imageResourceId)
 
         holder.itemView.setOnClickListener {
+            listener.onBebidaSeleccionada(bebidas[position])
             if (selectedItems.contains(position)) {
                 selectedItems.remove(position)
             } else {
                 selectedItems.add(position)
             }
+            holder.itemView.isSelected = selectedItems.contains(position)
             Toast.makeText(holder.itemView.context, "Clicked: ${bebida.nombre}", Toast.LENGTH_SHORT)
                 .show()
             Log.d("ACSCO", "Clicked: ${selectedItems.joinToString(", ")}")
             notifyItemChanged(position)
         }
+
     }
 
     override fun getItemCount(): Int {

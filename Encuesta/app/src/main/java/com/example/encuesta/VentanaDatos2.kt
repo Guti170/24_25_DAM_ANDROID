@@ -12,6 +12,7 @@ import modelo.Alumno
 
 class VentanaDatos2 : AppCompatActivity() {
     lateinit var binding: ActivityVentanaDatos2Binding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()

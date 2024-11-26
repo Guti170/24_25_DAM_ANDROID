@@ -1,5 +1,6 @@
 package registrarIniciarUsuario
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -13,9 +14,16 @@ import com.example.proyectoclientedesayuno.databinding.ActivityHomeBinding
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.firebase.auth.FirebaseAuth
 import comidas.ListaComida
+import complementos.ListaComplementos
 
 class Home : AppCompatActivity() {
     private var SECOND_ACTIVITY_REQUEST_CODE = 0
+    companion object {
+        private const val CODIGO_SOLICITUD_BEBIDA = 1
+        private const val CODIGO_SOLICITUD_COMIDA = 2
+        private const val CODIGO_SOLICITUD_COMPLEMENTO = 3
+    }
+    private var totalEnergetico = 0
 
     lateinit var binding: ActivityHomeBinding
     private lateinit var firebaseauth : FirebaseAuth
@@ -36,13 +44,18 @@ class Home : AppCompatActivity() {
         }
 
         binding.ivBebida.setOnClickListener {
-            var inte : Intent = Intent(this, ListaBebida::class.java)
-            startActivity(inte)
+            val intent = Intent(this, ListaBebida::class.java)
+            startActivityForResult(intent, CODIGO_SOLICITUD_BEBIDA)
         }
 
         binding.ivComida.setOnClickListener {
-            var inte : Intent = Intent(this, ListaComida::class.java)
-            startActivity(inte)
+            val intent = Intent(this, ListaComida::class.java)
+            startActivityForResult(intent, CODIGO_SOLICITUD_COMIDA)
+        }
+
+        binding.ivComplemento.setOnClickListener {
+            val intent = Intent(this, ListaComplementos::class.java)
+            startActivityForResult(intent, CODIGO_SOLICITUD_COMPLEMENTO)
         }
 
         //Recuperamos los datos del login.
@@ -62,6 +75,47 @@ class Home : AppCompatActivity() {
             signInClient.signOut()
             Log.e(TAG, "Cerrada sesión completamente")
             finish()
+        }
+
+        binding.btConfirmar.setOnClickListener {
+            binding.txvResultadoTotal.text = totalEnergetico.toString()
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (resultCode == Activity.RESULT_OK) {
+            val calorias = data?.getIntExtra("calorias", 0) ?: 0
+            val proteinas = data?.getIntExtra("proteinas", 0) ?: 0
+            val nombreImagen = data?.getStringExtra("nombreImagen")
+
+            when (requestCode) {
+                CODIGO_SOLICITUD_BEBIDA -> {
+                    binding.txvResultado1.text = (calorias + proteinas).toString()
+                    totalEnergetico += binding.txvResultado1.text.toString().toInt()
+                    if (nombreImagen != null) {
+                        val imageResourceId = resources.getIdentifier(nombreImagen, "drawable", packageName)
+                        binding.ivBebida.setImageResource(imageResourceId)
+                    }
+                }
+                CODIGO_SOLICITUD_COMIDA -> {
+                    binding.txvResultado2.text = (calorias + proteinas).toString()
+                    totalEnergetico += binding.txvResultado2.text.toString().toInt()
+                    if (nombreImagen != null) {
+                        val imageResourceId = resources.getIdentifier(nombreImagen, "drawable", packageName)
+                        binding.ivComida.setImageResource(imageResourceId)
+                    }
+                }
+                CODIGO_SOLICITUD_COMPLEMENTO -> {
+                    binding.txvResultado3.text = (calorias + proteinas).toString()
+                    totalEnergetico += binding.txvResultado3.text.toString().toInt()
+                    if (nombreImagen != null) {
+                        val imageResourceId = resources.getIdentifier(nombreImagen, "drawable", packageName)
+                        binding.ivComplemento.setImageResource(imageResourceId)
+                    }
+                }
+            }
         }
     }
 }

@@ -2,10 +2,10 @@ package modeloComida
 
 object DatosComida {
     private val comidas = mutableListOf(
-        Comida("Tostadas", 100, 20, "tostadas"),
-        Comida("Galletas", 100, 20, "galletas"),
-        Comida("Frutas", 100, 20, "fruta"),
-        Comida("Bollos", 100, 20, "bollos")
+        Comida("Tostadas", 102, 3, "tostadas"),
+        Comida("Galletas", 100, 7, "galletas"),
+        Comida("Frutas", 4, 2, "fruta"),
+        Comida("Bollos", 300, 3, "bollos")
     )
 
     fun getComidas(): List<Comida> {
