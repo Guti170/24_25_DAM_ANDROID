@@ -61,10 +61,10 @@ class Home : AppCompatActivity() {
         //Recuperamos los datos del login.
         binding.txtEmail.text = intent.getStringExtra("email").toString()
 
-        binding.btVolver.setOnClickListener {
+        /*binding.btVolver.setOnClickListener {
             firebaseauth.signOut()
             finish()
-        }
+        }*/
 
         binding.btCerrarSesion.setOnClickListener {
             Log.e(TAG, firebaseauth.currentUser.toString())

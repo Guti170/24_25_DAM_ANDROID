@@ -11,6 +11,7 @@
         android:id="@+id/btAceptar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/artifika"
         android:text="@string/txAceptar"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"

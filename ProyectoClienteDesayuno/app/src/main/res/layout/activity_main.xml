@@ -8,29 +8,32 @@
     tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/btGoogle"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:text="@string/txGoogle"
+        android:id="@+id/btLogin"
+        android:layout_width="410dp"
+        android:layout_height="70dp"
+        android:fontFamily="@font/artifika"
+        android:text="@string/txEntrar"
+        app:cornerRadius="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.684" />
+        app:layout_constraintVertical_bias="0.627" />
 
     <Button
-        android:id="@+id/btLogin"
-        android:layout_width="140dp"
-        android:layout_height="40dp"
-        android:text="@string/txLogin"
+        android:id="@+id/btGoogle"
+        android:layout_width="410dp"
+        android:layout_height="70dp"
+        android:fontFamily="@font/artifika"
+        android:text="@string/txGoogle"
+        app:cornerRadius="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.785"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.578" />
-
+        app:layout_constraintVertical_bias="0.751" />
 
     <EditText
         android:id="@+id/edPass"
@@ -39,24 +42,27 @@
         android:ems="10"
         android:hint="@string/txPass"
         android:inputType="textPassword"
+        android:minHeight="48dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.405"
+        app:layout_constraintHorizontal_bias="0.486"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.413" />
+        app:layout_constraintVertical_bias="0.454" />
 
     <Button
         android:id="@+id/btRegistrar"
-        android:layout_width="140dp"
-        android:layout_height="40dp"
-        android:text="@string/txResgistrar"
+        android:layout_width="410dp"
+        android:layout_height="70dp"
+        android:fontFamily="@font/artifika"
+        android:text="@string/txRegistrar"
+        app:cornerRadius="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.166"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.578" />
+        app:layout_constraintVertical_bias="0.886" />
 
     <EditText
         android:id="@+id/edEmail"
@@ -65,36 +71,42 @@
         android:ems="10"
         android:hint="@string/txEmail"
         android:inputType="textPersonName"
+        android:minHeight="48dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.405"
+        app:layout_constraintHorizontal_bias="0.486"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.316" />
-
-    <Button
-        android:id="@+id/btnStorage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/txStorage"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.838" />
+        app:layout_constraintVertical_bias="0.354" />
 
     <TextView
-        android:id="@+id/txvDesayuno"
+        android:id="@+id/idDesayuno"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/artifika"
         android:text="@string/txDesayuno"
         android:textSize="60sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.462"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.086" />
+        app:layout_constraintVertical_bias="0.141" />
+
+    <TextView
+        android:id="@+id/idMenu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="7dp"
+        android:fontFamily="@font/artifika"
+        android:text="@string/txMenu"
+        android:textSize="60sp"
+        app:layout_constraintBottom_toTopOf="@+id/idDesayuno"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

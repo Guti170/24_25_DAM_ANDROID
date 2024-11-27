@@ -16,4 +16,11 @@
     <string name="txComer">To eat:</string>
     <string name="txComplemento">Complement:</string>
     <string name="txConfirmar">Confirm</string>
+    <string name="txMenu">MENU</string>
+    <string name="txEntrar">Enter</string>
+    <string name="txRegistrar">Sign up</string>
+    <string name="txTotalEnergetico">Total energy value:</string>
+    <string name="txAceptar">Accept</string>
+    <string name="txComida">Meal</string>
+    <string name="txBebida">Drink</string>
 </resources>

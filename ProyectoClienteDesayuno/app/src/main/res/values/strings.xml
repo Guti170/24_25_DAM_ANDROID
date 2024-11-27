@@ -16,8 +16,11 @@
     <string name="txComer">Para comer:</string>
     <string name="txComplemento">Complemento:</string>
     <string name="txConfirmar">Confirmar</string>
+    <string name="txMenu">MENÚ</string>
+    <string name="txEntrar">Entrar</string>
+    <string name="txRegistrar">Registrarme</string>
+    <string name="txTotalEnergetico">Total valor energetico:</string>
     <string name="txAceptar">Aceptar</string>
     <string name="txComida">Comida</string>
     <string name="txBebida">Bebida</string>
-    <string name="txEnergetico">Total de Valor Energetico:</string>
 </resources>
