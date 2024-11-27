@@ -59,9 +59,9 @@ class Comidas(private val comidas: MutableList<Comida>,
                 selectedItems.add(position)
             }
             holder.itemView.isSelected = selectedItems.contains(position)
-            Toast.makeText(holder.itemView.context, "Clicked: ${comida.nombre}", Toast.LENGTH_SHORT)
+            Toast.makeText(holder.itemView.context, "Selecinado: ${comida.nombre}", Toast.LENGTH_SHORT)
                 .show()
-            Log.d("ACSCO", "Clicked: ${selectedItems.joinToString(", ")}")
+            Log.d("ACSCO", "Selecinado: ${selectedItems.joinToString(", ")}")
             notifyItemChanged(position)
         }
     }
