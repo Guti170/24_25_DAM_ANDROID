@@ -35,20 +35,28 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.751" />
 
-    <EditText
-        android:id="@+id/edPass"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilPass"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/txPass"
-        android:inputType="textPassword"
-        android:minHeight="48dp"
+        app:passwordToggleEnabled="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.486"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.454" />
+        app:layout_constraintVertical_bias="0.454">
+
+        <EditText
+            android:id="@+id/edPass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/txPass"
+            android:inputType="textPassword"
+            android:minHeight="48dp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/btRegistrar"
@@ -64,20 +72,27 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.886" />
 
-    <EditText
-        android:id="@+id/edEmail"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilEmail"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/txEmail"
-        android:inputType="textPersonName"
-        android:minHeight="48dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.486"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.354" />
+        app:layout_constraintVertical_bias="0.354">
+
+        <EditText
+            android:id="@+id/edEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/txEmail"
+            android:inputType="textPersonName"
+            android:minHeight="48dp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:id="@+id/idDesayuno"

@@ -1,6 +1,7 @@
 package bebidas
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
@@ -45,12 +46,21 @@ class ListaBebida : AppCompatActivity(), Bebidas.OnBebidaSeleccionadaListener {
         recyclerView.adapter = bebidasAdaptacion
 
         binding.btAceptar.setOnClickListener {
-            val intent = Intent()
-            intent.putExtra("calorias", caloriasSeleccionadas)
-            intent.putExtra("proteinas", proteinasSeleccionadas)
-            intent.putExtra("nombreImagen", nombreImagenSeleccionada)
-            setResult(Activity.RESULT_OK, intent)
-            finish()
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Confirmacion de Bebida")
+            builder.setMessage("¿Estas seguro de la bebida que has elegido?")
+            builder.setPositiveButton("Sí") { dialog, which ->
+                val intent = Intent()
+                intent.putExtra("calorias", caloriasSeleccionadas)
+                intent.putExtra("proteinas", proteinasSeleccionadas)
+                intent.putExtra("nombreImagen", nombreImagenSeleccionada)
+                setResult(Activity.RESULT_OK, intent)
+                finish()
+            }
+            builder.setNegativeButton("No") { dialog, which ->
+
+            }
+            builder.show()
         }
 
     }

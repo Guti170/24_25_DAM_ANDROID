@@ -78,7 +78,11 @@ class Home : AppCompatActivity() {
         }
 
         binding.btConfirmar.setOnClickListener {
+            totalEnergetico += binding.txvResultado1.text.toString().toInt()
+            totalEnergetico += binding.txvResultado2.text.toString().toInt()
+            totalEnergetico += binding.txvResultado3.text.toString().toInt()
             binding.txvResultadoTotal.text = totalEnergetico.toString()
+            totalEnergetico = 0
         }
     }
 
@@ -93,7 +97,6 @@ class Home : AppCompatActivity() {
             when (requestCode) {
                 CODIGO_SOLICITUD_BEBIDA -> {
                     binding.txvResultado1.text = (calorias + proteinas).toString()
-                    totalEnergetico += binding.txvResultado1.text.toString().toInt()
                     if (nombreImagen != null) {
                         val imageResourceId = resources.getIdentifier(nombreImagen, "drawable", packageName)
                         binding.ivBebida.setImageResource(imageResourceId)
@@ -101,7 +104,6 @@ class Home : AppCompatActivity() {
                 }
                 CODIGO_SOLICITUD_COMIDA -> {
                     binding.txvResultado2.text = (calorias + proteinas).toString()
-                    totalEnergetico += binding.txvResultado2.text.toString().toInt()
                     if (nombreImagen != null) {
                         val imageResourceId = resources.getIdentifier(nombreImagen, "drawable", packageName)
                         binding.ivComida.setImageResource(imageResourceId)
@@ -109,7 +111,6 @@ class Home : AppCompatActivity() {
                 }
                 CODIGO_SOLICITUD_COMPLEMENTO -> {
                     binding.txvResultado3.text = (calorias + proteinas).toString()
-                    totalEnergetico += binding.txvResultado3.text.toString().toInt()
                     if (nombreImagen != null) {
                         val imageResourceId = resources.getIdentifier(nombreImagen, "drawable", packageName)
                         binding.ivComplemento.setImageResource(imageResourceId)

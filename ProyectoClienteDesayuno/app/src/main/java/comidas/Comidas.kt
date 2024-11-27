@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proyectoclientedesayuno.R
 import modeloComida.Comida
@@ -20,6 +21,10 @@ class Comidas(private val comidas: MutableList<Comida>,
         val caloriaTextView: TextView = itemView.findViewById(R.id.caloriasComida)
         val proteinasTextView: TextView = itemView.findViewById(R.id.proteinasComida)
         val bebidaImageView: ImageView = itemView.findViewById(R.id.ivComida)
+
+        init {
+            itemView.background = ContextCompat.getDrawable(itemView.context, R.drawable.item_background)
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ComidaViewHolder {
@@ -47,6 +52,7 @@ class Comidas(private val comidas: MutableList<Comida>,
 
         holder.itemView.setOnClickListener {
             listener.onComidaSeleccionada(comidas[position])
+            holder.itemView.isSelected = !holder.itemView.isSelected
             if (selectedItems.contains(position)) {
                 selectedItems.remove(position)
             } else {

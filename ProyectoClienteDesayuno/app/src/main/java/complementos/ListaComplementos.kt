@@ -1,6 +1,7 @@
 package complementos
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -60,6 +61,7 @@ class ListaComplementos : AppCompatActivity(), Bebidas.OnBebidaSeleccionadaListe
             val comidasAdaptacion = Comidas(comidas.toMutableList(), this)
             recyclerView.adapter = comidasAdaptacion
         }
+
         binding.rbBebida.setOnClickListener {
             binding.rvBebidas.visibility = View.VISIBLE
             if (binding.rvBebidas.visibility == View.VISIBLE) {
@@ -70,15 +72,23 @@ class ListaComplementos : AppCompatActivity(), Bebidas.OnBebidaSeleccionadaListe
             val bebidasAdaptacion = Bebidas(bebidas.toMutableList(), this)
             recyclerView.adapter = bebidasAdaptacion
         }
+
         binding.btAceptar.setOnClickListener {
-            binding.rvBebidas.visibility = View.INVISIBLE
-            binding.rvComidas.visibility = View.INVISIBLE
-            val intent = Intent()
-            intent.putExtra("calorias", caloriasSeleccionadas)
-            intent.putExtra("proteinas", proteinasSeleccionadas)
-            intent.putExtra("nombreImagen", nombreImagenSeleccionada)
-            setResult(Activity.RESULT_OK, intent)
-            finish()
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Confirmacion de Complemento")
+            builder.setMessage("¿Estas seguro del complemento que has elegido?")
+            builder.setPositiveButton("Sí") { dialog, which ->
+                val intent = Intent()
+                intent.putExtra("calorias", caloriasSeleccionadas)
+                intent.putExtra("proteinas", proteinasSeleccionadas)
+                intent.putExtra("nombreImagen", nombreImagenSeleccionada)
+                setResult(Activity.RESULT_OK, intent)
+                finish()
+            }
+            builder.setNegativeButton("No") { dialog, which ->
+
+            }
+            builder.show()
         }
 
     }

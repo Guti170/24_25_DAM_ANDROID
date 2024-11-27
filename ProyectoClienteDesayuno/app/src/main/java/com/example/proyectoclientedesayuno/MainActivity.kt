@@ -69,19 +69,23 @@ class MainActivity : AppCompatActivity() {
         binding.btLogin.setOnClickListener {
             val email = binding.edEmail.text.toString()
             val password = binding.edPass.text.toString()
-            if (email.isNotEmpty() && password.isNotEmpty()){
-                firebaseauth.signInWithEmailAndPassword(email,password).addOnCompleteListener {
-                    if (it.isSuccessful){
-                        irHome(it.result?.user?.email?:"", Proveedor.BASIC)  //Esto de los interrogantes es por si está vacío el email.
-                    } else {
-                        showAlert()
+
+            if (email.isEmpty() || password.isEmpty()) {
+                showAlert("Rellene correctamente los campos de email y contraseña")
+            } else {
+                firebaseauth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener {
+                        if (it.isSuccessful) {
+                            irHome(it.result?.user?.email ?: "", Proveedor.BASIC)
+                            binding.edEmail.text.clear()
+                            binding.edPass.text.clear()
+                        } else {
+                            showAlert()
+                        }
                     }
-                }.addOnFailureListener{
-                    Toast.makeText(this, "Conexión no establecida", Toast.LENGTH_SHORT).show()
-                }
-            }
-            else {
-                showAlert("Rellene los campos")
+                    .addOnFailureListener {
+                        Toast.makeText(this, "Conexión no establecida", Toast.LENGTH_SHORT).show()
+                    }
             }
         }
 
