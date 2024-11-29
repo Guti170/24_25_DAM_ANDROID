@@ -27,17 +27,20 @@ class ListaComplementos : AppCompatActivity(), Bebidas.OnBebidaSeleccionadaListe
     var caloriasSeleccionadas = 0
     var proteinasSeleccionadas = 0
     var nombreImagenSeleccionada: String? = null
+    var nombreComplemento: String? = null
 
     override fun onBebidaSeleccionada(bebida: Bebida) {
         caloriasSeleccionadas = bebida.calorias
         proteinasSeleccionadas = bebida.proteinas
         nombreImagenSeleccionada = bebida.nombreImagen
+        nombreComplemento = bebida.nombre
     }
 
     override fun onComidaSeleccionada(comida: Comida) {
         caloriasSeleccionadas = comida.calorias
         proteinasSeleccionadas = comida.proteinas
         nombreImagenSeleccionada = comida.nombreImagen
+        nombreComplemento = comida.nombre
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -82,6 +85,7 @@ class ListaComplementos : AppCompatActivity(), Bebidas.OnBebidaSeleccionadaListe
                 intent.putExtra("calorias", caloriasSeleccionadas)
                 intent.putExtra("proteinas", proteinasSeleccionadas)
                 intent.putExtra("nombreImagen", nombreImagenSeleccionada)
+                intent.putExtra("nombreComplemento", nombreComplemento)
                 setResult(Activity.RESULT_OK, intent)
                 finish()
             }

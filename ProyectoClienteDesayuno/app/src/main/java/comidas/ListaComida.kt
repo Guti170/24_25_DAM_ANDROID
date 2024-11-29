@@ -21,11 +21,13 @@ class ListaComida : AppCompatActivity(), Comidas.OnComidaSeleccionadaListener {
     var caloriasSeleccionadas = 0
     var proteinasSeleccionadas = 0
     var nombreImagenSeleccionada: String? = null
+    var nombreComida: String? = null
 
     override fun onComidaSeleccionada(comida: Comida) {
         caloriasSeleccionadas = comida.calorias
         proteinasSeleccionadas = comida.proteinas
         nombreImagenSeleccionada = comida.nombreImagen
+        nombreComida = comida.nombre
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,6 +56,7 @@ class ListaComida : AppCompatActivity(), Comidas.OnComidaSeleccionadaListener {
                 intent.putExtra("calorias", caloriasSeleccionadas)
                 intent.putExtra("proteinas", proteinasSeleccionadas)
                 intent.putExtra("nombreImagen", nombreImagenSeleccionada)
+                intent.putExtra("nombreComida", nombreComida)
                 setResult(Activity.RESULT_OK, intent)
                 finish()
             }

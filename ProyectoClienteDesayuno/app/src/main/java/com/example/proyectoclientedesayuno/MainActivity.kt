@@ -20,14 +20,10 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import registrarIniciarUsuario.Home
-import registrarIniciarUsuario.Proveedor
 
 class MainActivity : AppCompatActivity() {
-    // en esta fariable llevaremos el objeto que nos conecta con los Users de Firebase.
     private lateinit var firebaseauth : FirebaseAuth
-    // en esta variable llevamos el binding con el layout.
     private lateinit var binding: ActivityMainBinding
-    // esta variable me conecta con google y me permite hacer login con google.
     private lateinit var googleSignInClient: GoogleSignInClient
 
     val TAG = "Miguel Angel"
@@ -37,7 +33,6 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        // inicializamos el objeto firebaseauth que nos sirve para la autentificación de tipo genérico.
         firebaseauth = FirebaseAuth.getInstance()
         //setContentView(R.layout.activity_main)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -53,7 +48,7 @@ class MainActivity : AppCompatActivity() {
             if (email.isNotEmpty() && password.isNotEmpty()){
                 firebaseauth.createUserWithEmailAndPassword(email,password).addOnCompleteListener {
                     if (it.isSuccessful){
-                        irHome(it.result?.user?.email?:"", Proveedor.BASIC)  //Esto de los interrogantes es por si está vacío el email, que enviaría una cadena vacía.
+                        irHome(it.result?.user?.email?:"")
                     } else {
                         showAlert("Error registrando al usuario. Comprueba el formato del email o que la contraseña sea segura")
                     }
@@ -76,7 +71,7 @@ class MainActivity : AppCompatActivity() {
                 firebaseauth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener {
                         if (it.isSuccessful) {
-                            irHome(it.result?.user?.email ?: "", Proveedor.BASIC)
+                            irHome(it.result?.user?.email ?: "")
                             binding.edEmail.text.clear()
                             binding.edPass.text.clear()
                         } else {
@@ -90,17 +85,14 @@ class MainActivity : AppCompatActivity() {
         }
 
         //------------------Variables para realizar el Login con Google -------------------
-        //se hace un signOut por si había algún login antes.
         firebaseauth.signOut()
-        //clearGooglePlayServicesCache()
-        //esta variable me conecta con  google y me permite hacer el login.
+
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.cliente_desayuno))
             .requestEmail()
             .build()
         googleSignInClient = GoogleSignIn.getClient(this,gso)
 
-        //Listener del botón para hacer login con Google.
         binding.btGoogle.setOnClickListener {
             loginEnGoogle()
         }
@@ -117,12 +109,10 @@ class MainActivity : AppCompatActivity() {
         val dialog: AlertDialog = builder.create()
         dialog.show()
     }
-    private fun irHome(email:String, provider: Proveedor, nombre:String = "Usuario"){
-        Log.e(TAG,"Valores: ${email}, ${provider}, ${nombre}")
+    private fun irHome(email:String){
+        Log.e(TAG,"Valores: ${email}")
         val homeIntent = Intent(this, Home::class.java).apply {
             putExtra("email",email)
-            putExtra("provider",provider.name)
-            putExtra("nombre",nombre)
         }
         startActivity(homeIntent)
     }
@@ -136,17 +126,13 @@ class MainActivity : AppCompatActivity() {
         //milauncherVentanaGoogle.launch(signInClient)
     }
 
-
-    //con este launcher, abro la ventana que me lleva a la validacion de Google.
     private val launcherVentanaGoogle =  registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result ->
-        //si la ventana va bien, se accede a las propiedades que trae la propia ventana q llamamos y recogemos en result.
         if (result.resultCode == Activity.RESULT_OK){
             val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
             manejarResultados(task)
         }
     }
 
-    //es como una muñeca rusa, vamos desgranando, de la ventana a task y de task a los datos concretos que me da google.
     private fun manejarResultados(task: Task<GoogleSignInAccount>) {
         if (task.isSuccessful){
             val account : GoogleSignInAccount? = task.result
@@ -159,16 +145,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // Está diseñado para manejar las actualizaciones de la interfaz de usuario después de un inicio de sesión exitoso
-    // con Google. Recibe un objeto GoogleSignInAccount como entrada, que contiene información sobre el usuario que
-    // inició sesión.
     private fun actualizarUI(account: GoogleSignInAccount) {
         val credential = GoogleAuthProvider.getCredential(account.idToken, null)
-        //pido un token, y con ese token, si es correcto obtengo la info.
         firebaseauth.signInWithCredential(credential).addOnCompleteListener {
             if (it.isSuccessful){
-                //hacer account. y ver otras propiedades interesantes.
-                irHome(account.email.toString(), Proveedor.GOOGLE, account.displayName.toString())
+                irHome(account.email.toString())
             }
             else {
                 Toast.makeText(this,it.exception.toString(), Toast.LENGTH_SHORT).show()

@@ -21,11 +21,13 @@ class ListaBebida : AppCompatActivity(), Bebidas.OnBebidaSeleccionadaListener {
     var caloriasSeleccionadas = 0
     var proteinasSeleccionadas = 0
     var nombreImagenSeleccionada: String? = null
+    var nombreBebida: String? = null
 
     override fun onBebidaSeleccionada(bebida: Bebida) {
         caloriasSeleccionadas = bebida.calorias
         proteinasSeleccionadas = bebida.proteinas
         nombreImagenSeleccionada = bebida.nombreImagen
+        nombreBebida = bebida.nombre
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,6 +56,7 @@ class ListaBebida : AppCompatActivity(), Bebidas.OnBebidaSeleccionadaListener {
                 intent.putExtra("calorias", caloriasSeleccionadas)
                 intent.putExtra("proteinas", proteinasSeleccionadas)
                 intent.putExtra("nombreImagen", nombreImagenSeleccionada)
+                intent.putExtra("nombreBebida", nombreBebida)
                 setResult(Activity.RESULT_OK, intent)
                 finish()
             }

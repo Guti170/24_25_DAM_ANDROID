@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -15,26 +16,29 @@ import com.google.android.gms.auth.api.identity.Identity
 import com.google.firebase.auth.FirebaseAuth
 import comidas.ListaComida
 import complementos.ListaComplementos
+import conexionSQLite.Conexion
+import listaMenus.Menus
 
 class Home : AppCompatActivity() {
-    private var SECOND_ACTIVITY_REQUEST_CODE = 0
     companion object {
         private const val CODIGO_SOLICITUD_BEBIDA = 1
         private const val CODIGO_SOLICITUD_COMIDA = 2
         private const val CODIGO_SOLICITUD_COMPLEMENTO = 3
     }
     private var totalEnergetico = 0
+    private var nombreComida: String? = null
+    private var nombreBebida: String? = null
+    private var nombreComplemento: String? = null
 
     lateinit var binding: ActivityHomeBinding
     private lateinit var firebaseauth : FirebaseAuth
-    val TAG = "Miguel Angel"
+    val TAG = "Miguel Angel : Javier Jimenez"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        // Para la autenticación, de cualquier tipo.
         firebaseauth = FirebaseAuth.getInstance()
         //setContentView(R.layout.activity_home)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -58,7 +62,6 @@ class Home : AppCompatActivity() {
             startActivityForResult(intent, CODIGO_SOLICITUD_COMPLEMENTO)
         }
 
-        //Recuperamos los datos del login.
         binding.txtEmail.text = intent.getStringExtra("email").toString()
 
         /*binding.btVolver.setOnClickListener {
@@ -69,7 +72,6 @@ class Home : AppCompatActivity() {
         binding.btCerrarSesion.setOnClickListener {
             Log.e(TAG, firebaseauth.currentUser.toString())
 
-            //Con las siguientes líneas cierras sesión y el usuario tiene que volver a logearse en la ventana anterior.
             firebaseauth.signOut()
             val signInClient = Identity.getSignInClient(this)
             signInClient.signOut()
@@ -83,6 +85,26 @@ class Home : AppCompatActivity() {
             totalEnergetico += binding.txvResultado3.text.toString().toInt()
             binding.txvResultadoTotal.text = totalEnergetico.toString()
             totalEnergetico = 0
+
+            var menu: Menus = Menus(
+                binding.txtEmail.text.toString(),
+                nombreBebida.toString(),
+                nombreComida.toString(),
+                nombreComplemento.toString(),
+                binding.txvResultadoTotal.text.toString().toInt()
+            )
+            var codigo= Conexion.addMenu(this, menu)
+            binding.txtEmail.requestFocus()
+            nombreBebida.toString()
+            nombreComida.toString()
+            nombreComplemento.toString()
+            binding.txvResultadoTotal.text.toString().toInt()
+
+            if(codigo!=-1L) {
+                Toast.makeText(this, "Menu insertado correctamente", Toast.LENGTH_SHORT).show()
+            }
+            else
+                Toast.makeText(this, "Ese menu ya existe con ese correo electronico", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -93,6 +115,9 @@ class Home : AppCompatActivity() {
             val calorias = data?.getIntExtra("calorias", 0) ?: 0
             val proteinas = data?.getIntExtra("proteinas", 0) ?: 0
             val nombreImagen = data?.getStringExtra("nombreImagen")
+            nombreComida = data?.getStringExtra("nombreComida")
+            nombreBebida = data?.getStringExtra("nombreBebida")
+            nombreComplemento = data?.getStringExtra("nombreComplemento")
 
             when (requestCode) {
                 CODIGO_SOLICITUD_BEBIDA -> {
@@ -100,6 +125,7 @@ class Home : AppCompatActivity() {
                     if (nombreImagen != null) {
                         val imageResourceId = resources.getIdentifier(nombreImagen, "drawable", packageName)
                         binding.ivBebida.setImageResource(imageResourceId)
+                        nombreBebida = data?.getStringExtra("nombreBebida")
                     }
                 }
                 CODIGO_SOLICITUD_COMIDA -> {
@@ -107,6 +133,7 @@ class Home : AppCompatActivity() {
                     if (nombreImagen != null) {
                         val imageResourceId = resources.getIdentifier(nombreImagen, "drawable", packageName)
                         binding.ivComida.setImageResource(imageResourceId)
+                        nombreComida = data?.getStringExtra("nombreComida")
                     }
                 }
                 CODIGO_SOLICITUD_COMPLEMENTO -> {
@@ -114,6 +141,7 @@ class Home : AppCompatActivity() {
                     if (nombreImagen != null) {
                         val imageResourceId = resources.getIdentifier(nombreImagen, "drawable", packageName)
                         binding.ivComplemento.setImageResource(imageResourceId)
+                        nombreComplemento = data?.getStringExtra("nombreComplemento")
                     }
                 }
             }
