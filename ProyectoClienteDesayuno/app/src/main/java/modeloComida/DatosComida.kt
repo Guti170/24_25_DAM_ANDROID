@@ -1,5 +1,7 @@
 package modeloComida
 
+import com.google.firebase.storage.FirebaseStorage
+
 object DatosComida {
     private val comidas = mutableListOf(
         Comida("Tostadas", 102, 3, "tostadas"),

@@ -9,7 +9,9 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.proyectoclientedesayuno.R
+import com.google.firebase.storage.FirebaseStorage
 import modeloComida.Comida
 
 class Comidas(private val comidas: MutableList<Comida>,
@@ -20,7 +22,7 @@ class Comidas(private val comidas: MutableList<Comida>,
         val nombreTextView: TextView = itemView.findViewById(R.id.nombreComida)
         val caloriaTextView: TextView = itemView.findViewById(R.id.caloriasComida)
         val proteinasTextView: TextView = itemView.findViewById(R.id.proteinasComida)
-        val bebidaImageView: ImageView = itemView.findViewById(R.id.ivComida)
+        val comidaImageView: ImageView = itemView.findViewById(R.id.ivComida)
 
         init {
             itemView.background = ContextCompat.getDrawable(itemView.context, R.drawable.item_background)
@@ -44,11 +46,22 @@ class Comidas(private val comidas: MutableList<Comida>,
         holder.caloriaTextView.text = "Calorias: ${comida.calorias} kcal"
         holder.proteinasTextView.text = "Proteinas: ${comida.proteinas} g"
 
-        val imageResourceId = holder.itemView.context.resources.getIdentifier(
+        /*val imageResourceId = holder.itemView.context.resources.getIdentifier(
             comida.nombreImagen, "drawable", holder.itemView.context.packageName
-        )
+        )*/
 
-        holder.bebidaImageView.setImageResource(imageResourceId)
+        // Cargar la imagen desde Firebase Storage
+        val storageRef = FirebaseStorage.getInstance().reference.child("comida/${comida.nombreImagen}.jpg")
+        storageRef.downloadUrl.addOnSuccessListener { uri ->
+            Glide.with(holder.itemView.context)
+                .load(uri.toString())
+                .into(holder.comidaImageView)
+        }.addOnFailureListener { exception ->
+            // Manejar el error de descarga de la imagen, por ejemplo, mostrar una imagen predeterminada
+            Log.e("AdaptadorComida", "Error al cargar la imagen: ${exception.message}")
+        }
+
+        //holder.comidaImageView.setImageResource(imageResourceId)
 
         holder.itemView.setOnClickListener {
             listener.onComidaSeleccionada(comidas[position])

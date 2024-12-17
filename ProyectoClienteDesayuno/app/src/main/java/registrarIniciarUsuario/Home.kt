@@ -125,7 +125,7 @@ class Home : AppCompatActivity() {
                     if (nombreImagen != null) {
                         val imageResourceId = resources.getIdentifier(nombreImagen, "drawable", packageName)
                         binding.ivBebida.setImageResource(imageResourceId)
-                        nombreBebida = data?.getStringExtra("nombreBebida")
+                        nombreBebida = data.getStringExtra("nombreBebida")
                     }
                 }
                 CODIGO_SOLICITUD_COMIDA -> {
@@ -133,7 +133,7 @@ class Home : AppCompatActivity() {
                     if (nombreImagen != null) {
                         val imageResourceId = resources.getIdentifier(nombreImagen, "drawable", packageName)
                         binding.ivComida.setImageResource(imageResourceId)
-                        nombreComida = data?.getStringExtra("nombreComida")
+                        nombreComida = data.getStringExtra("nombreComida")
                     }
                 }
                 CODIGO_SOLICITUD_COMPLEMENTO -> {
@@ -141,7 +141,7 @@ class Home : AppCompatActivity() {
                     if (nombreImagen != null) {
                         val imageResourceId = resources.getIdentifier(nombreImagen, "drawable", packageName)
                         binding.ivComplemento.setImageResource(imageResourceId)
-                        nombreComplemento = data?.getStringExtra("nombreComplemento")
+                        nombreComplemento = data.getStringExtra("nombreComplemento")
                     }
                 }
             }
