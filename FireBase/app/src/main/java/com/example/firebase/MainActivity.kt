@@ -99,6 +99,11 @@ class MainActivity : AppCompatActivity() {
             loginEnGoogle()
         }
 
+        binding.btnStorage.setOnClickListener {
+            val storageIntent = Intent(this, UsoStorage::class.java)
+            startActivity(storageIntent)
+        }
+
     }
 
     //************************************** Funciones auxiliares registro y login con externos **************************************
