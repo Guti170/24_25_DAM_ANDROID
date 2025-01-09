@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">FotosGaleriaFireBase</string>
+    <string name="open">Abrir</string>
+    <string name="gallery">Galeria</string>
+    <string name="save">Guardar</string>
+    <string name="image_saved">Imagen guardada</string>
+    <string name="uploadFireBase">Subir a Firebase</string>
+</resources>

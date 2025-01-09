@@ -44,7 +44,7 @@ class FragmentoA : Fragment() {
         val view = binding.root
         // Gets the data from the passed bundle
         val bundle = arguments
-        val message = bundle!!.getString("variabe1")
+        val message = bundle!!.getString("variable1")
 
         // Sets the derived data (type String) in the TextView
         binding.txtF1.text = message
