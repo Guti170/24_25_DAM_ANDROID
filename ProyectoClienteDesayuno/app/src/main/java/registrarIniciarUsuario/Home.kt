@@ -95,7 +95,7 @@ class Home : AppCompatActivity() {
                 "comidas" to nombresComidas,
                 "complementos" to nombresComplementos,
                 "totalEnergetico" to totalEnergetico,
-                "timestamp" to FieldValue.serverTimestamp()
+                "fechaCreacion" to FieldValue.serverTimestamp()
             )
 
             val db = FirebaseFirestore.getInstance()
@@ -104,7 +104,6 @@ class Home : AppCompatActivity() {
                 .set(menu)
                 .addOnSuccessListener {
                     Toast.makeText(this, "Menu guardado correctamente", Toast.LENGTH_SHORT).show()
-                    binding.txvResultadoTotal.text = ""
                     nombresBebidas.clear()
                     nombresComidas.clear()
                     nombresComplementos.clear()
