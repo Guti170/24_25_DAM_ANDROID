@@ -14,10 +14,13 @@ import com.example.proyectoclientedesayuno.R
 import com.example.proyectoclientedesayuno.databinding.ActivityHomeBinding
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.FirebaseFirestore
 import comidas.ListaComida
 import complementos.ListaComplementos
 import conexionSQLite.Conexion
 import listaMenus.Menus
+import kotlin.text.clear
 
 class Home : AppCompatActivity() {
     companion object {
@@ -29,6 +32,10 @@ class Home : AppCompatActivity() {
     private var nombreComida: String? = null
     private var nombreBebida: String? = null
     private var nombreComplemento: String? = null
+    private val nombresBebidas = mutableListOf<String>()
+    private val nombresComidas = mutableListOf<String>()
+    private val nombresComplementos = mutableListOf<String>()
+
 
     lateinit var binding: ActivityHomeBinding
     private lateinit var firebaseauth : FirebaseAuth
@@ -64,11 +71,6 @@ class Home : AppCompatActivity() {
 
         binding.txtEmail.text = intent.getStringExtra("email").toString()
 
-        /*binding.btVolver.setOnClickListener {
-            firebaseauth.signOut()
-            finish()
-        }*/
-
         binding.btCerrarSesion.setOnClickListener {
             Log.e(TAG, firebaseauth.currentUser.toString())
 
@@ -80,31 +82,37 @@ class Home : AppCompatActivity() {
         }
 
         binding.btConfirmar.setOnClickListener {
-            totalEnergetico += binding.txvResultado1.text.toString().toInt()
-            totalEnergetico += binding.txvResultado2.text.toString().toInt()
-            totalEnergetico += binding.txvResultado3.text.toString().toInt()
+            var totalEnergetico = 0
+            totalEnergetico += binding.txvResultado1.text.toString().toIntOrNull() ?: 0
+            totalEnergetico += binding.txvResultado2.text.toString().toIntOrNull() ?: 0
+            totalEnergetico += binding.txvResultado3.text.toString().toIntOrNull() ?: 0
             binding.txvResultadoTotal.text = totalEnergetico.toString()
-            totalEnergetico = 0
 
-            var menu: Menus = Menus(
-                binding.txtEmail.text.toString(),
-                nombreBebida.toString(),
-                nombreComida.toString(),
-                nombreComplemento.toString(),
-                binding.txvResultadoTotal.text.toString().toInt()
+            val email = binding.txtEmail.text.toString()
+            val menu = hashMapOf(
+                "email" to email,
+                "bebidas" to nombresBebidas,
+                "comidas" to nombresComidas,
+                "complementos" to nombresComplementos,
+                "totalEnergetico" to totalEnergetico,
+                "timestamp" to FieldValue.serverTimestamp()
             )
-            var codigo= Conexion.addMenu(this, menu)
-            binding.txtEmail.requestFocus()
-            nombreBebida.toString()
-            nombreComida.toString()
-            nombreComplemento.toString()
-            binding.txvResultadoTotal.text.toString().toInt()
 
-            if(codigo!=-1L) {
-                Toast.makeText(this, "Menu insertado correctamente", Toast.LENGTH_SHORT).show()
-            }
-            else
-                Toast.makeText(this, "Ese menu ya existe con ese correo electronico", Toast.LENGTH_SHORT).show()
+            val db = FirebaseFirestore.getInstance()
+            db.collection("menus")
+                .document(email)
+                .set(menu)
+                .addOnSuccessListener {
+                    Toast.makeText(this, "Menu guardado correctamente", Toast.LENGTH_SHORT).show()
+                    binding.txvResultadoTotal.text = ""
+                    nombresBebidas.clear()
+                    nombresComidas.clear()
+                    nombresComplementos.clear()
+                }
+                .addOnFailureListener { e ->
+                    Toast.makeText(this, "Error al insertar el menú en Firebase: ${e.message}", Toast.LENGTH_SHORT).show()
+                    Log.e(TAG, "Error al insertar el menú en Firebase: ${e.message}")
+                }
         }
     }
 
@@ -115,9 +123,9 @@ class Home : AppCompatActivity() {
             val calorias = data?.getIntExtra("calorias", 0) ?: 0
             val proteinas = data?.getIntExtra("proteinas", 0) ?: 0
             val nombreImagen = data?.getStringExtra("nombreImagen")
-            nombreComida = data?.getStringExtra("nombreComida")
-            nombreBebida = data?.getStringExtra("nombreBebida")
-            nombreComplemento = data?.getStringExtra("nombreComplemento")
+            val nombreBebida = data?.getStringExtra("nombreBebida")
+            val nombreComida = data?.getStringExtra("nombreComida")
+            val nombreComplemento = data?.getStringExtra("nombreComplemento")
 
             when (requestCode) {
                 CODIGO_SOLICITUD_BEBIDA -> {
@@ -125,7 +133,10 @@ class Home : AppCompatActivity() {
                     if (nombreImagen != null) {
                         val imageResourceId = resources.getIdentifier(nombreImagen, "drawable", packageName)
                         binding.ivBebida.setImageResource(imageResourceId)
-                        nombreBebida = data.getStringExtra("nombreBebida")
+                        if (nombreBebida != null) {
+                            nombresBebidas.clear()
+                            nombresBebidas.add(nombreBebida)
+                        }
                     }
                 }
                 CODIGO_SOLICITUD_COMIDA -> {
@@ -133,7 +144,10 @@ class Home : AppCompatActivity() {
                     if (nombreImagen != null) {
                         val imageResourceId = resources.getIdentifier(nombreImagen, "drawable", packageName)
                         binding.ivComida.setImageResource(imageResourceId)
-                        nombreComida = data.getStringExtra("nombreComida")
+                        if (nombreComida != null) {
+                            nombresComidas.clear()
+                            nombresComidas.add(nombreComida)
+                        }
                     }
                 }
                 CODIGO_SOLICITUD_COMPLEMENTO -> {
@@ -141,7 +155,10 @@ class Home : AppCompatActivity() {
                     if (nombreImagen != null) {
                         val imageResourceId = resources.getIdentifier(nombreImagen, "drawable", packageName)
                         binding.ivComplemento.setImageResource(imageResourceId)
-                        nombreComplemento = data.getStringExtra("nombreComplemento")
+                        if (nombreComplemento != null) {
+                            nombresComplementos.clear()
+                            nombresComplementos.add(nombreComplemento)
+                        }
                     }
                 }
             }

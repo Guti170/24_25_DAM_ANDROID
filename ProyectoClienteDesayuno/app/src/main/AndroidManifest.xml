@@ -12,6 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ProyectoClienteDesayuno"
         tools:targetApi="31">
+
         <activity
             android:name="complementos.ListaComplementos"
             android:exported="false" />
@@ -20,10 +21,12 @@
             android:exported="false" />
         <activity
             android:name="comidas.Comidas"
-            android:exported="false" />
+            android:exported="false"
+            tools:ignore="Instantiatable" />
         <activity
             android:name="bebidas.Bebidas"
-            android:exported="false" />
+            android:exported="false"
+            tools:ignore="Instantiatable" />
         <activity
             android:name="bebidas.ListaBebida"
             android:exported="false" />
