@@ -54,6 +54,17 @@ class Home : AppCompatActivity() {
             insets
         }
 
+        // Configura el Toolbar
+        val toolbar = binding.toolbar2
+        setSupportActionBar(toolbar)
+        // Establece un título personalizado
+        supportActionBar?.title = "Home"
+        // Agregar un ícono como logo
+        supportActionBar?.setLogo(R.drawable.ic_icono_desayuno)
+        supportActionBar?.setDisplayUseLogoEnabled(true)
+        // Habilita la flecha de retroceso
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         binding.ivBebida.setOnClickListener {
             val intent = Intent(this, ListaBebida::class.java)
             startActivityForResult(intent, CODIGO_SOLICITUD_BEBIDA)

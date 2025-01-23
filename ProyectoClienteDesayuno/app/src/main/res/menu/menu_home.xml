@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!-- Opciones con iconos visibles -->
+    <item
+        android:id="@+id/action_camera"
+        android:icon="@mipmap/ic_desayuno_foreground"
+        android:title="Cerrar Sesión"
+        app:showAsAction="always" />
+
+    <!-- Opciones en el menú de puntos -->
+    <item
+        android:id="@+id/action_help"
+        android:title="Editar Usuario"
+        app:showAsAction="never"/>
+</menu>
