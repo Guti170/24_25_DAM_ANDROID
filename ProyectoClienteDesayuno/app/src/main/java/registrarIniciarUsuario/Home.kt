@@ -4,6 +4,8 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -58,12 +60,12 @@ class Home : AppCompatActivity() {
         val toolbar = binding.toolbar2
         setSupportActionBar(toolbar)
         // Establece un título personalizado
-        supportActionBar?.title = "Home"
+        /*supportActionBar?.title = "Home"
         // Agregar un ícono como logo
         supportActionBar?.setLogo(R.drawable.ic_icono_desayuno)
         supportActionBar?.setDisplayUseLogoEnabled(true)
         // Habilita la flecha de retroceso
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)*/
 
         binding.ivBebida.setOnClickListener {
             val intent = Intent(this, ListaBebida::class.java)
@@ -82,7 +84,7 @@ class Home : AppCompatActivity() {
 
         binding.txtEmail.text = intent.getStringExtra("email").toString()
 
-        binding.btCerrarSesion.setOnClickListener {
+        /*binding.btCerrarSesion.setOnClickListener {
             Log.e(TAG, firebaseauth.currentUser.toString())
 
             firebaseauth.signOut()
@@ -90,7 +92,7 @@ class Home : AppCompatActivity() {
             signInClient.signOut()
             Log.e(TAG, "Cerrada sesión completamente")
             finish()
-        }
+        }*/
 
         binding.btConfirmar.setOnClickListener {
             var totalEnergetico = 0
@@ -172,6 +174,33 @@ class Home : AppCompatActivity() {
                     }
                 }
             }
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_home, menu) // Reemplaza R.menu.menu con el ID de tu archivo de menú
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_camera -> {
+                // Acción para "Cerrar Sesión"
+                Log.e(TAG, firebaseauth.currentUser.toString())
+
+                firebaseauth.signOut()
+                val signInClient = Identity.getSignInClient(this)
+                signInClient.signOut()
+                Log.e(TAG, "Cerrada sesión completamente")
+                finish()
+                true
+            }
+            R.id.action_help -> {
+                // Acción para "Editar Usuario"
+                // Aquí puedes iniciar la Activity para editar el usuario
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 }

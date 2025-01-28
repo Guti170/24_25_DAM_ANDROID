@@ -4,7 +4,7 @@
     <!-- Opciones con iconos visibles -->
     <item
         android:id="@+id/action_camera"
-        android:icon="@mipmap/ic_desayuno_foreground"
+        android:icon="@mipmap/ic_salida_foreground"
         android:title="Cerrar Sesión"
         app:showAsAction="always" />
 
@@ -13,4 +13,5 @@
         android:id="@+id/action_help"
         android:title="Editar Usuario"
         app:showAsAction="never"/>
+
 </menu>
