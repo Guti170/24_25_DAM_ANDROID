@@ -196,8 +196,8 @@ class Home : AppCompatActivity() {
                 true
             }
             R.id.action_help -> {
-                // Acción para "Editar Usuario"
-                // Aquí puedes iniciar la Activity para editar el usuario
+                val intent = Intent(this, EditUserActivity::class.java)
+                startActivity(intent)
                 true
             }
             else -> super.onOptionsItemSelected(item)
