@@ -31,6 +31,13 @@
         android:layout_gravity="center_horizontal"
         android:text="Seleccionar imagen" />
 
+    <Button
+        android:id="@+id/takePictureButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Tomar foto" />
+
     <EditText
         android:id="@+id/user_altura"
         android:layout_width="match_parent"
