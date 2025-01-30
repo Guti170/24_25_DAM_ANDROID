@@ -200,6 +200,15 @@ class Home : AppCompatActivity() {
                 startActivity(intent)
                 true
             }
+            R.id.action_support -> {
+
+                true
+            }
+            R.id.action_about -> {
+                val intent = Intent(this, AboutActivity::class.java)
+                startActivity(intent)
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }

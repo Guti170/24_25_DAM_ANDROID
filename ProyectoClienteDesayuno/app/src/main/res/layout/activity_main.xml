@@ -9,7 +9,7 @@
 
     <Button
         android:id="@+id/btLogin"
-        android:layout_width="410dp"
+        android:layout_width="0dp"
         android:layout_height="70dp"
         android:fontFamily="@font/artifika"
         android:text="@string/txEntrar"
@@ -23,7 +23,7 @@
 
     <Button
         android:id="@+id/btGoogle"
-        android:layout_width="410dp"
+        android:layout_width="0dp"
         android:layout_height="70dp"
         android:fontFamily="@font/artifika"
         android:text="@string/txGoogle"
@@ -60,7 +60,7 @@
 
     <Button
         android:id="@+id/btRegistrar"
-        android:layout_width="410dp"
+        android:layout_width="0dp"
         android:layout_height="70dp"
         android:fontFamily="@font/artifika"
         android:text="@string/txRegistrar"
