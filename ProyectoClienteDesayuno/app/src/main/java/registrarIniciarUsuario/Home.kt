@@ -1,6 +1,8 @@
 package registrarIniciarUsuario
 
 import android.app.Activity
+import android.app.NotificationManager
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -9,6 +11,7 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import bebidas.ListaBebida
@@ -120,12 +123,24 @@ class Home : AppCompatActivity() {
                     nombresBebidas.clear()
                     nombresComidas.clear()
                     nombresComplementos.clear()
+                    showNotification()
                 }
                 .addOnFailureListener { e ->
                     Toast.makeText(this, "Error al insertar el menú en Firebase: ${e.message}", Toast.LENGTH_SHORT).show()
                     Log.e(TAG, "Error al insertar el menú en Firebase: ${e.message}")
                 }
         }
+    }
+
+    private fun showNotification() {
+        val builder = NotificationCompat.Builder(this, App.CHANNEL_ID)
+            .setSmallIcon(R.drawable.ic_icono_desayuno)
+            .setContentTitle("Preparando su menu")
+            .setContentText("Estamos preparando su menu")
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+
+        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.notify(1, builder.build())
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -201,7 +216,8 @@ class Home : AppCompatActivity() {
                 true
             }
             R.id.action_support -> {
-
+                val intent = Intent(this, SupportActivity::class.java)
+                startActivity(intent)
                 true
             }
             R.id.action_about -> {
