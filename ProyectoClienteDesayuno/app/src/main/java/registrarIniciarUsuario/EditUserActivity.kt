@@ -49,7 +49,7 @@ class EditUserActivity : AppCompatActivity() {
                 if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > SWIPE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
                     if (diffX > 0) {
                         // Deslizamiento hacia la derecha
-                        finish() // Cierra esta Activity
+                        finish() // Cierra esta Activityº
                     }
                     return true
                 }
