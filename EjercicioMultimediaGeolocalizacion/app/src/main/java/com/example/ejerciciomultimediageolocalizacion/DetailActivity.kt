@@ -46,10 +46,11 @@ class DetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
-        val location = intent.getParcelableExtra<LatLng>("location")
-        location?.let {
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(it, 15f))
-            map.addMarker(MarkerOptions().position(it).title("Marker in ${it.latitude}, ${it.longitude}"))
+        val place = intent.getParcelableExtra<Place>("place")
+        place?.let {
+            val location = it.location
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15f))
+            map.addMarker(MarkerOptions().position(location).title("Marker in ${location.latitude}, ${location.longitude}"))
         }
     }
 }

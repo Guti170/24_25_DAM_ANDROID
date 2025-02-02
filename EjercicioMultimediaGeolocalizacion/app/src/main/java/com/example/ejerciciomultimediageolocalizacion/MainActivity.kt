@@ -8,15 +8,19 @@ import androidx.core.view.WindowInsetsCompat
 import com.google.android.gms.maps.model.LatLng
 import android.content.Intent
 import androidx.viewpager2.widget.ViewPager2
+import com.example.ejerciciomultimediageolocalizacion.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var viewPager: ViewPager2
     private lateinit var sliderAdapter: SliderAdapter
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        //setContentView(R.layout.activity_main)
 
         viewPager = findViewById(R.id.viewPager)
         sliderAdapter = SliderAdapter(getPlaces())
