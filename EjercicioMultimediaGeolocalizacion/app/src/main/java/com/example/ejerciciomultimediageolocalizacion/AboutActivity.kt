@@ -15,7 +15,7 @@ class AboutActivity : AppCompatActivity() {
 
         val textView = findViewById<TextView>(R.id.aboutTextView)
         textView.text = """
-            Author: Your Name
+            Author: Miguel Angel Gutierrez Estevez
             App Name: Multimedia GeoApp
             Version: 1.0
         """.trimIndent()

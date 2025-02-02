@@ -21,6 +21,7 @@ class DetailActivity : AppCompatActivity(), OnMapReadyCallback {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        //setContentView(R.layout.activity_detail)
 
         val place = intent.getParcelableExtra<Place>("place")
 
