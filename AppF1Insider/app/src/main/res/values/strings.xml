@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">AppF1Insider</string>
+    <string name="hintCorreo">Correo electrónico</string>
+    <string name="hintContrasenia">Contraseña</string>
+    <string name="textIniciarSesion">Iniciar Sesion</string>
+    <string name="textRegistrarse">Registrarse</string>
+    <string name="textIniciarGoogle">Iniciar Sesion con Google</string>
 </resources>
