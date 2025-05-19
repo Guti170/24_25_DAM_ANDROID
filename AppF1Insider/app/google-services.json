@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "781594012908",
+    "project_id": "app-f1-insider",
+    "storage_bucket": "app-f1-insider.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:781594012908:android:6ec6c772a73846725c09c9",
+        "android_client_info": {
+          "package_name": "com.example.appf1insider"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "781594012908-k9oqcf462r9krerkoee2hug94j7a6mh5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWobnwqV_cxovPrXKm-Uj0irYauQVbG_0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "781594012908-k9oqcf462r9krerkoee2hug94j7a6mh5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
