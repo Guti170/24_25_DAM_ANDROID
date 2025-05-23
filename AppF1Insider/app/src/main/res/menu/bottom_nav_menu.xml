@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_opcion1"
+        android:icon="@drawable/ic_circuito"
+        android:title="Circuitos" />
+    <item
+        android:id="@+id/nav_opcion2"
+        android:icon="@drawable/ic_piloto"
+        android:title="Pilotos" />
+    <item
+        android:id="@+id/nav_opcion3"
+        android:icon="@drawable/ic_escuderia"
+        android:title="Escuderías" />
+    <item
+        android:id="@+id/nav_opcion4"
+        android:icon="@drawable/ic_calendario"
+        android:title="Calendario" />
+    <item
+        android:id="@+id/nav_opcion5"
+        android:icon="@drawable/ic_perfil"
+        android:title="Perfil" />
+</menu>

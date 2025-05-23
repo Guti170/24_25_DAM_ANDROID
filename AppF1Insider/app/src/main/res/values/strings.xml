@@ -5,4 +5,6 @@
     <string name="textIniciarSesion">Iniciar Sesion</string>
     <string name="textRegistrarse">Registrarse</string>
     <string name="textIniciarGoogle">Iniciar Sesion con Google</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

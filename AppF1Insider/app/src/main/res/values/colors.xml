@@ -2,4 +2,6 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="logout_icon_color">#FF1E00</color>
+    <color name="font_color">#15151E</color>
 </resources>

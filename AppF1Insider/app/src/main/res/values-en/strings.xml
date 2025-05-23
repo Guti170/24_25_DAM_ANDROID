@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AppF1Insider</string>
+    <string name="hintCorreo">Email</string>
+    <string name="hintContrasenia">Password</string>
+    <string name="textIniciarSesion">Login</string>
+    <string name="textRegistrarse">Register</string>
+    <string name="textIniciarGoogle">Sign in with Google</string>
+</resources>
