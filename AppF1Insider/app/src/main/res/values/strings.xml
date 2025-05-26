@@ -5,6 +5,10 @@
     <string name="textIniciarSesion">Iniciar Sesion</string>
     <string name="textRegistrarse">Registrarse</string>
     <string name="textIniciarGoogle">Iniciar Sesion con Google</string>
+    <string name="titleCircuitos">Circuitos</string>
+    <string name="titlePilotos">Pilotos</string>
+    <string name="titleEscuderias">Escuderias</string>
+    <string name="titleCalendario">Calendario</string>
+    <string name="titlePerfil">Perfil</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
