@@ -11,4 +11,12 @@
     <string name="titleEscuderias">Teams</string>
     <string name="titleCalendario">Calendar</string>
     <string name="titlePerfil">Profile</string>
+    <string name="privacy_policy_button_text">Privacy Policy</string>
+    <string name="logout_button_text">Logout</string>
+    <string name="email_not_available">Email not found</string>
+    <string name="privacy_policy_title">Privacy Policy</string>
+    <string name="privacy_policy_text">At F1 Insider, we take your privacy seriously. We collect personal data such as your email address, team preferences, and app usage data to improve your experience, deliver personalized content, and perform statistical analysis. We may also collect technical data such as your IP address, device type, and approximate location.  We use this information to provide you with a better service, and we do not share your data with third parties, except with service providers who help us operate the app or when required by law. We never sell your information.  Your data is stored on secure servers, and you can request access, modification, or deletion of your information at any time by contacting us at elguti17.mg@gmail.com.  By using F1 Insider, you agree to this policy. If we make significant changes, we will notify you through the app.</string>
+    <string name="privacy_policy_button_ok">Accept</string>
+    <string name="app_info_placeholder">F1 Insider is an app dedicated to bringing you the best information about the world of Formula 1. Our goal is to keep you up to date with the latest news, race analysis, standings, and data on drivers and teams—all in one place. We work to help you experience F1 with passion and stay one step ahead, with clear, accurate, and fan-focused content.</string>
+    <string name="app_info_fallback">F1 Insider is an app dedicated to bringing you the best information about the world of Formula 1. Our goal is to keep you up to date with the latest news, race analysis, standings, and data on drivers and teams—all in one place. We work to help you experience F1 with passion and stay one step ahead, with clear, accurate, and fan-focused content.</string>
 </resources>

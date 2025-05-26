@@ -1,14 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#15151E"
+    android:padding="24dp"
     tools:context=".Perfil">
 
-    <!-- TODO: Update blank fragment layout -->
+    <!-- Email del Usuario -->
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="PERFIL" />
+        android:id="@+id/textViewUserEmail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:textAppearance="?attr/textAppearanceBody1"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewUserDisplayName"
+        tools:text="usuario@example.com" />
 
-</FrameLayout>
+    <!-- Separador -->
+    <View
+        android:id="@+id/divider1"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="24dp"
+        android:background="#40FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewUserEmail" />
+
+    <!-- Sección de Información de la App -->
+    <TextView
+        android:id="@+id/textViewAppInfoLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Acerca de F1Insider"
+        android:textAppearance="?attr/textAppearanceSubtitle1"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/divider1" />
+
+    <TextView
+        android:id="@+id/textViewAppInfo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:lineSpacingExtra="4dp"
+        android:textAppearance="?attr/textAppearanceBody2"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewAppInfoLabel"
+        tools:text="F1 Insider App\nVersión: 1.0.0\nTu fuente de información sobre la Fórmula 1." />
+
+    <!-- Separador -->
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="24dp"
+        android:background="#40FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewAppInfo" />
+
+    <!-- Botón de Política de Privacidad -->
+    <Button
+        android:id="@+id/buttonPrivacyPolicy"
+        style="@style/Widget.Material3.Button.TextButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/privacy_policy_button_text"
+        android:textColor="@color/design_default_color_secondary"
+        app:iconPadding="8dp"
+        app:iconTint="@color/design_default_color_secondary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/divider2" />
+
+    <!-- Botón de Cerrar Sesión -->
+    <Button
+        android:id="@+id/buttonLogout"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:text="@string/logout_button_text"
+        android:textColor="@android:color/holo_red_light"
+        app:iconPadding="8dp"
+        app:iconTint="@android:color/holo_red_light"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:strokeColor="@android:color/holo_red_light" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

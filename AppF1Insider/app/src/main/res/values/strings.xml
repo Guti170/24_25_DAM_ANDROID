@@ -10,5 +10,13 @@
     <string name="titleEscuderias">Escuderias</string>
     <string name="titleCalendario">Calendario</string>
     <string name="titlePerfil">Perfil</string>
+    <string name="privacy_policy_button_text">Politica de Privacidad</string>
+    <string name="logout_button_text">Cerrar Sesion</string>
+    <string name="email_not_available">Email no encontrado</string>
+    <string name="privacy_policy_title">Politica de privacidad</string>
+    <string name="privacy_policy_text">En F1 Insider nos tomamos en serio tu privacidad. Recopilamos datos personales como tu correo electrónico, preferencias de equipos, y datos de uso de la app para mejorar tu experiencia, enviarte contenido personalizado y realizar análisis estadísticos. También podemos recopilar datos técnicos como tu IP, tipo de dispositivo y ubicación aproximada.\n\nUsamos esta información para ofrecerte un mejor servicio, y no compartimos tus datos con terceros, salvo con proveedores que nos ayudan a operar la app o cuando la ley lo exige. Nunca vendemos tu información.\n\nTus datos están protegidos en servidores seguros, y puedes solicitar en cualquier momento acceder, modificar o eliminar tu información escribiéndonos a elguti17.mg@gmail.com.\n\nAl usar F1 Insider, aceptas esta política. Si hay cambios importantes, te lo notificaremos dentro de la app.</string>
+    <string name="privacy_policy_button_ok">Aceptar</string>
+    <string name="app_info_placeholder">F1 Insider es una aplicación dedicada a ofrecerte la mejor información sobre el mundo de la Fórmula 1. Nuestro objetivo es mantenerte al día con noticias actualizadas, análisis de carreras, clasificaciones, datos de pilotos y escuderías, todo en un solo lugar. Trabajamos para que vivas la F1 con pasión y estés siempre un paso adelante, con contenido claro, preciso y pensado para verdaderos fans.</string>
+    <string name="app_info_fallback">F1 Insider es una aplicación dedicada a ofrecerte la mejor información sobre el mundo de la Fórmula 1. Nuestro objetivo es mantenerte al día con noticias actualizadas, análisis de carreras, clasificaciones, datos de pilotos y escuderías, todo en un solo lugar. Trabajamos para que vivas la F1 con pasión y estés siempre un paso adelante, con contenido claro, preciso y pensado para verdaderos fans.</string>
     <!-- TODO: Remove or change this placeholder text -->
 </resources>
