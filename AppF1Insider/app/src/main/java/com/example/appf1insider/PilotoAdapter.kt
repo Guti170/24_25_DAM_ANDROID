@@ -9,23 +9,35 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.appf1insider.R
-import com.example.appf1insider.model.Piloto // Importa el modelo Piloto
+import com.example.appf1insider.model.Piloto
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 
-class PilotoAdapter(private val pilotosList: MutableList<Piloto>) :
-    RecyclerView.Adapter<PilotoAdapter.PilotoViewHolder>() {
+class PilotoAdapter(
+    private val pilotosList: MutableList<Piloto>,
+    private val itemClickListener: OnPilotoClickListener // Interfaz para el listener
+) : RecyclerView.Adapter<PilotoAdapter.PilotoViewHolder>() {
 
     private val storage = Firebase.storage
 
+    // Interfaz para manejar los clics en los ítems
+    interface OnPilotoClickListener {
+        fun onPilotoClick(piloto: Piloto)
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PilotoViewHolder {
         val itemView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_piloto, parent, false) // Usa el nuevo layout del ítem
+            .inflate(R.layout.item_piloto, parent, false)
         return PilotoViewHolder(itemView)
     }
 
     override fun onBindViewHolder(holder: PilotoViewHolder, position: Int) {
         val currentItem = pilotosList[position]
+        holder.bind(currentItem, itemClickListener) // Pasa el ítem y el listener al ViewHolder
+
+        // La lógica de carga de imagen y nombre se puede mantener aquí o mover a bind
+        // Por consistencia con el ejemplo de Circuito, lo dejamos aquí,
+        // pero el click listener se establece en bind.
         holder.nombrePiloto.text = currentItem.nombre
 
         Log.d("PilotoAdapter", "Item: ${currentItem.nombre}, imagenUrl de Firestore: '${currentItem.imagen}'")
@@ -62,11 +74,21 @@ class PilotoAdapter(private val pilotosList: MutableList<Piloto>) :
     fun updateData(newPilotos: List<Piloto>) {
         pilotosList.clear()
         pilotosList.addAll(newPilotos)
-        notifyDataSetChanged()
+        notifyDataSetChanged() // Considera usar DiffUtil para mejor rendimiento
     }
 
+    // ViewHolder ahora tiene un método bind que configura el OnClickListener
     class PilotoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imagenPiloto: ImageView = itemView.findViewById(R.id.imageViewPiloto)
         val nombrePiloto: TextView = itemView.findViewById(R.id.textViewNombrePiloto)
+
+        fun bind(piloto: Piloto, clickListener: OnPilotoClickListener) {
+            // El nombre y la imagen ya se establecen en onBindViewHolder,
+            // pero si movieras esa lógica aquí, este sería el lugar.
+
+            itemView.setOnClickListener {
+                clickListener.onPilotoClick(piloto)
+            }
+        }
     }
 }

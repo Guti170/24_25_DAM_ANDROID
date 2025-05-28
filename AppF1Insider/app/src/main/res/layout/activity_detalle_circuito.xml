@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#15151E"
+    tools:context=".DetalleCircuitoActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <ImageView
+            android:id="@+id/imageViewDetalleCircuito"
+            android:layout_width="0dp"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:contentDescription="Imagen del circuito"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:srcCompat="@drawable/placeholder_image" />
+
+        <TextView
+            android:id="@+id/textViewDetalleNombreCircuito"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textAppearance="?attr/textAppearanceHeadline5"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/imageViewDetalleCircuito"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="Nombre del Circuito Muy Largo" />
+
+        <TextView
+            android:id="@+id/textViewDetalleDescripcionCircuito"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:textAppearance="?attr/textAppearanceBody1"
+            android:textColor="@android:color/darker_gray"
+            android:lineSpacingExtra="4dp"
+            app:layout_constraintTop_toBottomOf="@id/textViewDetalleNombreCircuito"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="Esta es una descripción detallada del circuito, hablando sobre su historia, características principales, curvas famosas, y cualquier otra información relevante que pueda ser de interés para los aficionados a la Fórmula 1." />
+
+        <VideoView
+            android:id="@+id/videoViewDetalleCircuito"
+            android:layout_width="0dp"
+            android:layout_height="240dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@id/textViewDetalleDescripcionCircuito"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="gone" /> <!-- Inicialmente oculto hasta que se cargue el video -->
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

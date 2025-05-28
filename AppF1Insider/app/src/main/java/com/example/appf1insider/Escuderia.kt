@@ -1,12 +1,16 @@
 package com.example.appf1insider.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize // Asegúrate de tener esta importación
+
+@Parcelize // Anotación clave
 data class Escuderia(
     val id: String = "",
     val nombre: String = "",
     val imagen: String = "", // URL gs:// o HTTPS
-    val estadisticas: String = "", // Puede ser un String simple, JSON, o podrías cambiarlo a Map si es más complejo
+    val estadisticas: String = "",
     val descripcion: String = ""
-) {
-    // Constructor vacío requerido por Firestore
+) : Parcelable { // Implementa Parcelable
+    // Constructor vacío requerido por Firestore y Parcelize
     constructor() : this("", "", "", "", "")
 }

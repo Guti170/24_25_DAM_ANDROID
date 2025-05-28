@@ -13,10 +13,17 @@ import com.example.appf1insider.model.Circuito
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 
-class CircuitoAdapter(private val circuitosList: MutableList<Circuito>) :
-    RecyclerView.Adapter<CircuitoAdapter.CircuitoViewHolder>() {
+class CircuitoAdapter(
+    private val circuitosList: MutableList<Circuito>,
+    private val itemClickListener: OnItemClickListener // Interfaz para el listener
+) : RecyclerView.Adapter<CircuitoAdapter.CircuitoViewHolder>() {
 
-    private val storage = Firebase.storage // Referencia a Firebase Storage
+    private val storage = Firebase.storage
+
+    // Interfaz para manejar los clics en los ítems
+    interface OnItemClickListener {
+        fun onCircuitoClick(circuito: Circuito)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CircuitoViewHolder {
         val itemView = LayoutInflater.from(parent.context)
@@ -26,10 +33,10 @@ class CircuitoAdapter(private val circuitosList: MutableList<Circuito>) :
 
     override fun onBindViewHolder(holder: CircuitoViewHolder, position: Int) {
         val currentItem = circuitosList[position]
-        holder.nombreCircuito.text = currentItem.nombre
+        holder.bind(currentItem, itemClickListener) // Pasa el ítem y el listener al ViewHolder
 
-        // Log para verificar qué contiene currentItem.imagenUrl ANTES de cualquier lógica
-        Log.d("CircuitoAdapter", "Item: ${currentItem.nombre}, imagenUrl de Firestore: '${currentItem.imagen}'")
+        // La lógica de carga de imagen permanece aquí o puede moverse a bind si se prefiere
+        holder.nombreCircuito.text = currentItem.nombre
 
         if (currentItem.imagen.startsWith("gs://")) {
             Log.d("CircuitoAdapter", "Intentando obtener URL de descarga para: ${currentItem.imagen}")
@@ -37,26 +44,22 @@ class CircuitoAdapter(private val circuitosList: MutableList<Circuito>) :
             storageRef.downloadUrl.addOnSuccessListener { uri ->
                 Log.d("CircuitoAdapter", "URL de descarga obtenida para ${currentItem.nombre}: $uri")
                 Glide.with(holder.itemView.context)
-                    .load(uri) // Usar la URI de descarga
-                    .placeholder(R.drawable.placeholder_image)
-                    .error(R.drawable.error_image)
+                    .load(uri)
+                    .placeholder(R.drawable.placeholder_image) // Asegúrate de tener estos drawables
+                    .error(R.drawable.error_image)             // Asegúrate de tener estos drawables
                     .into(holder.imagenCircuito)
             }.addOnFailureListener { exception ->
-                // ESTE LOG ES CRUCIAL
                 Log.e("CircuitoAdapter", "FALLO al obtener URL de descarga para ${currentItem.imagen}. Error: ${exception.message}", exception)
-                holder.imagenCircuito.setImageResource(R.drawable.error_image) // Cargar imagen de error
+                holder.imagenCircuito.setImageResource(R.drawable.error_image)
             }
         } else if (currentItem.imagen.trim().isNotEmpty()) {
-            // Si no es gs:// pero tampoco está vacía, podría ser una URL HTTPS directa (menos probable ahora)
-            // O podría ser una cadena inválida.
-            Log.w("CircuitoAdapter", "imagenUrl no es gs:// pero no está vacía: '${currentItem.imagen}'. Intentando cargar directamente (puede fallar).")
+            Log.w("CircuitoAdapter", "imagenUrl no es gs:// pero no está vacía: '${currentItem.imagen}'. Intentando cargar directamente.")
             Glide.with(holder.itemView.context)
                 .load(currentItem.imagen)
                 .placeholder(R.drawable.placeholder_image)
                 .error(R.drawable.error_image)
                 .into(holder.imagenCircuito)
         } else {
-            // imagenUrl está vacía o solo contiene espacios en blanco
             Log.d("CircuitoAdapter", "imagenUrl está vacía o es inválida para ${currentItem.nombre}.")
             holder.imagenCircuito.setImageResource(R.drawable.placeholder_image)
         }
@@ -67,11 +70,21 @@ class CircuitoAdapter(private val circuitosList: MutableList<Circuito>) :
     fun updateData(newCircuitos: List<Circuito>) {
         circuitosList.clear()
         circuitosList.addAll(newCircuitos)
-        notifyDataSetChanged()
+        notifyDataSetChanged() // Considera usar DiffUtil para mejor rendimiento en listas grandes
     }
 
+    // ViewHolder ahora tiene un método bind que configura el OnClickListener
     class CircuitoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imagenCircuito: ImageView = itemView.findViewById(R.id.imageViewCircuito)
         val nombreCircuito: TextView = itemView.findViewById(R.id.textViewNombreCircuito)
+
+        fun bind(circuito: Circuito, clickListener: OnItemClickListener) {
+            // El nombre y la imagen ya se establecen en onBindViewHolder,
+            // pero si movieras esa lógica aquí, este sería el lugar.
+
+            itemView.setOnClickListener {
+                clickListener.onCircuitoClick(circuito)
+            }
+        }
     }
 }

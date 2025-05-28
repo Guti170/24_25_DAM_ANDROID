@@ -1,13 +1,18 @@
-package com.example.appf1insider.model // O tu paquete de modelos
+package com.example.appf1insider.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize // Importante
+
+@Parcelize // Anotación para generar automáticamente el código Parcelable
 data class Circuito(
-    val id: String = "", // Para almacenar el ID del documento si es necesario
+    val id: String = "",
     val nombre: String = "",
     val imagen: String = "",
-    val descripcion: String = "", // Nuevo campo
-    val video: String = ""     // Nuevo campo
+    val descripcion: String = "",
+    val video: String = ""
     // Puedes añadir más campos si los tienes
-) {
+) : Parcelable { // Implementar Parcelable
     // Constructor vacío requerido por Firestore para deserialización automática
-    constructor() : this("", "", "", "", "") // Actualiza el constructor vacío
+    // No es necesario modificarlo para Parcelable si usas @Parcelize
+    constructor() : this("", "", "", "", "")
 }

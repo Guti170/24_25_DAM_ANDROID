@@ -9,25 +9,34 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.appf1insider.R
-import com.example.appf1insider.model.Escuderia // Importa el modelo Escuderia
+import com.example.appf1insider.model.Escuderia
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 
-class EscuderiaAdapter(private val escuderiasList: MutableList<Escuderia>) :
-    RecyclerView.Adapter<EscuderiaAdapter.EscuderiaViewHolder>() {
+class EscuderiaAdapter(
+    private val escuderiasList: MutableList<Escuderia>,
+    private val itemClickListener: OnEscuderiaClickListener // Interfaz para el listener
+) : RecyclerView.Adapter<EscuderiaAdapter.EscuderiaViewHolder>() {
 
     private val storage = Firebase.storage
 
+    // Interfaz para manejar los clics en los ítems
+    interface OnEscuderiaClickListener {
+        fun onEscuderiaClick(escuderia: Escuderia)
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EscuderiaViewHolder {
         val itemView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_escuderia, parent, false) // Usa el layout del ítem de escudería
+            .inflate(R.layout.item_escuderia, parent, false)
         return EscuderiaViewHolder(itemView)
     }
 
     override fun onBindViewHolder(holder: EscuderiaViewHolder, position: Int) {
         val currentItem = escuderiasList[position]
-        holder.nombreEscuderia.text = currentItem.nombre
+        holder.bind(currentItem, itemClickListener) // Pasa el ítem y el listener al ViewHolder
 
+        // Lógica de carga de imagen y nombre
+        holder.nombreEscuderia.text = currentItem.nombre
         Log.d("EscuderiaAdapter", "Item: ${currentItem.nombre}, imagenUrl de Firestore: '${currentItem.imagen}'")
 
         if (currentItem.imagen.startsWith("gs://")) {
@@ -62,11 +71,20 @@ class EscuderiaAdapter(private val escuderiasList: MutableList<Escuderia>) :
     fun updateData(newEscuderias: List<Escuderia>) {
         escuderiasList.clear()
         escuderiasList.addAll(newEscuderias)
-        notifyDataSetChanged()
+        notifyDataSetChanged() // Considera usar DiffUtil para mejor rendimiento
     }
 
+    // ViewHolder ahora tiene un método bind que configura el OnClickListener
     class EscuderiaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imagenEscuderia: ImageView = itemView.findViewById(R.id.imageViewEscuderia)
         val nombreEscuderia: TextView = itemView.findViewById(R.id.textViewNombreEscuderia)
+
+        fun bind(escuderia: Escuderia, clickListener: OnEscuderiaClickListener) {
+            // El nombre y la imagen ya se establecen en onBindViewHolder.
+            // Aquí solo configuramos el click listener para el ítem completo.
+            itemView.setOnClickListener {
+                clickListener.onEscuderiaClick(escuderia)
+            }
+        }
     }
 }
