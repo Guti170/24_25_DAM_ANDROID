@@ -25,5 +25,8 @@
     <string name="descripcion_fab_add_circuito">Añadir nuevo circuito</string>
     <string name="descripcion_fab_add_piloto" translatable="false">Añadir nuevo piloto</string>
     <string name="descripcion_fab_add_escuderia" translatable="false">Añadir nueva escudería</string>
+    <string name="descripcion_fab_edit_circuito" translatable="false">Editar circuito</string>
+    <string name="descripcion_fab_edit_piloto" translatable="false">Editar piloto</string>
+    <string name="descripcion_fab_edit_escuderia" translatable="false">Editar escudería</string>
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

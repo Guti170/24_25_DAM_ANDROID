@@ -1,5 +1,8 @@
 package com.example.appf1insider // O tu paquete de activities
 
+import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -7,9 +10,12 @@ import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import com.bumptech.glide.Glide
 import com.example.appf1insider.R
-import com.example.appf1insider.model.Escuderia // Importa tu modelo Escuderia
+import com.example.appf1insider.model.Escuderia
+import com.google.android.material.floatingactionbutton.FloatingActionButton // Importar FAB
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 
@@ -19,40 +25,84 @@ class DetalleEscuderiaActivity : AppCompatActivity() {
     private lateinit var descripcionTextView: TextView
     private lateinit var estadisticasTextView: TextView
     private lateinit var escuderiaImageView: ImageView
+    private lateinit var fabEditEscuderia: FloatingActionButton // FAB para editar
 
     private val storage = Firebase.storage
-    private val TAG = "DetalleEscuderiaAct" // Tag para logs
+    private var escuderiaRecibida: Escuderia? = null // Para mantener la escudería actual que se muestra
+    private val TAG = "DetalleEscuderiaAct"
 
     companion object {
-        const val EXTRA_ESCUDERIA = "extra_escuderia" // Clave para el Intent extra
+        const val EXTRA_ESCUDERIA = "extra_escuderia"
     }
 
+    // ActivityResultLauncher para manejar el resultado de EditEscuderiaActivity
+    private val editEscuderiaLauncher: ActivityResultLauncher<Intent> =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == EditEscuderiaActivity.RESULT_ESCUDERIA_EDITADA) {
+                val escuderiaActualizada = result.data?.getParcelableExtra<Escuderia>(EditEscuderiaActivity.EXTRA_ESCUDERIA_ACTUALIZADA)
+                if (escuderiaActualizada != null) {
+                    Log.d(TAG, "Escudería actualizada recibida: ${escuderiaActualizada.nombre}")
+                    escuderiaRecibida = escuderiaActualizada // Actualizar la escudería local
+                    cargarDatosEnUI(escuderiaRecibida) // Recargar la UI con los nuevos datos
+                    // Notificar al fragmento anterior que los datos han cambiado
+                    val resultIntent = Intent()
+                    setResult(Activity.RESULT_OK, resultIntent) // Indica que algo cambió
+                } else {
+                    Log.d(TAG, "EditEscuderiaActivity finalizó con RESULT_ESCUDERIA_EDITADA pero sin datos actualizados.")
+                }
+            } else {
+                Log.d(TAG, "EditEscuderiaActivity finalizó con código: ${result.resultCode}")
+            }
+        }
+
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_detalle_escuderia) // Crearemos este layout a continuación
+        setContentView(R.layout.activity_detalle_escuderia) // Asegúrate que este es el layout correcto
 
-        supportActionBar?.setDisplayHomeAsUpEnabled(true) // Botón de atrás
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         nombreTextView = findViewById(R.id.textViewDetalleNombreEscuderia)
         descripcionTextView = findViewById(R.id.textViewDetalleDescripcionEscuderia)
         estadisticasTextView = findViewById(R.id.textViewDetalleEstadisticasEscuderia)
         escuderiaImageView = findViewById(R.id.imageViewDetalleEscuderia)
+        fabEditEscuderia = findViewById(R.id.fabEditEscuderia) // Inicializar el FAB
 
-        val escuderia = intent.getParcelableExtra<Escuderia>(EXTRA_ESCUDERIA)
+        escuderiaRecibida = intent.getParcelableExtra(EXTRA_ESCUDERIA)
 
-        if (escuderia != null) {
-            supportActionBar?.title = escuderia.nombre
-            nombreTextView.text = escuderia.nombre
-            descripcionTextView.text = escuderia.descripcion
-            // Aquí podrías formatear 'escuderia.estadisticas' si es necesario
-            estadisticasTextView.text = escuderia.estadisticas
-
-            loadImage(escuderia.imagen)
+        if (escuderiaRecibida != null) {
+            cargarDatosEnUI(escuderiaRecibida)
         } else {
             Log.e(TAG, "No se recibió el objeto Escuderia.")
             Toast.makeText(this, "Error al cargar detalles de la escudería", Toast.LENGTH_LONG).show()
             finish()
         }
+
+        fabEditEscuderia.setOnClickListener {
+            if (escuderiaRecibida != null && escuderiaRecibida!!.id.isNotEmpty()) {
+                val intent = Intent(this, EditEscuderiaActivity::class.java).apply {
+                    putExtra(EditEscuderiaActivity.EXTRA_ESCUDERIA_EDIT, escuderiaRecibida)
+                }
+                editEscuderiaLauncher.launch(intent)
+            } else {
+                Toast.makeText(this, "No se puede editar la escudería (datos incompletos).", Toast.LENGTH_SHORT).show()
+                Log.e(TAG, "Intento de editar escudería con datos nulos o ID vacío.")
+            }
+        }
+    }
+
+    private fun cargarDatosEnUI(escuderia: Escuderia?) {
+        if (escuderia == null) {
+            Log.e(TAG, "Intento de cargar UI con escudería nula.")
+            return
+        }
+
+        supportActionBar?.title = escuderia.nombre
+        nombreTextView.text = escuderia.nombre
+        descripcionTextView.text = escuderia.descripcion
+        estadisticasTextView.text = escuderia.estadisticas // Asumiendo que es un String simple
+
+        loadImage(escuderia.imagen)
     }
 
     private fun loadImage(imageUrl: String) {

@@ -11,31 +11,32 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AlertDialog // Importar AlertDialog
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.appf1insider.adapter.PilotoAdapter
 import com.example.appf1insider.model.Piloto
-import com.example.appf1insider.DetallePilotoActivity
+import com.example.appf1insider.DetallePilotoActivity // Asegúrate que la importación es correcta
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage // Para borrar imágenes de Storage si es necesario
+import com.google.firebase.storage.ktx.storage
 
-class Pilotos : Fragment(), PilotoAdapter.OnPilotoClickListener { // La interfaz ya está implementada
+class Pilotos : Fragment(), PilotoAdapter.OnPilotoClickListener {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var pilotoAdapter: PilotoAdapter
     private lateinit var progressBar: ProgressBar
     private lateinit var fabAddPiloto: FloatingActionButton
     private lateinit var db: FirebaseFirestore
-    private val storage = Firebase.storage // Referencia a Firebase Storage
+    private val storage = Firebase.storage
     private val TAG = "PilotosFragment"
 
     private val listaDePilotos = mutableListOf<Piloto>()
 
+    // Launcher para AddPilotoActivity
     private val addPilotoLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             Log.d(TAG, "Piloto añadido, recargando datos...")
@@ -44,6 +45,19 @@ class Pilotos : Fragment(), PilotoAdapter.OnPilotoClickListener { // La interfaz
             Log.d(TAG, "AddPilotoActivity finalizó sin RESULT_OK (código: ${result.resultCode})")
         }
     }
+
+    // Launcher para DetallePilotoActivity (NUEVO)
+    private val detallePilotoLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            // Si DetallePilotoActivity indica que hubo cambios (porque EditPilotoActivity los hizo),
+            // recargamos los datos para reflejar cualquier edición.
+            Log.d(TAG, "DetallePilotoActivity indicó cambios (posible edición), recargando pilotos...")
+            fetchPilotosData()
+        } else {
+            Log.d(TAG, "DetallePilotoActivity finalizó sin RESULT_OK (código: ${result.resultCode})")
+        }
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -93,21 +107,20 @@ class Pilotos : Fragment(), PilotoAdapter.OnPilotoClickListener { // La interfaz
             .addOnSuccessListener { documents ->
                 if (documents.isEmpty) {
                     Log.d(TAG, "No se encontraron documentos de pilotos.")
-                    Toast.makeText(context, "No hay pilotos para mostrar. ¡Añade uno!", Toast.LENGTH_SHORT).show()
-                } else {
-                    val tempList = mutableListOf<Piloto>()
-                    for (document in documents) {
-                        try {
-                            val piloto = document.toObject<Piloto>().copy(id = document.id)
-                            tempList.add(piloto)
-                        } catch (e: Exception) {
-                            Log.e(TAG, "Error al convertir documento a Piloto: ${document.id}", e)
-                        }
-                    }
-                    listaDePilotos.clear()
-                    listaDePilotos.addAll(tempList)
-                    pilotoAdapter.notifyDataSetChanged() // O pilotoAdapter.updateData(listaDePilotos)
+                    // Toast.makeText(context, "No hay pilotos para mostrar. ¡Añade uno!", Toast.LENGTH_SHORT).show()
                 }
+                val tempList = mutableListOf<Piloto>()
+                for (document in documents) {
+                    try {
+                        val piloto = document.toObject<Piloto>().copy(id = document.id)
+                        tempList.add(piloto)
+                    } catch (e: Exception) {
+                        Log.e(TAG, "Error al convertir documento a Piloto: ${document.id}", e)
+                    }
+                }
+                listaDePilotos.clear()
+                listaDePilotos.addAll(tempList)
+                pilotoAdapter.notifyDataSetChanged()
                 progressBar.visibility = View.GONE
                 recyclerView.visibility = View.VISIBLE
             }
@@ -118,15 +131,15 @@ class Pilotos : Fragment(), PilotoAdapter.OnPilotoClickListener { // La interfaz
             }
     }
 
+    // Modificado para usar el nuevo launcher
     override fun onPilotoClick(piloto: Piloto) {
         Log.d(TAG, "Piloto clickeado: ${piloto.nombre}, ID: ${piloto.id}")
         val intent = Intent(activity, DetallePilotoActivity::class.java).apply {
             putExtra(DetallePilotoActivity.EXTRA_PILOTO, piloto)
         }
-        startActivity(intent)
+        detallePilotoLauncher.launch(intent) // Usar el launcher para DetallePilotoActivity
     }
 
-    // Implementación del nuevo método para el Long Click
     override fun onPilotoLongClick(piloto: Piloto, position: Int) {
         Log.d(TAG, "Piloto long click: ${piloto.nombre}, ID: ${piloto.id}")
         AlertDialog.Builder(requireContext())
@@ -148,14 +161,12 @@ class Pilotos : Fragment(), PilotoAdapter.OnPilotoClickListener { // La interfaz
             return
         }
 
-        // Paso 1: Borrar el documento de Firestore
         db.collection("piloto").document(piloto.id)
             .delete()
             .addOnSuccessListener {
                 Log.d(TAG, "Piloto '${piloto.nombre}' borrado de Firestore.")
                 Toast.makeText(context, "Piloto '${piloto.nombre}' borrado.", Toast.LENGTH_SHORT).show()
 
-                // Paso 2: (Opcional pero recomendado) Borrar imagen asociada de Firebase Storage
                 if (piloto.imagen.startsWith("gs://")) {
                     val imagenRef = storage.getReferenceFromUrl(piloto.imagen)
                     imagenRef.delete().addOnSuccessListener {
@@ -164,11 +175,7 @@ class Pilotos : Fragment(), PilotoAdapter.OnPilotoClickListener { // La interfaz
                         Log.w(TAG, "Error al borrar imagen ${piloto.imagen} de Storage.", e)
                     }
                 }
-                // (No hay video para pilotos en tu modelo actual)
-
-                // Paso 3: Actualizar la UI eliminando el ítem del adaptador
                 pilotoAdapter.removeItem(position)
-
             }
             .addOnFailureListener { e ->
                 Log.w(TAG, "Error al borrar piloto '${piloto.nombre}' de Firestore.", e)
