@@ -10,36 +10,36 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts // Importante para el nuevo manejo de resultados
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog // Importar AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.appf1insider.adapter.EscuderiaAdapter
 import com.example.appf1insider.model.Escuderia
-// Asegúrate de que la importación de DetalleEscuderiaActivity es correcta
 import com.example.appf1insider.DetalleEscuderiaActivity
-import com.google.android.material.floatingactionbutton.FloatingActionButton // Importar FAB
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObject // Importante para la conversión
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage // Para borrar imágenes de Storage si es necesario
 
-class Escuderias : Fragment(), EscuderiaAdapter.OnEscuderiaClickListener {
+class Escuderias : Fragment(), EscuderiaAdapter.OnEscuderiaClickListener { // La interfaz ya está implementada
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var escuderiaAdapter: EscuderiaAdapter
     private lateinit var progressBar: ProgressBar
-    private lateinit var fabAddEscuderia: FloatingActionButton // Variable para el FAB
+    private lateinit var fabAddEscuderia: FloatingActionButton
     private lateinit var db: FirebaseFirestore
-    private val TAG = "EscuderiasFragment" // Completar el TAG
+    private val storage = Firebase.storage // Referencia a Firebase Storage
+    private val TAG = "EscuderiasFragment"
 
     private val listaDeEscuderias = mutableListOf<Escuderia>()
 
-    // Nuevo ActivityResultLauncher para manejar el resultado de AddEscuderiaActivity
     private val addEscuderiaLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
-            // La escudería se añadió correctamente, recargar la lista
             Log.d(TAG, "Escudería añadida, recargando datos...")
-            fetchEscuderiasData() // Vuelve a cargar los datos para mostrar la nueva escudería
+            fetchEscuderiasData()
         } else {
             Log.d(TAG, "AddEscuderiaActivity finalizó sin RESULT_OK (código: ${result.resultCode})")
         }
@@ -54,18 +54,18 @@ class Escuderias : Fragment(), EscuderiaAdapter.OnEscuderiaClickListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_escuderias, container, false)
+        val view = inflater.inflate(R.layout.fragment_escuderias, container, false) // Completar aquí
 
         recyclerView = view.findViewById(R.id.recyclerViewEscuderias)
         progressBar = view.findViewById(R.id.progressBarEscuderias)
-        fabAddEscuderia = view.findViewById(R.id.fabAddEscuderia) // Inicializar el FAB
+        fabAddEscuderia = view.findViewById(R.id.fabAddEscuderia)
 
         setupRecyclerView()
 
         fabAddEscuderia.setOnClickListener {
             Log.d(TAG, "FAB para añadir escudería presionado.")
             val intent = Intent(activity, AddEscuderiaActivity::class.java)
-            addEscuderiaLauncher.launch(intent) // Usar el launcher para iniciar la activity
+            addEscuderiaLauncher.launch(intent)
         }
 
         if (listaDeEscuderias.isEmpty()) {
@@ -87,8 +87,8 @@ class Escuderias : Fragment(), EscuderiaAdapter.OnEscuderiaClickListener {
         progressBar.visibility = View.VISIBLE
         recyclerView.visibility = View.GONE
 
-        db.collection("escuderia") // Nombre de tu colección de escuderías
-            .orderBy("nombre") // Opcional: ordenar por nombre o algún otro campo
+        db.collection("escuderia")
+            .orderBy("nombre")
             .get()
             .addOnSuccessListener { documents ->
                 if (documents.isEmpty) {
@@ -106,7 +106,7 @@ class Escuderias : Fragment(), EscuderiaAdapter.OnEscuderiaClickListener {
                     }
                     listaDeEscuderias.clear()
                     listaDeEscuderias.addAll(tempList)
-                    escuderiaAdapter.notifyDataSetChanged()
+                    escuderiaAdapter.notifyDataSetChanged() // O escuderiaAdapter.updateData(listaDeEscuderias)
                 }
                 progressBar.visibility = View.GONE
                 recyclerView.visibility = View.VISIBLE
@@ -124,6 +124,56 @@ class Escuderias : Fragment(), EscuderiaAdapter.OnEscuderiaClickListener {
             putExtra(DetalleEscuderiaActivity.EXTRA_ESCUDERIA, escuderia)
         }
         startActivity(intent)
+    }
+
+    // Implementación del nuevo método para el Long Click
+    override fun onEscuderiaLongClick(escuderia: Escuderia, position: Int) {
+        Log.d(TAG, "Escudería long click: ${escuderia.nombre}, ID: ${escuderia.id}")
+        AlertDialog.Builder(requireContext())
+            .setTitle("Confirmar Borrado")
+            .setMessage("¿Estás seguro de que quieres borrar la escudería '${escuderia.nombre}'?")
+            .setPositiveButton("Borrar") { dialog, _ ->
+                borrarEscuderia(escuderia, position)
+                dialog.dismiss()
+            }
+            .setNegativeButton("Cancelar") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
+    }
+
+    private fun borrarEscuderia(escuderia: Escuderia, position: Int) {
+        if (escuderia.id.isEmpty()) {
+            Toast.makeText(context, "Error: ID de la escudería no válido.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // Paso 1: Borrar el documento de Firestore
+        db.collection("escuderia").document(escuderia.id)
+            .delete()
+            .addOnSuccessListener {
+                Log.d(TAG, "Escudería '${escuderia.nombre}' borrada de Firestore.")
+                Toast.makeText(context, "Escudería '${escuderia.nombre}' borrada.", Toast.LENGTH_SHORT).show()
+
+                // Paso 2: (Opcional pero recomendado) Borrar imagen asociada de Firebase Storage
+                if (escuderia.imagen.startsWith("gs://")) {
+                    val imagenRef = storage.getReferenceFromUrl(escuderia.imagen)
+                    imagenRef.delete().addOnSuccessListener {
+                        Log.d(TAG, "Imagen ${escuderia.imagen} borrada de Storage.")
+                    }.addOnFailureListener { e ->
+                        Log.w(TAG, "Error al borrar imagen ${escuderia.imagen} de Storage.", e)
+                    }
+                }
+                // (No hay video para escuderías en tu modelo actual)
+
+                // Paso 3: Actualizar la UI eliminando el ítem del adaptador
+                escuderiaAdapter.removeItem(position)
+
+            }
+            .addOnFailureListener { e ->
+                Log.w(TAG, "Error al borrar escudería '${escuderia.nombre}' de Firestore.", e)
+                Toast.makeText(context, "Error al borrar escudería: ${e.message}", Toast.LENGTH_LONG).show()
+            }
     }
 
     companion object {
