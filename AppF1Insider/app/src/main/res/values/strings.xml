@@ -22,5 +22,8 @@
     <string name="label_estadisticas" translatable="false">Estadísticas</string>
     <string name="label_descripcion" translatable="false">Descripción</string>
     <string name="descripcion_imagen_escuderia" translatable="false">Imagen de la Escudería</string>
+    <string name="descripcion_fab_add_circuito">Añadir nuevo circuito</string>
+    <string name="descripcion_fab_add_piloto" translatable="false">Añadir nuevo piloto</string>
+    <string name="descripcion_fab_add_escuderia" translatable="false">Añadir nueva escudería</string>
     <!-- TODO: Remove or change this placeholder text -->
 </resources>
