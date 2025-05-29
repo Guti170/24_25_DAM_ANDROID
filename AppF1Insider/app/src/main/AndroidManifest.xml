@@ -13,6 +13,18 @@
         android:theme="@style/Theme.AppF1Insider"
         tools:targetApi="31">
         <activity
+            android:name=".ComentariosEscuderiaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ComentariosPilotoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ComentariosPilotosActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ComentariosActivity"
+            android:exported="false" />
+        <activity
             android:name=".EditEscuderiaActivity"
             android:exported="false" />
         <activity

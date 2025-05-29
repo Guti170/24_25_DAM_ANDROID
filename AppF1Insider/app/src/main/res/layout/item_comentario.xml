@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="12dp"
+    android:layout_marginBottom="8dp"
+    android:background="@drawable/comment_item_background"> <!-- Opcional: un fondo para cada item -->
+
+    <TextView
+        android:id="@+id/textViewComentarioUsuario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textColor="#FF1E00"
+        android:textSize="14sp"
+        android:text="usuario@example.com"/>
+
+    <TextView
+        android:id="@+id/textViewComentarioTexto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:text="Este es el texto del comentario."/>
+
+    <TextView
+        android:id="@+id/textViewComentarioTimestamp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="12sp"
+        android:layout_gravity="end"
+        android:text="dd/MM/yyyy HH:mm"/>
+
+</LinearLayout>

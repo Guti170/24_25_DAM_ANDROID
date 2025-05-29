@@ -7,6 +7,7 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button // Importar Button
 import android.widget.ImageView
 import android.widget.MediaController
 import android.widget.TextView
@@ -16,10 +17,10 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import com.bumptech.glide.Glide
 import com.example.appf1insider.model.Circuito
-import com.google.android.material.floatingactionbutton.FloatingActionButton // Importar FAB
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
-import com.example.appf1insider.R // Asegúrate de importar R
+import com.example.appf1insider.R
 
 class DetalleCircuitoActivity : AppCompatActivity() {
 
@@ -27,32 +28,27 @@ class DetalleCircuitoActivity : AppCompatActivity() {
     private lateinit var descripcionTextView: TextView
     private lateinit var circuitoImageView: ImageView
     private lateinit var circuitoVideoView: VideoView
-    private lateinit var fabEditCircuito: FloatingActionButton // FAB para editar
+    private lateinit var fabEditCircuito: FloatingActionButton
+    private lateinit var buttonVerComentarios: Button // Botón para ver/añadir comentarios
 
     private val storage = Firebase.storage
-    private var circuitoRecibido: Circuito? = null // Para mantener el circuito actual que se muestra
+    private var circuitoRecibido: Circuito? = null
 
     companion object {
         const val EXTRA_CIRCUITO = "extra_circuito"
         private const val TAG = "DetalleCircuito"
     }
 
-    // ActivityResultLauncher para manejar el resultado de EditCircuitoActivity
     private val editCircuitoLauncher: ActivityResultLauncher<Intent> =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == EditCircuitoActivity.RESULT_CIRCUITO_EDITADO) {
                 val circuitoActualizado = result.data?.getParcelableExtra<Circuito>(EditCircuitoActivity.EXTRA_CIRCUITO_ACTUALIZADO)
                 if (circuitoActualizado != null) {
                     Log.d(TAG, "Circuito actualizado recibido: ${circuitoActualizado.nombre}")
-                    circuitoRecibido = circuitoActualizado // Actualizar el circuito local
-                    cargarDatosEnUI(circuitoRecibido) // Recargar la UI con los nuevos datos
-                    // Notificar al fragmento anterior que los datos han cambiado
-                    // Esto es importante para que la lista en CircuitosFragment se actualice
-                    // si el usuario vuelve atrás.
+                    circuitoRecibido = circuitoActualizado
+                    cargarDatosEnUI(circuitoRecibido)
                     val resultIntent = Intent()
-                    // No es necesario pasar el circuito de vuelta aquí si CircuitosFragment
-                    // simplemente recarga desde Firestore. Pero si quieres optimizar, puedes pasarlo.
-                    setResult(Activity.RESULT_OK, resultIntent) // Indica que algo cambió
+                    setResult(Activity.RESULT_OK, resultIntent)
                 } else {
                     Log.d(TAG, "EditCircuitoActivity finalizó con RESULT_CIRCUITO_EDITADO pero sin datos actualizados.")
                 }
@@ -64,15 +60,15 @@ class DetalleCircuitoActivity : AppCompatActivity() {
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_detalle_circuito)
+        setContentView(R.layout.activity_detalle_circuito) // Asegúrate que este layout tiene el nuevo botón
 
         nombreTextView = findViewById(R.id.textViewDetalleNombreCircuito)
         descripcionTextView = findViewById(R.id.textViewDetalleDescripcionCircuito)
         circuitoImageView = findViewById(R.id.imageViewDetalleCircuito)
         circuitoVideoView = findViewById(R.id.videoViewDetalleCircuito)
-        fabEditCircuito = findViewById(R.id.fabEditCircuito) // Inicializar el FAB
+        fabEditCircuito = findViewById(R.id.fabEditCircuito)
+        buttonVerComentarios = findViewById(R.id.buttonVerComentarios) // Inicializar el botón
 
-        // Recuperar el objeto Circuito del Intent
         circuitoRecibido = intent.getParcelableExtra(EXTRA_CIRCUITO)
 
         if (circuitoRecibido != null) {
@@ -81,6 +77,7 @@ class DetalleCircuitoActivity : AppCompatActivity() {
             Log.e(TAG, "No se recibió el objeto Circuito.")
             Toast.makeText(this, "Error al cargar detalles del circuito.", Toast.LENGTH_SHORT).show()
             finish()
+            return // Salir si no hay datos del circuito
         }
 
         fabEditCircuito.setOnClickListener {
@@ -91,7 +88,18 @@ class DetalleCircuitoActivity : AppCompatActivity() {
                 editCircuitoLauncher.launch(intent)
             } else {
                 Toast.makeText(this, "No se puede editar el circuito (datos incompletos).", Toast.LENGTH_SHORT).show()
-                Log.e(TAG, "Intento de editar circuito con datos nulos o ID vacío.")
+            }
+        }
+
+        buttonVerComentarios.setOnClickListener {
+            if (circuitoRecibido != null && circuitoRecibido!!.id.isNotEmpty()) {
+                val intent = Intent(this, ComentariosActivity::class.java).apply {
+                    putExtra(ComentariosActivity.EXTRA_CIRCUITO_ID, circuitoRecibido!!.id)
+                    putExtra(ComentariosActivity.EXTRA_NOMBRE_CIRCUITO, circuitoRecibido!!.nombre) // Opcional
+                }
+                startActivity(intent)
+            } else {
+                Toast.makeText(this, "No se pueden cargar los comentarios (ID del circuito no disponible).", Toast.LENGTH_SHORT).show()
             }
         }
 

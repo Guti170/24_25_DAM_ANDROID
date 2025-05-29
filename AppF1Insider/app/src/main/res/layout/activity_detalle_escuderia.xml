@@ -9,7 +9,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -35,6 +36,7 @@
                 android:gravity="center"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
                 android:textColor="@android:color/white"
+                android:textStyle="bold"
                 app:layout_constraintTop_toBottomOf="@id/imageViewDetalleEscuderia"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -47,7 +49,7 @@
                 android:layout_marginTop="24dp"
                 android:text="@string/label_estadisticas"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-                android:textColor="@android:color/white"
+                android:textColor="#FF1E00"
                 app:layout_constraintTop_toBottomOf="@id/textViewDetalleNombreEscuderia"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -58,6 +60,7 @@
                 android:layout_marginTop="8dp"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                 android:textColor="@android:color/white"
+                android:lineSpacingExtra="4dp"
                 app:layout_constraintTop_toBottomOf="@id/textViewLabelEstadisticasEscuderia"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -70,7 +73,7 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/label_descripcion"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-                android:textColor="@android:color/white"
+                android:textColor="#FF1E00"
                 app:layout_constraintTop_toBottomOf="@id/textViewDetalleEstadisticasEscuderia"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -81,12 +84,26 @@
                 android:layout_marginTop="8dp"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                 android:textColor="@android:color/white"
+                android:lineSpacingExtra="4dp"
                 app:layout_constraintTop_toBottomOf="@id/textViewLabelDescripcionEscuderia"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginBottom="16dp"
                 tools:text="Descripción detallada de la escudería, su historia en la Fórmula 1, sus pilotos actuales, base, y otros datos de interés." />
+
+            <!-- Botón para Ver/Añadir Comentarios de la Escudería -->
+            <Button
+                android:id="@+id/buttonVerComentariosEscuderia"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="Ver / Añadir Comentarios"
+                android:backgroundTint="#FF1E00"
+                android:textColor="@android:color/white"
+                app:layout_constraintTop_toBottomOf="@id/textViewDetalleDescripcionEscuderia"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="72dp"/> <!-- Margen para no solaparse con el FAB -->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
@@ -99,6 +116,6 @@
         android:backgroundTint="#FF1E00"
         android:layout_margin="16dp"
         android:contentDescription="@string/descripcion_fab_edit_escuderia"
-        app:srcCompat="@drawable/ic_edit" /> <!-- Necesitarás el ícono de editar -->
+        app:srcCompat="@drawable/ic_edit" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
