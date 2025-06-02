@@ -1,4 +1,4 @@
-package pilotos // O tu paquete de activities
+package pilotos
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -7,7 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
-import android.widget.Button // Asegúrate que este import está
+import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -26,10 +27,11 @@ class DetallePilotoActivity : AppCompatActivity() {
     private lateinit var estadisticasTextView: TextView
     private lateinit var pilotoImageView: ImageView
     private lateinit var fabEditPiloto: FloatingActionButton
-    private lateinit var buttonVerComentariosPiloto: Button // Botón para comentarios
+    private lateinit var buttonVerComentariosPiloto: Button
 
     private val storage = Firebase.storage
     private var pilotoRecibido: Piloto? = null
+    private var isAdmin: Boolean = false
     private val TAG = "DetallePilotoActivity"
 
     companion object {
@@ -38,19 +40,13 @@ class DetallePilotoActivity : AppCompatActivity() {
 
     private val editPilotoLauncher: ActivityResultLauncher<Intent> =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == EditPilotoActivity.RESULT_PILOTO_EDITADO) {
-                val pilotoActualizado = result.data?.getParcelableExtra<Piloto>(EditPilotoActivity.EXTRA_PILOTO_ACTUALIZADO)
+            if (result.resultCode == EditPilotoActivity.RESULT_PILOTO_EDITADO) { // Asegúrate que este RESULT_CODE existe en EditPilotoActivity
+                val pilotoActualizado = result.data?.getParcelableExtra<Piloto>(EditPilotoActivity.EXTRA_PILOTO_ACTUALIZADO) // Y este EXTRA
                 if (pilotoActualizado != null) {
-                    Log.d(TAG, "Piloto actualizado recibido: ${pilotoActualizado.nombre}")
                     pilotoRecibido = pilotoActualizado
                     cargarDatosEnUI(pilotoRecibido)
-                    val resultIntent = Intent()
-                    setResult(Activity.RESULT_OK, resultIntent)
-                } else {
-                    Log.d(TAG, "EditPilotoActivity finalizó con RESULT_PILOTO_EDITADO pero sin datos actualizados.")
+                    setResult(Activity.RESULT_OK) // Notificar al fragmento que hubo cambios
                 }
-            } else {
-                Log.d(TAG, "EditPilotoActivity finalizó con código: ${result.resultCode}")
             }
         }
 
@@ -66,91 +62,94 @@ class DetallePilotoActivity : AppCompatActivity() {
         estadisticasTextView = findViewById(R.id.textViewDetalleEstadisticasPiloto)
         pilotoImageView = findViewById(R.id.imageViewDetallePiloto)
         fabEditPiloto = findViewById(R.id.fabEditPiloto)
-        buttonVerComentariosPiloto = findViewById(R.id.buttonVerComentariosPiloto) // Inicializar el botón
+        buttonVerComentariosPiloto = findViewById(R.id.buttonVerComentariosPiloto)
 
-        pilotoRecibido = intent.getParcelableExtra(EXTRA_PILOTO)
+        isAdmin = intent.getBooleanExtra("IS_ADMIN_USER", false)
+        pilotoRecibido = intent.getParcelableExtra(EXTRA_PILOTO) // Completar esta línea
 
         if (pilotoRecibido != null) {
             cargarDatosEnUI(pilotoRecibido)
         } else {
             Log.e(TAG, "No se recibió el objeto Piloto.")
-            Toast.makeText(this, "Error al cargar detalles del piloto", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Error al cargar detalles", Toast.LENGTH_LONG).show()
             finish()
             return
         }
 
-        fabEditPiloto.setOnClickListener {
-            if (pilotoRecibido != null && pilotoRecibido!!.id.isNotEmpty()) {
-                val intent = Intent(this, EditPilotoActivity::class.java).apply {
-                    putExtra(EditPilotoActivity.EXTRA_PILOTO_EDIT, pilotoRecibido)
+        // Configurar visibilidad y acción del FAB de edición
+        fabEditPiloto.visibility = if (isAdmin) View.VISIBLE else View.GONE
+        if (isAdmin) {
+            fabEditPiloto.setOnClickListener {
+                pilotoRecibido?.let { piloto ->
+                    if (piloto.id.isNotEmpty()) {
+                        val intent = Intent(this, EditPilotoActivity::class.java).apply {
+                            putExtra(EditPilotoActivity.EXTRA_PILOTO_EDIT, piloto) // Asegúrate que este EXTRA existe en EditPilotoActivity
+                        }
+                        editPilotoLauncher.launch(intent)
+                    } else {
+                        Toast.makeText(this, "No se puede editar (ID no válido).", Toast.LENGTH_SHORT).show()
+                    }
                 }
-                editPilotoLauncher.launch(intent)
-            } else {
-                Toast.makeText(this, "No se puede editar el piloto (datos incompletos).", Toast.LENGTH_SHORT).show()
-                Log.e(TAG, "Intento de editar piloto con datos nulos o ID vacío.")
             }
         }
 
         buttonVerComentariosPiloto.setOnClickListener {
-            if (pilotoRecibido != null && pilotoRecibido!!.id.isNotEmpty()) {
-                val intent = Intent(this, ComentariosPilotoActivity::class.java).apply {
-                    putExtra(ComentariosPilotoActivity.EXTRA_PILOTO_ID, pilotoRecibido!!.id)
-                    putExtra(ComentariosPilotoActivity.EXTRA_NOMBRE_PILOTO, pilotoRecibido!!.nombre)
+            pilotoRecibido?.let { piloto ->
+                if (piloto.id.isNotEmpty()) {
+                    val intent = Intent(this, ComentariosPilotoActivity::class.java).apply {
+                        putExtra(ComentariosPilotoActivity.EXTRA_PILOTO_ID, piloto.id)
+                        putExtra(ComentariosPilotoActivity.EXTRA_NOMBRE_PILOTO, piloto.nombre)
+                    }
+                    startActivity(intent)
+                } else {
+                    Toast.makeText(this, "No se pueden cargar comentarios (ID no válido).", Toast.LENGTH_SHORT).show()
                 }
-                startActivity(intent)
-            } else {
-                Toast.makeText(this, "No se pueden cargar los comentarios (ID del piloto no disponible).", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
     private fun cargarDatosEnUI(piloto: Piloto?) {
-        if (piloto == null) {
-            Log.e(TAG, "Intento de cargar UI con piloto nulo.")
+        piloto?.let {
+            supportActionBar?.title = it.nombre
+            nombreTextView.text = it.nombre
+            descripcionTextView.text = it.descripcion
+            estadisticasTextView.text = formatEstadisticas(it.estadisticas) // Asume que tienes un campo 'estadisticas' en tu modelo Piloto
+            loadImage(it.imagen)
+        }
+    }
+
+    private fun formatEstadisticas(stats: String?): String {
+        return stats ?: "No disponibles" // O tu lógica de formateo
+    }
+
+    private fun loadImage(imageUrl: String?) {
+        if (imageUrl.isNullOrEmpty()) {
+            pilotoImageView.setImageResource(R.drawable.placeholder_image) // Imagen por defecto
             return
         }
 
-        supportActionBar?.title = piloto.nombre
-        nombreTextView.text = piloto.nombre
-        descripcionTextView.text = piloto.descripcion
-        estadisticasTextView.text = formatEstadisticas(piloto.estadisticas)
-
-        loadImage(piloto.imagen)
-    }
-
-    private fun formatEstadisticas(stats: String): String {
-        // Puedes mantener tu lógica de formateo aquí o simplemente devolver el string
-        return stats // O, por ejemplo: stats.replace(";", "\n") si las estadísticas vienen separadas por ;
-    }
-
-    private fun loadImage(imageUrl: String) {
         if (imageUrl.startsWith("gs://")) {
             val storageRef = storage.getReferenceFromUrl(imageUrl)
             storageRef.downloadUrl.addOnSuccessListener { uri ->
-                Glide.with(this)
-                    .load(uri)
-                    .placeholder(R.drawable.placeholder_image) // Asegúrate que estos drawables existen
-                    .error(R.drawable.error_image)             // Asegúrate que estos drawables existen
+                Glide.with(this).load(uri)
+                    .placeholder(R.drawable.placeholder_image)
+                    .error(R.drawable.error_image)
                     .into(pilotoImageView)
             }.addOnFailureListener { exception ->
-                Log.e(TAG, "Error al cargar imagen desde Storage: ${exception.message}")
+                Log.e(TAG, "Error cargando imagen de Storage: ${exception.message}")
                 pilotoImageView.setImageResource(R.drawable.error_image)
             }
-        } else if (imageUrl.isNotEmpty()) { // Asume que es una URL HTTP/HTTPS
-            Glide.with(this)
-                .load(imageUrl)
+        } else { // Asume URL HTTP/HTTPS
+            Glide.with(this).load(imageUrl)
                 .placeholder(R.drawable.placeholder_image)
                 .error(R.drawable.error_image)
                 .into(pilotoImageView)
-        } else {
-            Log.d(TAG, "URL de imagen vacía o no es de Storage.")
-            pilotoImageView.setImageResource(R.drawable.placeholder_image) // Imagen por defecto
         }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
-            onBackPressedDispatcher.onBackPressed() // Maneja el botón "Up" de la ActionBar
+            finish()
             return true
         }
         return super.onOptionsItemSelected(item)

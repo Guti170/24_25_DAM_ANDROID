@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.appf1insider.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -24,30 +26,31 @@ import com.google.firebase.storage.ktx.storage
 
 class Escuderias : Fragment(), EscuderiaAdapter.OnEscuderiaClickListener {
 
-    private lateinit var recyclerView: RecyclerView
+    private lateinit var recyclerViewEscuderias: RecyclerView
     private lateinit var escuderiaAdapter: EscuderiaAdapter
+    private val listaEscuderias = mutableListOf<Escuderia>()
+    private lateinit var db: FirebaseFirestore
     private lateinit var progressBar: ProgressBar
     private lateinit var fabAddEscuderia: FloatingActionButton
-    private lateinit var db: FirebaseFirestore
-    private val storage = Firebase.storage
-    private val TAG = "EscuderiasFragment"
+    private var isAdmin: Boolean = false
 
-    private val listaDeEscuderias = mutableListOf<Escuderia>()
-
-    private val addEscuderiaLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            fetchEscuderiasData()
-        }
+    companion object {
+        private const val TAG = "EscuderiasFragment"
     }
 
-    private val detalleEscuderiaLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            fetchEscuderiasData()
+    private val addEscuderiaLauncher: ActivityResultLauncher<Intent> =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) cargarEscuderias()
         }
-    }
+
+    private val detalleEscuderiaLauncher: ActivityResultLauncher<Intent> =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) cargarEscuderias()
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        arguments?.let { isAdmin = it.getBoolean("IS_ADMIN_USER", false) }
         db = Firebase.firestore
     }
 
@@ -56,127 +59,109 @@ class Escuderias : Fragment(), EscuderiaAdapter.OnEscuderiaClickListener {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_escuderias, container, false)
-
-        recyclerView = view.findViewById(R.id.recyclerViewEscuderias)
+        recyclerViewEscuderias = view.findViewById(R.id.recyclerViewEscuderias)
         progressBar = view.findViewById(R.id.progressBarEscuderias)
         fabAddEscuderia = view.findViewById(R.id.fabAddEscuderia)
 
         setupRecyclerView()
-
-        fabAddEscuderia.setOnClickListener {
-            val intent = Intent(activity, AddEscuderiaActivity::class.java)
-            addEscuderiaLauncher.launch(intent)
-        }
-
-        if (listaDeEscuderias.isEmpty()) {
-            fetchEscuderiasData()
-        } else {
-            progressBar.visibility = View.GONE
-            recyclerView.visibility = View.VISIBLE
-        }
+        setupFab()
+        cargarEscuderias()
         return view
     }
 
     private fun setupRecyclerView() {
-        recyclerView.layoutManager = LinearLayoutManager(context)
-        escuderiaAdapter = EscuderiaAdapter(listaDeEscuderias, this)
-        recyclerView.adapter = escuderiaAdapter
+        escuderiaAdapter = EscuderiaAdapter(listaEscuderias, this, isAdmin)
+        recyclerViewEscuderias.layoutManager = LinearLayoutManager(context)
+        recyclerViewEscuderias.adapter = escuderiaAdapter
     }
 
-    private fun fetchEscuderiasData() {
-        progressBar.visibility = View.VISIBLE
-        recyclerView.visibility = View.GONE
+    private fun setupFab() {
+        fabAddEscuderia.visibility = if (isAdmin) View.VISIBLE else View.GONE
+        if (isAdmin) {
+            fabAddEscuderia.setOnClickListener {
+                addEscuderiaLauncher.launch(Intent(activity, AddEscuderiaActivity::class.java))
+            }
+        }
+    }
 
-        db.collection("escuderia")
-            .orderBy("nombre")
-            .get()
-            .addOnSuccessListener { documents ->
-                val tempList = mutableListOf<Escuderia>()
-                for (document in documents) {
-                    try {
-                        val escuderia = document.toObject<Escuderia>().copy(id = document.id)
-                        tempList.add(escuderia)
-                    } catch (e: Exception) {
-                        Log.e(TAG, "Error converting document to Escuderia: ${document.id}", e)
+    private fun cargarEscuderias() {
+        if (!isAdded) return
+        progressBar.visibility = View.VISIBLE
+        recyclerViewEscuderias.visibility = View.GONE
+
+        db.collection("escuderia").orderBy("nombre", Query.Direction.ASCENDING).get()
+            .addOnSuccessListener { result ->
+                if (!isAdded) return@addOnSuccessListener
+                listaEscuderias.clear()
+                if (result.isEmpty) {
+                    if (isAdded) Toast.makeText(context, "No hay escuderías.", Toast.LENGTH_SHORT).show()
+                } else {
+                    result.forEach { doc ->
+                        try {
+                            listaEscuderias.add(doc.toObject<Escuderia>().copy(id = doc.id))
+                        } catch (e: Exception) { Log.e(TAG, "Error convirtiendo escudería: ${doc.id}", e) }
                     }
                 }
-                listaDeEscuderias.clear()
-                listaDeEscuderias.addAll(tempList)
                 escuderiaAdapter.notifyDataSetChanged()
                 progressBar.visibility = View.GONE
-                recyclerView.visibility = View.VISIBLE
+                recyclerViewEscuderias.visibility = View.VISIBLE
             }
-            .addOnFailureListener { exception ->
-                Log.w(TAG, "Error getting escuderias documents: ", exception)
-                Toast.makeText(context, "Error loading escuderias: ${exception.message}", Toast.LENGTH_LONG).show()
+            .addOnFailureListener { e ->
+                if (!isAdded) return@addOnFailureListener
+                Log.w(TAG, "Error cargando escuderías.", e)
+                if (isAdded) Toast.makeText(context, "Error cargando: ${e.message}", Toast.LENGTH_LONG).show()
                 progressBar.visibility = View.GONE
             }
     }
 
     override fun onEscuderiaClick(escuderia: Escuderia) {
+        if (!isAdded) return
         val intent = Intent(activity, DetalleEscuderiaActivity::class.java).apply {
             putExtra(DetalleEscuderiaActivity.EXTRA_ESCUDERIA, escuderia)
+            putExtra("IS_ADMIN_USER", isAdmin)
         }
         detalleEscuderiaLauncher.launch(intent)
     }
 
     override fun onEscuderiaLongClick(escuderia: Escuderia, position: Int) {
+        if (!isAdmin || !isAdded) return
+
         AlertDialog.Builder(requireContext())
-            .setTitle("Confirm Delete")
-            .setMessage("Are you sure you want to delete '${escuderia.nombre}'?")
-            .setPositiveButton("Delete") { dialog, _ ->
-                borrarEscuderia(escuderia, position)
-                dialog.dismiss()
-            }
-            .setNegativeButton("Cancel") { dialog, _ ->
-                dialog.dismiss()
-            }
+            .setTitle("Eliminar Escudería")
+            .setMessage("¿Eliminar '${escuderia.nombre}'?")
+            .setPositiveButton("Eliminar") { _, _ -> eliminarEscuderia(escuderia, position) }
+            .setNegativeButton("Cancelar", null)
             .show()
     }
 
-    private fun borrarEscuderia(escuderia: Escuderia, position: Int) {
+    private fun eliminarEscuderia(escuderia: Escuderia, position: Int) {
         if (escuderia.id.isEmpty()) {
-            Toast.makeText(context, "Error: Invalid escuderia ID.", Toast.LENGTH_SHORT).show()
+            if (isAdded) Toast.makeText(context, "ID no válido.", Toast.LENGTH_SHORT).show()
             return
         }
 
-        db.collection("escuderia").document(escuderia.id)
-            .delete()
+        if (escuderia.imagen.startsWith("gs://")) {
+            Firebase.storage.getReferenceFromUrl(escuderia.imagen).delete()
+                .addOnFailureListener { e -> Log.w(TAG, "Error borrando imagen de escudería.", e) }
+        }
+
+
+        db.collection("escuderia").document(escuderia.id).delete()
             .addOnSuccessListener {
-                Log.d(TAG, "Escuderia '${escuderia.nombre}' deleted from Firestore.")
-                Toast.makeText(context, "Escuderia '${escuderia.nombre}' deleted.", Toast.LENGTH_SHORT).show()
-
-                if (escuderia.imagen.startsWith("gs://")) {
-                    val imagenRef = storage.getReferenceFromUrl(escuderia.imagen)
-                    imagenRef.delete().addOnSuccessListener {
-                        Log.d(TAG, "Image ${escuderia.imagen} deleted from Storage.")
-                    }.addOnFailureListener { e ->
-                        Log.w(TAG, "Error deleting image ${escuderia.imagen} from Storage.", e)
-                    }
+                if (!isAdded) return@addOnSuccessListener
+                val index = listaEscuderias.indexOfFirst { it.id == escuderia.id }
+                if (index != -1) {
+                    listaEscuderias.removeAt(index)
+                    escuderiaAdapter.notifyItemRemoved(index)
+                } else {
+                    cargarEscuderias()
                 }
-                // Example for another potential file, like 'logoCocheUrl'
-                // if (escuderia.logoCocheUrl.isNotBlank() && escuderia.logoCocheUrl.startsWith("gs://")) {
-                //     val logoCocheRef = storage.getReferenceFromUrl(escuderia.logoCocheUrl)
-                //     logoCocheRef.delete().addOnSuccessListener {
-                //         Log.d(TAG, "Car logo ${escuderia.logoCocheUrl} deleted from Storage.")
-                //     }.addOnFailureListener { e ->
-                //         Log.w(TAG, "Error deleting car logo ${escuderia.logoCocheUrl} from Storage.", e)
-                //     }
-                // }
-
-                escuderiaAdapter.removeItem(position) // Make sure your adapter has this method
+                if (isAdded) Toast.makeText(context, "'${escuderia.nombre}' eliminada.", Toast.LENGTH_SHORT).show()
             }
             .addOnFailureListener { e ->
-                Log.w(TAG, "Error deleting escuderia '${escuderia.nombre}' from Firestore.", e)
-                Toast.makeText(context, "Error deleting escuderia: ${e.message}", Toast.LENGTH_LONG).show()
+                if (!isAdded) return@addOnFailureListener
+                Log.w(TAG, "Error eliminando '${escuderia.nombre}'.", e)
+                if (isAdded) Toast.makeText(context, "Error al eliminar: ${e.message}", Toast.LENGTH_SHORT).show()
             }
-    }
-
-    companion object {
-        // Puedes usar newInstance si necesitas pasar argumentos al crear el fragmento,
-        // pero para este caso no es estrictamente necesario.
-         fun newInstance(): Escuderias {
-             return Escuderias()
-         }
     }
 }

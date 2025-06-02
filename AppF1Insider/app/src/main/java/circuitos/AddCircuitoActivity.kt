@@ -1,4 +1,4 @@
-package circuitos // O tu paquete de activities
+package circuitos
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -64,9 +64,6 @@ class AddCircuitoActivity : AppCompatActivity() {
             Toast.makeText(this, "Nombre y descripción son obligatorios", Toast.LENGTH_SHORT).show()
             return
         }
-        // Aquí podrías añadir validaciones más específicas para las URLs si lo deseas
-        // Por ejemplo, verificar si imagenUrl empieza con "gs://" o "https://"
-        // y si videoUrl es una URL válida de YouTube.
 
         // Mostrar ProgressBar y deshabilitar botón
         progressBarAddCircuito.isVisible = true
@@ -104,7 +101,7 @@ class AddCircuitoActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Manejar el clic en el botón de atrás de la ActionBar
         if (item.itemId == android.R.id.home) {
-            onBackPressedDispatcher.onBackPressed() // O finish() si no hay estado que perder
+            onBackPressedDispatcher.onBackPressed()
             return true
         }
         return super.onOptionsItemSelected(item)

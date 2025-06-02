@@ -1,4 +1,4 @@
-package escuderias // O tu paquete de activities
+package escuderias
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity

@@ -1,4 +1,4 @@
-package pilotos // O tu paquete de activities
+package pilotos
 
 import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity

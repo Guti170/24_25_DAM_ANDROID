@@ -1,4 +1,4 @@
-package pilotos // O tu paquete de activities
+package pilotos
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -44,7 +44,7 @@ class EditPilotoActivity : AppCompatActivity() {
 
         db = Firebase.firestore
 
-        // Asumiré que los IDs son los mismos que en activity_add_piloto.xml
+        // Asumir que los IDs son los mismos que en activity_add_piloto.xml
         // o una copia con los mismos IDs.
         editTextNombrePiloto = findViewById(R.id.editTextNombrePiloto)
         editTextImagenUrlPiloto = findViewById(R.id.editTextImagenUrlPiloto)

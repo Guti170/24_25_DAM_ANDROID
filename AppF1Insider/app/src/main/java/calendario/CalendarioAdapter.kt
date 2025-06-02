@@ -19,7 +19,7 @@ class CalendarioAdapter(private val eventosList: MutableList<EventoCalendario>) 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventoViewHolder {
         val itemView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_calendario, parent, false) // Usa el layout del ítem de calendario
+            .inflate(R.layout.item_calendario, parent, false)
         return EventoViewHolder(itemView)
     }
 
@@ -44,7 +44,7 @@ class CalendarioAdapter(private val eventosList: MutableList<EventoCalendario>) 
             }
         } else if (currentItem.imagen.trim().isNotEmpty()) {
             Glide.with(holder.itemView.context)
-                .load(currentItem.imagen) // Asume que es una URL HTTPS si no es gs://
+                .load(currentItem.imagen)
                 .placeholder(R.drawable.placeholder_image)
                 .error(R.drawable.error_image)
                 .into(holder.imagenEvento)

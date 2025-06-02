@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.MenuItem // Asegúrate que este import está
+import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -22,7 +22,6 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-// import java.util.Date // No es necesario si usas ServerTimestamp y no lo seteas localmente
 
 class ComentariosPilotoActivity : AppCompatActivity() {
 
@@ -139,7 +138,7 @@ class ComentariosPilotoActivity : AppCompatActivity() {
         }
 
         buttonEnviarComentario.isEnabled = false
-        // Considera un ProgressBar más pequeño cerca del botón si el general está muy arriba
+        // Considerar un ProgressBar más pequeño cerca del botón si el general está muy arriba
         // progressBarEnvio.visibility = View.VISIBLE
 
         val nuevoComentario = ComentarioPiloto(
@@ -157,9 +156,6 @@ class ComentariosPilotoActivity : AppCompatActivity() {
                 editTextNuevoComentario.text.clear()
                 // progressBarEnvio.visibility = View.GONE
                 buttonEnviarComentario.isEnabled = true
-                // Opcional: Ocultar teclado
-                // val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                // imm.hideSoftInputFromWindow(editTextNuevoComentario.windowToken, 0)
             }
             .addOnFailureListener { e ->
                 Log.w(TAG, "Error añadiendo comentario", e)

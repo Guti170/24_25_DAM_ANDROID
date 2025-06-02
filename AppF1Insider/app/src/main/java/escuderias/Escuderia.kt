@@ -1,7 +1,7 @@
 package escuderias
 
 import android.os.Parcelable
-import kotlinx.parcelize.Parcelize // Asegúrate de tener esta importación
+import kotlinx.parcelize.Parcelize
 
 @Parcelize // Anotación clave
 data class Escuderia(

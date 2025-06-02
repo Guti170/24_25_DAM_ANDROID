@@ -17,7 +17,7 @@ class ComentarioAdapter(private val comentarios: List<Comentario>) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ComentarioViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_comentario, parent, false) // Crearemos este layout
+            .inflate(R.layout.item_comentario, parent, false)
         return ComentarioViewHolder(view)
     }
 
@@ -34,12 +34,12 @@ class ComentarioAdapter(private val comentarios: List<Comentario>) :
         private val textViewTimestamp: TextView = itemView.findViewById(R.id.textViewComentarioTimestamp)
 
         fun bind(comentario: Comentario) {
-            textViewUsuario.text = comentario.usuarioEmail // O podrías mostrar un nombre de usuario si lo tuvieras
+            textViewUsuario.text = comentario.usuarioEmail
             textViewTexto.text = comentario.texto
             textViewTimestamp.text = if (comentario.timestamp != null) {
                 dateFormat.format(comentario.timestamp)
             } else {
-                "Enviando..." // O alguna indicación de que el timestamp aún no está disponible
+                "Enviando..."
             }
         }
     }

@@ -1,4 +1,4 @@
-package circuitos // O tu paquete de activities
+package circuitos
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -14,7 +14,7 @@ import android.widget.Toast
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.example.appf1insider.R // Asegúrate de importar R
+import com.example.appf1insider.R
 
 class EditCircuitoActivity : AppCompatActivity() {
 

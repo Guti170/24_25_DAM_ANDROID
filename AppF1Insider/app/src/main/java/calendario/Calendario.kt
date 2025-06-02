@@ -20,17 +20,16 @@ import com.google.firebase.ktx.Firebase
 class Calendario : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
-    private lateinit var calendarioAdapter: CalendarioAdapter // CAMBIO
+    private lateinit var calendarioAdapter: CalendarioAdapter
     private lateinit var progressBar: ProgressBar
     private lateinit var db: FirebaseFirestore
-    private val TAG = "CalendarioFragment" // CAMBIO (Opcional)
+    private val TAG = "CalendarioFragment"
 
-    private val listaDeEventos = mutableListOf<EventoCalendario>() // CAMBIO
+    private val listaDeEventos = mutableListOf<EventoCalendario>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         db = Firebase.firestore
-        // Eliminamos la lógica de ARG_PARAM1 y ARG_PARAM2
     }
 
     @SuppressLint("MissingInflatedId")
@@ -38,17 +37,17 @@ class Calendario : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_calendario, container, false) // CAMBIO
+        val view = inflater.inflate(R.layout.fragment_calendario, container, false)
 
-        recyclerView = view.findViewById(R.id.recyclerViewCalendario) // CAMBIO
-        progressBar = view.findViewById(R.id.progressBarCalendario)   // CAMBIO
+        recyclerView = view.findViewById(R.id.recyclerViewCalendario)
+        progressBar = view.findViewById(R.id.progressBarCalendario)
 
         recyclerView.layoutManager = LinearLayoutManager(context)
-        calendarioAdapter = CalendarioAdapter(listaDeEventos) // CAMBIO
+        calendarioAdapter = CalendarioAdapter(listaDeEventos)
         recyclerView.adapter = calendarioAdapter
 
         if (listaDeEventos.isEmpty()) {
-            fetchCalendarioData() // CAMBIO
+            fetchCalendarioData()
         } else {
             progressBar.visibility = View.GONE
             recyclerView.visibility = View.VISIBLE
@@ -61,12 +60,8 @@ class Calendario : Fragment() {
         progressBar.visibility = View.VISIBLE
         recyclerView.visibility = View.GONE
 
-        // CAMBIO: Nombre de la colección en Firestore.
-        // Si tienes un campo para ordenar (ej. 'fechaInicio' de tipo Timestamp o 'orden' de tipo Number), úsalo.
-        // Ejemplo: .orderBy("fechaInicio", Query.Direction.ASCENDING)
-        db.collection("calendario") // Asegúrate que "calendario" es el nombre correcto
-            // Si quieres ordenar, por ejemplo por un campo "orden" o una fecha:
-            // .orderBy("orden", Query.Direction.ASCENDING) // o "fechaTimestamp"
+        // Nombre de la colección en Firestore.
+        db.collection("calendario")
             .get()
             .addOnSuccessListener { documents ->
                 if (documents.isEmpty) {
@@ -81,7 +76,7 @@ class Calendario : Fragment() {
                 for (document in documents) {
                     val evento = document.toObject<EventoCalendario>() // CAMBIO
                     tempList.add(evento)
-                    // CAMBIO: Log con los campos del evento
+                    // Log con los campos del evento
                     Log.d(TAG, "Evento cargado: ${evento.nombre}, Imagen: ${evento.imagen}, Horario: ${evento.horario}, Temporada: ${evento.temporada}")
                 }
 
@@ -105,6 +100,6 @@ class Calendario : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance() = Calendario() // Simplificado
+        fun newInstance() = Calendario()
     }
 }

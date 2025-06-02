@@ -3,7 +3,7 @@ package escuderias
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.MenuItem // Asegúrate que este import está
+import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.EditText

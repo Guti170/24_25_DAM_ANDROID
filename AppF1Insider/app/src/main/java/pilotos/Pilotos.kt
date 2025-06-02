@@ -1,4 +1,4 @@
-package pilotos // O el paquete donde tengas tus fragmentos
+package pilotos
 
 import android.app.Activity
 import android.content.Intent
@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.appf1insider.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -24,41 +26,31 @@ import com.google.firebase.storage.ktx.storage
 
 class Pilotos : Fragment(), PilotoAdapter.OnPilotoClickListener {
 
-    private lateinit var recyclerView: RecyclerView
+    private lateinit var recyclerViewPilotos: RecyclerView
     private lateinit var pilotoAdapter: PilotoAdapter
+    private val listaPilotos = mutableListOf<Piloto>()
+    private lateinit var db: FirebaseFirestore
     private lateinit var progressBar: ProgressBar
     private lateinit var fabAddPiloto: FloatingActionButton
-    private lateinit var db: FirebaseFirestore
-    private val storage = Firebase.storage
-    private val TAG = "PilotosFragment"
+    private var isAdmin: Boolean = false
 
-    private val listaDePilotos = mutableListOf<Piloto>()
-
-    // Launcher para AddPilotoActivity
-    private val addPilotoLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            Log.d(TAG, "Piloto añadido, recargando datos...")
-            fetchPilotosData()
-        } else {
-            Log.d(TAG, "AddPilotoActivity finalizó sin RESULT_OK (código: ${result.resultCode})")
-        }
+    companion object {
+        private const val TAG = "PilotosFragment"
     }
 
-    // Launcher para DetallePilotoActivity (NUEVO)
-    private val detallePilotoLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            // Si DetallePilotoActivity indica que hubo cambios (porque EditPilotoActivity los hizo),
-            // recargamos los datos para reflejar cualquier edición.
-            Log.d(TAG, "DetallePilotoActivity indicó cambios (posible edición), recargando pilotos...")
-            fetchPilotosData()
-        } else {
-            Log.d(TAG, "DetallePilotoActivity finalizó sin RESULT_OK (código: ${result.resultCode})")
+    private val addPilotoLauncher: ActivityResultLauncher<Intent> =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) cargarPilotos()
         }
-    }
 
+    private val detallePilotoLauncher: ActivityResultLauncher<Intent> =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) cargarPilotos()
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        arguments?.let { isAdmin = it.getBoolean("IS_ADMIN_USER", false) }
         db = Firebase.firestore
     }
 
@@ -67,122 +59,108 @@ class Pilotos : Fragment(), PilotoAdapter.OnPilotoClickListener {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_pilotos, container, false)
-
-        recyclerView = view.findViewById(R.id.recyclerViewPilotos)
+        recyclerViewPilotos = view.findViewById(R.id.recyclerViewPilotos)
         progressBar = view.findViewById(R.id.progressBarPilotos)
         fabAddPiloto = view.findViewById(R.id.fabAddPiloto)
 
         setupRecyclerView()
-
-        fabAddPiloto.setOnClickListener {
-            Log.d(TAG, "FAB para añadir piloto presionado.")
-            val intent = Intent(activity, AddPilotoActivity::class.java)
-            addPilotoLauncher.launch(intent)
-        }
-
-        if (listaDePilotos.isEmpty()) {
-            fetchPilotosData()
-        } else {
-            progressBar.visibility = View.GONE
-            recyclerView.visibility = View.VISIBLE
-        }
+        setupFab()
+        cargarPilotos()
         return view
     }
 
     private fun setupRecyclerView() {
-        recyclerView.layoutManager = LinearLayoutManager(context)
-        pilotoAdapter = PilotoAdapter(listaDePilotos, this)
-        recyclerView.adapter = pilotoAdapter
+        pilotoAdapter = PilotoAdapter(listaPilotos, this, isAdmin) // Pasar isAdmin
+        recyclerViewPilotos.layoutManager = LinearLayoutManager(context)
+        recyclerViewPilotos.adapter = pilotoAdapter
     }
 
-    private fun fetchPilotosData() {
-        progressBar.visibility = View.VISIBLE
-        recyclerView.visibility = View.GONE
+    private fun setupFab() {
+        fabAddPiloto.visibility = if (isAdmin) View.VISIBLE else View.GONE
+        if (isAdmin) {
+            fabAddPiloto.setOnClickListener {
+                addPilotoLauncher.launch(Intent(activity, AddPilotoActivity::class.java))
+            }
+        }
+    }
 
-        db.collection("piloto")
-            .orderBy("nombre")
-            .get()
-            .addOnSuccessListener { documents ->
-                if (documents.isEmpty) {
-                    Log.d(TAG, "No se encontraron documentos de pilotos.")
-                    // Toast.makeText(context, "No hay pilotos para mostrar. ¡Añade uno!", Toast.LENGTH_SHORT).show()
-                }
-                val tempList = mutableListOf<Piloto>()
-                for (document in documents) {
-                    try {
-                        val piloto = document.toObject<Piloto>().copy(id = document.id)
-                        tempList.add(piloto)
-                    } catch (e: Exception) {
-                        Log.e(TAG, "Error al convertir documento a Piloto: ${document.id}", e)
+    private fun cargarPilotos() {
+        if (!isAdded) return
+        progressBar.visibility = View.VISIBLE
+        recyclerViewPilotos.visibility = View.GONE
+
+        db.collection("piloto").orderBy("nombre", Query.Direction.ASCENDING).get()
+            .addOnSuccessListener { result ->
+                if (!isAdded) return@addOnSuccessListener
+                listaPilotos.clear()
+                if (result.isEmpty) {
+                    if (isAdded) Toast.makeText(context, "No hay pilotos.", Toast.LENGTH_SHORT).show()
+                } else {
+                    result.forEach { doc ->
+                        try {
+                            listaPilotos.add(doc.toObject<Piloto>().copy(id = doc.id))
+                        } catch (e: Exception) { Log.e(TAG, "Error al convertir piloto: ${doc.id}", e) }
                     }
                 }
-                listaDePilotos.clear()
-                listaDePilotos.addAll(tempList)
                 pilotoAdapter.notifyDataSetChanged()
                 progressBar.visibility = View.GONE
-                recyclerView.visibility = View.VISIBLE
+                recyclerViewPilotos.visibility = View.VISIBLE
             }
-            .addOnFailureListener { exception ->
-                Log.w(TAG, "Error obteniendo documentos de pilotos: ", exception)
-                Toast.makeText(context, "Error al cargar los pilotos: ${exception.message}", Toast.LENGTH_LONG).show()
+            .addOnFailureListener { e ->
+                if (!isAdded) return@addOnFailureListener
+                Log.w(TAG, "Error al cargar pilotos.", e)
+                if (isAdded) Toast.makeText(context, "Error cargando: ${e.message}", Toast.LENGTH_LONG).show()
                 progressBar.visibility = View.GONE
             }
     }
 
-    // Modificado para usar el nuevo launcher
     override fun onPilotoClick(piloto: Piloto) {
-        Log.d(TAG, "Piloto clickeado: ${piloto.nombre}, ID: ${piloto.id}")
+        if (!isAdded) return
         val intent = Intent(activity, DetallePilotoActivity::class.java).apply {
             putExtra(DetallePilotoActivity.EXTRA_PILOTO, piloto)
+            putExtra("IS_ADMIN_USER", isAdmin) // Pasar el estado de admin
         }
-        detallePilotoLauncher.launch(intent) // Usar el launcher para DetallePilotoActivity
+        detallePilotoLauncher.launch(intent)
     }
 
     override fun onPilotoLongClick(piloto: Piloto, position: Int) {
-        Log.d(TAG, "Piloto long click: ${piloto.nombre}, ID: ${piloto.id}")
+        if (!isAdmin || !isAdded) return
+
         AlertDialog.Builder(requireContext())
-            .setTitle("Confirmar Borrado")
-            .setMessage("¿Estás seguro de que quieres borrar al piloto '${piloto.nombre}'?")
-            .setPositiveButton("Borrar") { dialog, _ ->
-                borrarPiloto(piloto, position)
-                dialog.dismiss()
-            }
-            .setNegativeButton("Cancelar") { dialog, _ ->
-                dialog.dismiss()
-            }
+            .setTitle("Eliminar Piloto")
+            .setMessage("¿Eliminar '${piloto.nombre}'?")
+            .setPositiveButton("Eliminar") { _, _ -> eliminarPiloto(piloto, position) }
+            .setNegativeButton("Cancelar", null)
             .show()
     }
 
-    private fun borrarPiloto(piloto: Piloto, position: Int) {
+    private fun eliminarPiloto(piloto: Piloto, position: Int) {
         if (piloto.id.isEmpty()) {
-            Toast.makeText(context, "Error: ID del piloto no válido.", Toast.LENGTH_SHORT).show()
+            if (isAdded) Toast.makeText(context, "ID no válido.", Toast.LENGTH_SHORT).show()
             return
         }
 
-        db.collection("piloto").document(piloto.id)
-            .delete()
-            .addOnSuccessListener {
-                Log.d(TAG, "Piloto '${piloto.nombre}' borrado de Firestore.")
-                Toast.makeText(context, "Piloto '${piloto.nombre}' borrado.", Toast.LENGTH_SHORT).show()
+        if (piloto.imagen.startsWith("gs://")) {
+            Firebase.storage.getReferenceFromUrl(piloto.imagen).delete()
+                .addOnFailureListener { e -> Log.w(TAG, "Error borrando imagen de piloto.", e) }
+        }
 
-                if (piloto.imagen.startsWith("gs://")) {
-                    val imagenRef = storage.getReferenceFromUrl(piloto.imagen)
-                    imagenRef.delete().addOnSuccessListener {
-                        Log.d(TAG, "Imagen ${piloto.imagen} borrada de Storage.")
-                    }.addOnFailureListener { e ->
-                        Log.w(TAG, "Error al borrar imagen ${piloto.imagen} de Storage.", e)
-                    }
+        db.collection("piloto").document(piloto.id).delete()
+            .addOnSuccessListener {
+                if (!isAdded) return@addOnSuccessListener
+                val index = listaPilotos.indexOfFirst { it.id == piloto.id }
+                if (index != -1) {
+                    listaPilotos.removeAt(index)
+                    pilotoAdapter.notifyItemRemoved(index)
+                } else {
+                    cargarPilotos()
                 }
-                pilotoAdapter.removeItem(position)
+                if (isAdded) Toast.makeText(context, "'${piloto.nombre}' eliminado.", Toast.LENGTH_SHORT).show()
             }
             .addOnFailureListener { e ->
-                Log.w(TAG, "Error al borrar piloto '${piloto.nombre}' de Firestore.", e)
-                Toast.makeText(context, "Error al borrar piloto: ${e.message}", Toast.LENGTH_LONG).show()
+                if (!isAdded) return@addOnFailureListener
+                Log.w(TAG, "Error eliminando '${piloto.nombre}'.", e)
+                if (isAdded) Toast.makeText(context, "Error al eliminar: ${e.message}", Toast.LENGTH_SHORT).show()
             }
-    }
-
-    companion object {
-        @JvmStatic
-        fun newInstance() = Pilotos()
     }
 }

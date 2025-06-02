@@ -19,13 +19,17 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
+    private lateinit var db: FirebaseFirestore
     private lateinit var googleSignInClient: GoogleSignInClient
     private lateinit var googleSignInLauncher: ActivityResultLauncher<Intent>
 
@@ -49,36 +53,22 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        // Inicializar Firebase Auth
         auth = Firebase.auth
+        db = Firebase.firestore
 
-        // Inicializar Vistas
         emailEditText = findViewById(R.id.emailEditText)
         passwordEditText = findViewById(R.id.passwordEditText)
         loginButton = findViewById(R.id.loginButton)
         registerButton = findViewById(R.id.registerButton)
         googleSignInButton = findViewById(R.id.googleSignInButton)
 
-        // Configurar Google Sign In
         configureGoogleSignIn()
 
-        // Configurar Listeners de los Botones
-        loginButton.setOnClickListener {
-            signInWithEmailPassword()
-        }
+        loginButton.setOnClickListener { signInWithEmailPassword() }
+        registerButton.setOnClickListener { registerWithEmailPassword() }
+        googleSignInButton.setOnClickListener { signInWithGoogle() }
 
-        registerButton.setOnClickListener {
-            registerWithEmailPassword()
-        }
-
-        googleSignInButton.setOnClickListener {
-            signInWithGoogle()
-        }
-
-        // ActivityResultLauncher para el inicio de sesión con Google
-        googleSignInLauncher = registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult()
-        ) { result ->
+        googleSignInLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
                 val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
                 handleGoogleSignInResult(task)
@@ -90,19 +80,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        // Comprobar si el usuario ya ha iniciado sesión (opcional, para saltar esta pantalla)
-        val currentUser = auth.currentUser
-        if (currentUser != null) {
-            navigateToMenuPrincipal()
-        }
+        auth.currentUser?.let { checkIfAdminAndNavigate(it) }
     }
 
     private fun configureGoogleSignIn() {
-        // Configurar Google Sign In
-        // Reemplaza R.string.default_web_client_id con tu ID de cliente web de Google
-        // Este ID se encuentra en tu archivo google-services.json o en Firebase Console -> Project Settings
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.default_web_client_id)) // Asegúrate de tener este string
+            .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
             .build()
         googleSignInClient = GoogleSignIn.getClient(this, gso)
@@ -111,102 +94,100 @@ class MainActivity : AppCompatActivity() {
     private fun signInWithEmailPassword() {
         val email = emailEditText.text.toString().trim()
         val password = passwordEditText.text.toString().trim()
-
         if (email.isEmpty() || password.isEmpty()) {
-            Toast.makeText(this, "Por favor, introduce correo y contraseña.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Introduce correo y contraseña.", Toast.LENGTH_SHORT).show()
             return
         }
-
-        auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    Log.d(TAG, "signInWithEmail:success")
-                    navigateToMenuPrincipal()
-                } else {
-                    Log.w(TAG, "signInWithEmail:failure", task.exception)
-                    Toast.makeText(baseContext, "Error al iniciar sesión: ${task.exception?.message}",
-                        Toast.LENGTH_LONG).show()
-                }
+        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                task.result?.user?.let { checkIfAdminAndNavigate(it) }
+            } else {
+                Log.w(TAG, "signInWithEmail:failure", task.exception)
+                Toast.makeText(baseContext, "Error: ${task.exception?.message}", Toast.LENGTH_LONG).show()
             }
+        }
     }
 
     private fun registerWithEmailPassword() {
         val email = emailEditText.text.toString().trim()
         val password = passwordEditText.text.toString().trim()
-
         if (email.isEmpty() || password.isEmpty()) {
-            Toast.makeText(this, "Por favor, introduce correo y contraseña para registrarte.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Introduce correo y contraseña para registrarte.", Toast.LENGTH_SHORT).show()
             return
         }
-        // Puedes añadir validación de contraseña aquí (longitud, etc.)
-
-        auth.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    Log.d(TAG, "createUserWithEmail:success")
-                    Toast.makeText(baseContext, "Registro exitoso. Ahora puedes iniciar sesión.",
-                        Toast.LENGTH_SHORT).show()
-                    // Opcionalmente, iniciar sesión directamente o pedir al usuario que inicie sesión
-                    // navigateToMenuPrincipal() // Si quieres iniciar sesión automáticamente tras el registro
-                } else {
-                    Log.w(TAG, "createUserWithEmail:failure", task.exception)
-                    Toast.makeText(baseContext, "Error al registrarse: ${task.exception?.message}",
-                        Toast.LENGTH_LONG).show()
-                }
+        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                Toast.makeText(baseContext, "Registro exitoso. Inicia sesión.", Toast.LENGTH_SHORT).show()
+            } else {
+                Log.w(TAG, "createUserWithEmail:failure", task.exception)
+                Toast.makeText(baseContext, "Error al registrar: ${task.exception?.message}", Toast.LENGTH_LONG).show()
             }
+        }
     }
 
     private fun signInWithGoogle() {
-        val signInIntent = googleSignInClient.signInIntent
-        googleSignInLauncher.launch(signInIntent)
+        googleSignInLauncher.launch(googleSignInClient.signInIntent)
     }
 
     private fun handleGoogleSignInResult(completedTask: Task<GoogleSignInAccount>) {
         try {
             val account = completedTask.getResult(ApiException::class.java)
-            Log.d(TAG, "firebaseAuthWithGoogle:" + account.id)
             firebaseAuthWithGoogle(account.idToken!!)
         } catch (e: ApiException) {
             Log.w(TAG, "Google sign in failed", e)
-            Toast.makeText(this, "Error de inicio de sesión con Google: ${e.message} (${e.statusCode})", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Error Google: ${e.message} (${e.statusCode})", Toast.LENGTH_LONG).show()
         }
     }
 
     private fun firebaseAuthWithGoogle(idToken: String) {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
-        auth.signInWithCredential(credential)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    Log.d(TAG, "signInWithCredential_Google:success")
-                    navigateToMenuPrincipal() // Llamada a la nueva función
-                }
-                else {
-                    Log.w(TAG, "signInWithCredential_Google:failure", task.exception)
-                    Toast.makeText(baseContext, "Error al autenticar con Google: ${task.exception?.message}", Toast.LENGTH_LONG).show()
-                }
+        auth.signInWithCredential(credential).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                task.result?.user?.let { checkIfAdminAndNavigate(it) }
+            } else {
+                Log.w(TAG, "signInWithCredential_Google:failure", task.exception)
+                Toast.makeText(baseContext, "Error Google Auth: ${task.exception?.message}", Toast.LENGTH_LONG).show()
             }
-    }
-
-    /**
-     * Navega a la Activity MenuPrincipal.
-     * Cierra la MainActivity actual para que el usuario no pueda volver a ella
-     * con el botón "Atrás" después de iniciar sesión.
-     */
-    private fun navigateToMenuPrincipal() {
-        Log.d(TAG, "Navigating to MenuPrincipal Activity.")
-        // Asegúrate de que 'MenuPrincipal' es el nombre correcto de tu Activity
-        // y que está declarada en tu AndroidManifest.xml.
-        val intent = Intent(this, MenuPrincipal::class.java)
-
-        // Opcional: Si necesitas pasar datos a MenuPrincipal, puedes hacerlo aquí.
-        // Por ejemplo, el email del usuario actual:
-        val currentUser = auth.currentUser
-        currentUser?.email?.let { email ->
-            intent.putExtra("USER_EMAIL", email)
         }
-
-        startActivity(intent)
-        finish() // Cierra MainActivity
     }
 
-} // Cierre de la clase MainActivity
+    private fun checkIfAdminAndNavigate(user: FirebaseUser) {
+        val adminDocIds = listOf("1", "2") // IDs de los documentos de admin
+        var isAdmin = false
+        var checksCompleted = 0
+
+        for (docId in adminDocIds) {
+            db.collection("admin").document(docId).get()
+                .addOnSuccessListener { document ->
+                    if (document != null && document.exists()) {
+                        val codigoAdmin = document.getString("codigo")
+                        if (codigoAdmin == user.uid) {
+                            isAdmin = true
+                        }
+                    }
+                    checksCompleted++
+                    if (checksCompleted == adminDocIds.size) {
+                        navigateToMenuPrincipal(user, isAdmin)
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    Log.w(TAG, "Error al obtener documento admin $docId", exception)
+                    checksCompleted++
+                    if (checksCompleted == adminDocIds.size) {
+                        navigateToMenuPrincipal(user, isAdmin) // Navegar incluso si hay error, con isAdmin=false
+                    }
+                }
+        }
+    }
+
+    private fun navigateToMenuPrincipal(user: FirebaseUser, isAdmin: Boolean) {
+        Log.d(TAG, "Navigating to MenuPrincipal. User: ${user.email}, IsAdmin: $isAdmin")
+        val intent = Intent(this, MenuPrincipal::class.java).apply {
+            putExtra("USER_EMAIL", user.email)
+            putExtra("USER_DISPLAY_NAME", user.displayName)
+            putExtra("IS_ADMIN", isAdmin) // Pasar el estado de administrador
+        }
+        startActivity(intent)
+        finish()
+    }
+}

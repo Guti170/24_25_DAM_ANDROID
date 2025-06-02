@@ -1,13 +1,15 @@
-package circuitos // O tu paquete de activities
+package circuitos
 
 import android.annotation.SuppressLint
-import android.app.Activity // Necesario para Activity.RESULT_OK
+import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button // Importar Button
+import android.view.MenuItem
+import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.MediaController
 import android.widget.TextView
@@ -21,6 +23,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.example.appf1insider.R
 
+
 class DetalleCircuitoActivity : AppCompatActivity() {
 
     private lateinit var nombreTextView: TextView
@@ -28,10 +31,11 @@ class DetalleCircuitoActivity : AppCompatActivity() {
     private lateinit var circuitoImageView: ImageView
     private lateinit var circuitoVideoView: VideoView
     private lateinit var fabEditCircuito: FloatingActionButton
-    private lateinit var buttonVerComentarios: Button // Botón para ver/añadir comentarios
+    private lateinit var buttonVerComentarios: Button
 
     private val storage = Firebase.storage
     private var circuitoRecibido: Circuito? = null
+    private var isAdmin: Boolean = false
 
     companion object {
         const val EXTRA_CIRCUITO = "extra_circuito"
@@ -45,114 +49,88 @@ class DetalleCircuitoActivity : AppCompatActivity() {
                     EditCircuitoActivity.EXTRA_CIRCUITO_ACTUALIZADO
                 )
                 if (circuitoActualizado != null) {
-                    Log.d(TAG, "Circuito actualizado recibido: ${circuitoActualizado.nombre}")
+                    Log.d(TAG, "Circuito actualizado: ${circuitoActualizado.nombre}")
                     circuitoRecibido = circuitoActualizado
                     cargarDatosEnUI(circuitoRecibido)
-                    val resultIntent = Intent()
-                    setResult(Activity.RESULT_OK, resultIntent)
-                } else {
-                    Log.d(TAG, "EditCircuitoActivity finalizó con RESULT_CIRCUITO_EDITADO pero sin datos actualizados.")
+                    setResult(Activity.RESULT_OK, Intent()) // Notificar cambio
                 }
-            } else {
-                Log.d(TAG, "EditCircuitoActivity finalizó con código: ${result.resultCode}")
             }
         }
 
-    @SuppressLint("MissingInflatedId")
+    @SuppressLint("MissingInflatedId") // Considera usar ViewBinding o Kotlin View Extensions
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_detalle_circuito) // Asegúrate que este layout tiene el nuevo botón
+        setContentView(R.layout.activity_detalle_circuito)
 
         nombreTextView = findViewById(R.id.textViewDetalleNombreCircuito)
         descripcionTextView = findViewById(R.id.textViewDetalleDescripcionCircuito)
         circuitoImageView = findViewById(R.id.imageViewDetalleCircuito)
         circuitoVideoView = findViewById(R.id.videoViewDetalleCircuito)
         fabEditCircuito = findViewById(R.id.fabEditCircuito)
-        buttonVerComentarios = findViewById(R.id.buttonVerComentarios) // Inicializar el botón
+        buttonVerComentarios = findViewById(R.id.buttonVerComentarios) // Asegúrate que este ID existe en tu layout
+
+        isAdmin = intent.getBooleanExtra("IS_ADMIN_USER", false)
+        Log.d(TAG, "Usuario es admin: $isAdmin")
 
         circuitoRecibido = intent.getParcelableExtra(EXTRA_CIRCUITO)
 
         if (circuitoRecibido != null) {
             cargarDatosEnUI(circuitoRecibido)
+            setupEditFab(circuitoRecibido!!)
         } else {
             Log.e(TAG, "No se recibió el objeto Circuito.")
-            Toast.makeText(this, "Error al cargar detalles del circuito.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Error al cargar detalles.", Toast.LENGTH_SHORT).show()
             finish()
-            return // Salir si no hay datos del circuito
-        }
-
-        fabEditCircuito.setOnClickListener {
-            if (circuitoRecibido != null && circuitoRecibido!!.id.isNotEmpty()) {
-                val intent = Intent(this, EditCircuitoActivity::class.java).apply {
-                    putExtra(EditCircuitoActivity.EXTRA_CIRCUITO_EDIT, circuitoRecibido)
-                }
-                editCircuitoLauncher.launch(intent)
-            } else {
-                Toast.makeText(this, "No se puede editar el circuito (datos incompletos).", Toast.LENGTH_SHORT).show()
-            }
+            return
         }
 
         buttonVerComentarios.setOnClickListener {
-            if (circuitoRecibido != null && circuitoRecibido!!.id.isNotEmpty()) {
-                val intent = Intent(this, ComentariosActivity::class.java).apply {
-                    putExtra(ComentariosActivity.EXTRA_CIRCUITO_ID, circuitoRecibido!!.id)
-                    putExtra(ComentariosActivity.EXTRA_NOMBRE_CIRCUITO, circuitoRecibido!!.nombre) // Opcional
+            circuitoRecibido?.let {
+                if (it.id.isNotEmpty()) {
+                    val intent = Intent(this, ComentariosActivity::class.java).apply {
+                        putExtra(ComentariosActivity.EXTRA_CIRCUITO_ID, it.id)
+                        putExtra(ComentariosActivity.EXTRA_NOMBRE_CIRCUITO, it.nombre)
+                    }
+                    startActivity(intent)
+                } else {
+                    Toast.makeText(this, "ID de circuito no disponible.", Toast.LENGTH_SHORT).show()
                 }
-                startActivity(intent)
-            } else {
-                Toast.makeText(this, "No se pueden cargar los comentarios (ID del circuito no disponible).", Toast.LENGTH_SHORT).show()
             }
         }
-
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     private fun cargarDatosEnUI(circuito: Circuito?) {
-        if (circuito == null) {
-            Log.e(TAG, "Intento de cargar UI con circuito nulo.")
-            return
-        }
+        circuito ?: return // Salir si es nulo
 
         nombreTextView.text = circuito.nombre
         descripcionTextView.text = circuito.descripcion
-        supportActionBar?.title = circuito.nombre ?: "Detalles del Circuito"
+        supportActionBar?.title = circuito.nombre
 
         // Cargar imagen
         if (circuito.imagen.startsWith("gs://")) {
-            val storageRef = storage.getReferenceFromUrl(circuito.imagen)
-            storageRef.downloadUrl.addOnSuccessListener { uri ->
-                Glide.with(this)
-                    .load(uri)
-                    .placeholder(R.drawable.placeholder_image)
-                    .error(R.drawable.error_image)
-                    .into(circuitoImageView)
-            }.addOnFailureListener { exception ->
-                Log.e(TAG, "Error al cargar imagen: ${exception.message}")
-                circuitoImageView.setImageResource(R.drawable.error_image)
+            storage.getReferenceFromUrl(circuito.imagen).downloadUrl.addOnSuccessListener { uri ->
+                Glide.with(this).load(uri).placeholder(R.drawable.placeholder_image).error(R.drawable.error_image).into(circuitoImageView)
+            }.addOnFailureListener { e ->
+                Log.e(TAG, "Error img: ${e.message}"); circuitoImageView.setImageResource(R.drawable.error_image)
             }
         } else if (circuito.imagen.isNotEmpty()) {
-            Glide.with(this)
-                .load(circuito.imagen)
-                .placeholder(R.drawable.placeholder_image)
-                .error(R.drawable.error_image)
-                .into(circuitoImageView)
+            Glide.with(this).load(circuito.imagen).placeholder(R.drawable.placeholder_image).error(R.drawable.error_image).into(circuitoImageView)
         } else {
             circuitoImageView.setImageResource(R.drawable.placeholder_image)
         }
 
         // Configurar VideoView
         if (circuito.video.startsWith("gs://")) {
-            val videoStorageRef = storage.getReferenceFromUrl(circuito.video)
-            videoStorageRef.downloadUrl.addOnSuccessListener { videoUri ->
+            storage.getReferenceFromUrl(circuito.video).downloadUrl.addOnSuccessListener { videoUri ->
                 setupVideoView(videoUri)
-            }.addOnFailureListener { exception ->
-                Log.e(TAG, "Error al obtener URL del video: ${exception.message}")
-                circuitoVideoView.visibility = android.view.View.GONE
+            }.addOnFailureListener { e ->
+                Log.e(TAG, "Error video URL: ${e.message}"); circuitoVideoView.visibility = View.GONE
             }
-        } else if (circuito.video.startsWith("http://") || circuito.video.startsWith("https://")) {
+        } else if (circuito.video.startsWith("http")) {
             setupVideoView(Uri.parse(circuito.video))
         } else {
-            circuitoVideoView.visibility = android.view.View.GONE
+            circuitoVideoView.visibility = View.GONE
         }
     }
 
@@ -161,19 +139,37 @@ class DetalleCircuitoActivity : AppCompatActivity() {
         val mediaController = MediaController(this)
         mediaController.setAnchorView(circuitoVideoView)
         circuitoVideoView.setMediaController(mediaController)
-        circuitoVideoView.visibility = android.view.View.VISIBLE
-        circuitoVideoView.setOnPreparedListener { mp ->
-            // Video listo
-        }
-        circuitoVideoView.setOnErrorListener { mp, what, extra ->
-            Log.e(TAG, "Error al reproducir video: what $what, extra $extra")
-            circuitoVideoView.visibility = android.view.View.GONE
-            true
+        circuitoVideoView.visibility = View.VISIBLE
+        circuitoVideoView.setOnErrorListener { _, _, _ ->
+            Log.e(TAG, "Error al reproducir video."); circuitoVideoView.visibility = View.GONE; true
         }
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        onBackPressedDispatcher.onBackPressed()
-        return true
+    private fun setupEditFab(circuito: Circuito) {
+        if (isAdmin) {
+            fabEditCircuito.visibility = View.VISIBLE
+            fabEditCircuito.setOnClickListener {
+                if (circuito.id.isNotEmpty()) {
+                    val intent = Intent(this, EditCircuitoActivity::class.java).apply {
+                        putExtra(EditCircuitoActivity.EXTRA_CIRCUITO_EDIT, circuito)
+                    }
+                    editCircuitoLauncher.launch(intent)
+                } else {
+                    Toast.makeText(this, "No se puede editar (ID no válido).", Toast.LENGTH_SHORT).show()
+                }
+            }
+        } else {
+            fabEditCircuito.visibility = View.GONE
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Manejar el clic en el botón de "atrás" de la ActionBar
+        if (item.itemId == android.R.id.home) {
+            // onBackPressedDispatcher.onBackPressed() // Opción moderna
+            finish() // Opción simple, funciona bien si no hay lógica compleja de back stack
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

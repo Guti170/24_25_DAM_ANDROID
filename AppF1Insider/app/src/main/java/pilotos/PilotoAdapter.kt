@@ -14,15 +14,15 @@ import com.google.firebase.storage.ktx.storage
 
 class PilotoAdapter(
     private val pilotosList: MutableList<Piloto>,
-    private val itemClickListener: OnPilotoClickListener // Interfaz para el listener
+    private val itemClickListener: OnPilotoClickListener,
+    private val isAdmin: Boolean // Recibir el estado de administrador
 ) : RecyclerView.Adapter<PilotoAdapter.PilotoViewHolder>() {
 
-    private val storage = Firebase.storage
+    private val storage = Firebase.storage // Completar la inicialización
 
-    // Interfaz para manejar los clics en los ítems
     interface OnPilotoClickListener {
         fun onPilotoClick(piloto: Piloto)
-        fun onPilotoLongClick(piloto: Piloto, position: Int) // Nuevo método para long click
+        fun onPilotoLongClick(piloto: Piloto, position: Int)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PilotoViewHolder {
@@ -33,46 +33,49 @@ class PilotoAdapter(
 
     override fun onBindViewHolder(holder: PilotoViewHolder, position: Int) {
         val currentItem = pilotosList[position]
-        holder.bind(currentItem, itemClickListener, position) // Pasa la posición también
+        // Pasar isAdmin al método bind del ViewHolder
+        holder.bind(currentItem, itemClickListener, position, isAdmin)
 
         holder.nombrePiloto.text = currentItem.nombre
-        Log.d("PilotoAdapter", "Item: ${currentItem.nombre}, imagenUrl de Firestore: '${currentItem.imagen}'")
+        // Log.d("PilotoAdapter", "Item: ${currentItem.nombre}, imagenUrl: '${currentItem.imagen}'") // Comentado para reducir logs
 
         if (currentItem.imagen.startsWith("gs://")) {
             val storageRef = storage.getReferenceFromUrl(currentItem.imagen)
             storageRef.downloadUrl.addOnSuccessListener { uri ->
                 Glide.with(holder.itemView.context)
                     .load(uri)
-                    .placeholder(R.drawable.placeholder_image)
-                    .error(R.drawable.error_image)
+                    .placeholder(R.drawable.placeholder_image) // Asegúrate que estos drawables existen
+                    .error(R.drawable.error_image)             // Asegúrate que estos drawables existen
                     .into(holder.imagenPiloto)
             }.addOnFailureListener { exception ->
-                Log.e("PilotoAdapter", "FALLO al obtener URL de descarga para ${currentItem.imagen}. Error: ${exception.message}", exception)
+                Log.e("PilotoAdapter", "Fallo al obtener URL para ${currentItem.imagen}. Error: ${exception.message}")
                 holder.imagenPiloto.setImageResource(R.drawable.error_image)
             }
-        } else if (currentItem.imagen.trim().isNotEmpty()) {
+        } else if (currentItem.imagen.trim().isNotEmpty()) { // Asume URL HTTP/HTTPS
             Glide.with(holder.itemView.context)
                 .load(currentItem.imagen)
                 .placeholder(R.drawable.placeholder_image)
                 .error(R.drawable.error_image)
                 .into(holder.imagenPiloto)
         } else {
-            holder.imagenPiloto.setImageResource(R.drawable.placeholder_image)
+            holder.imagenPiloto.setImageResource(R.drawable.placeholder_image) // Imagen por defecto
         }
     }
 
     override fun getItemCount() = pilotosList.size
 
-    // Método para eliminar un ítem de la lista y notificar al adaptador
+    // Este método ya no es estrictamente necesario si el Fragmento maneja la lista
+    // y notifica los cambios específicos (notifyItemRemoved, etc.)
+    // Pero si lo usas desde el fragmento, está bien.
     fun removeItem(position: Int) {
         if (position >= 0 && position < pilotosList.size) {
             pilotosList.removeAt(position)
             notifyItemRemoved(position)
-            // Opcional: si quieres que las posiciones se reajusten visualmente de inmediato
-            // notifyItemRangeChanged(position, pilotosList.size)
+            // notifyItemRangeChanged(position, pilotosList.size) // Opcional
         }
     }
 
+    // Útil si quieres reemplazar toda la lista de una vez
     fun updateData(newPilotos: List<Piloto>) {
         pilotosList.clear()
         pilotosList.addAll(newPilotos)
@@ -83,14 +86,19 @@ class PilotoAdapter(
         val imagenPiloto: ImageView = itemView.findViewById(R.id.imageViewPiloto) // Asegúrate que el ID es correcto
         val nombrePiloto: TextView = itemView.findViewById(R.id.textViewNombrePiloto) // Asegúrate que el ID es correcto
 
-        fun bind(piloto: Piloto, clickListener: OnPilotoClickListener, position: Int) {
+        // Añadir isAdmin al método bind
+        fun bind(piloto: Piloto, clickListener: OnPilotoClickListener, position: Int, isAdmin: Boolean) {
             itemView.setOnClickListener {
                 clickListener.onPilotoClick(piloto)
             }
-            // Configurar el Long Click Listener
-            itemView.setOnLongClickListener {
-                clickListener.onPilotoLongClick(piloto, position)
-                true // Devuelve true para indicar que el evento ha sido consumido
+            // Configurar el Long Click Listener solo si es admin
+            if (isAdmin) {
+                itemView.setOnLongClickListener {
+                    clickListener.onPilotoLongClick(piloto, position)
+                    true // Devuelve true para indicar que el evento ha sido consumido
+                }
+            } else {
+                itemView.isLongClickable = false // Deshabilitar long click si no es admin
             }
         }
     }

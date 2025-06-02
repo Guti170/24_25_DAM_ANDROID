@@ -1,4 +1,4 @@
-package circuitos // O el paquete donde tengas tus fragmentos
+package circuitos
 
 import android.app.Activity
 import android.content.Intent
@@ -10,45 +10,47 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AlertDialog // Importar AlertDialog
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.appf1insider.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage // Para borrar imágenes/videos de Storage si es necesario
+import com.google.firebase.storage.ktx.storage
 
 class Circuitos : Fragment(), CircuitoAdapter.OnItemClickListener {
 
-    private lateinit var recyclerView: RecyclerView
+    private lateinit var recyclerViewCircuitos: RecyclerView
     private lateinit var circuitoAdapter: CircuitoAdapter
+    private val listaCircuitos = mutableListOf<Circuito>()
+    private lateinit var db: FirebaseFirestore
     private lateinit var progressBar: ProgressBar
     private lateinit var fabAddCircuito: FloatingActionButton
-    private lateinit var db: FirebaseFirestore
-    private val storage = Firebase.storage // Referencia a Firebase Storage
-    private val TAG = "CircuitosFragment"
+    private var isAdmin: Boolean = false
 
-    private val listaDeCircuitos = mutableListOf<Circuito>()
+    companion object {
+        private const val TAG = "CircuitosFragment"
+    }
 
-    private val addCircuitoLauncher =
+    private val addCircuitoLauncher: ActivityResultLauncher<Intent> =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                Log.d(TAG, "Circuito añadido, recargando datos...")
-                fetchCircuitosData()
-            } else {
-                Log.d(
-                    TAG,
-                    "AddCircuitoActivity finalizó sin RESULT_OK (código: ${result.resultCode})"
-                )
-            }
+            if (result.resultCode == Activity.RESULT_OK) cargarCircuitos()
+        }
+
+    private val detalleCircuitoLauncher: ActivityResultLauncher<Intent> =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) cargarCircuitos()
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        arguments?.let { isAdmin = it.getBoolean("IS_ADMIN_USER", false) }
         db = Firebase.firestore
     }
 
@@ -57,155 +59,112 @@ class Circuitos : Fragment(), CircuitoAdapter.OnItemClickListener {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_circuitos, container, false)
-
-        recyclerView = view.findViewById(R.id.recyclerViewCircuitos)
+        recyclerViewCircuitos = view.findViewById(R.id.recyclerViewCircuitos)
         progressBar = view.findViewById(R.id.progressBarCircuitos)
-        fabAddCircuito = view.findViewById(R.id.fabAddCircuito) // Inicializar el FAB
+        fabAddCircuito = view.findViewById(R.id.fabAddCircuito)
 
         setupRecyclerView()
-
-        fabAddCircuito.setOnClickListener {
-            Log.d(TAG, "FAB para añadir circuito presionado.")
-            val intent = Intent(activity, AddCircuitoActivity::class.java)
-            addCircuitoLauncher.launch(intent)
-        }
-
-        if (listaDeCircuitos.isEmpty()) {
-            fetchCircuitosData()
-        } else {
-            progressBar.visibility = View.GONE
-            recyclerView.visibility = View.VISIBLE
-        }
+        setupFab()
+        cargarCircuitos()
         return view
     }
 
     private fun setupRecyclerView() {
-        recyclerView.layoutManager = LinearLayoutManager(context)
-        circuitoAdapter = CircuitoAdapter(listaDeCircuitos, this)
-        recyclerView.adapter = circuitoAdapter
+        circuitoAdapter = CircuitoAdapter(listaCircuitos, this, isAdmin)
+        recyclerViewCircuitos.layoutManager = LinearLayoutManager(context)
+        recyclerViewCircuitos.adapter = circuitoAdapter
     }
 
-    private fun fetchCircuitosData() {
-        progressBar.visibility = View.VISIBLE
-        recyclerView.visibility = View.GONE
-
-        db.collection("circuito")
-            .orderBy("nombre")
-            .get()
-            .addOnSuccessListener { documents ->
-                if (documents.isEmpty) {
-                    Log.d(TAG, "No se encontraron documentos de circuitos.")
-                    Toast.makeText(
-                        context,
-                        "No hay circuitos para mostrar. ¡Añade uno!",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                } else {
-                    val tempList = mutableListOf<Circuito>()
-                    for (document in documents) {
-                        try {
-                            val circuito = document.toObject<Circuito>().copy(id = document.id)
-                            tempList.add(circuito)
-                        } catch (e: Exception) {
-                            Log.e(TAG, "Error al convertir documento a Circuito: ${document.id}", e)
-                        }
-                    }
-                    listaDeCircuitos.clear()
-                    listaDeCircuitos.addAll(tempList)
-                    circuitoAdapter.notifyDataSetChanged()
-                }
-                progressBar.visibility = View.GONE
-                recyclerView.visibility = View.VISIBLE
+    private fun setupFab() {
+        fabAddCircuito.visibility = if (isAdmin) View.VISIBLE else View.GONE
+        if (isAdmin) {
+            fabAddCircuito.setOnClickListener {
+                addCircuitoLauncher.launch(Intent(activity, AddCircuitoActivity::class.java))
             }
-            .addOnFailureListener { exception ->
-                Log.w(TAG, "Error obteniendo documentos de circuitos: ", exception)
-                Toast.makeText(
-                    context,
-                    "Error al cargar los circuitos: ${exception.message}",
-                    Toast.LENGTH_LONG
-                ).show()
+        }
+    }
+
+    private fun cargarCircuitos() {
+        if (!isAdded) return
+        progressBar.visibility = View.VISIBLE
+        recyclerViewCircuitos.visibility = View.GONE
+
+        db.collection("circuito").orderBy("nombre", Query.Direction.ASCENDING).get()
+            .addOnSuccessListener { result ->
+                if (!isAdded) return@addOnSuccessListener
+                listaCircuitos.clear()
+                if (result.isEmpty) {
+                    if (isAdded) Toast.makeText(context, "No hay circuitos.", Toast.LENGTH_SHORT).show()
+                } else {
+                    result.forEach { doc ->
+                        try {
+                            listaCircuitos.add(doc.toObject<Circuito>().copy(id = doc.id))
+                        } catch (e: Exception) { Log.e(TAG, "Error al convertir: ${doc.id}", e) }
+                    }
+                }
+                circuitoAdapter.notifyDataSetChanged()
+                progressBar.visibility = View.GONE
+                recyclerViewCircuitos.visibility = View.VISIBLE
+            }
+            .addOnFailureListener { e ->
+                if (!isAdded) return@addOnFailureListener
+                Log.w(TAG, "Error al cargar circuitos.", e)
+                if (isAdded) Toast.makeText(context, "Error cargando: ${e.message}", Toast.LENGTH_LONG).show()
                 progressBar.visibility = View.GONE
             }
     }
 
     override fun onCircuitoClick(circuito: Circuito) {
-        Log.d(TAG, "Circuito clickeado: ${circuito.nombre}, ID: ${circuito.id}")
+        if (!isAdded) return
         val intent = Intent(activity, DetalleCircuitoActivity::class.java).apply {
             putExtra(DetalleCircuitoActivity.EXTRA_CIRCUITO, circuito)
+            putExtra("IS_ADMIN_USER", isAdmin)
         }
-        startActivity(intent)
+        detalleCircuitoLauncher.launch(intent)
     }
 
-    // Implementación del nuevo método para el Long Click
     override fun onCircuitoLongClick(circuito: Circuito, position: Int) {
-        Log.d(TAG, "Circuito long click: ${circuito.nombre}, ID: ${circuito.id}")
+        if (!isAdmin || !isAdded) return
+
         AlertDialog.Builder(requireContext())
-            .setTitle("Confirmar Borrado")
-            .setMessage("¿Estás seguro de que quieres borrar el circuito '${circuito.nombre}'?")
-            .setPositiveButton("Borrar") { dialog, _ ->
-                borrarCircuito(circuito, position)
-                dialog.dismiss()
-            }
-            .setNegativeButton("Cancelar") { dialog, _ ->
-                dialog.dismiss()
-            }
+            .setTitle("Eliminar Circuito")
+            .setMessage("¿Eliminar '${circuito.nombre}'?")
+            .setPositiveButton("Eliminar") { _, _ -> eliminarCircuito(circuito, position) }
+            .setNegativeButton("Cancelar", null)
             .show()
     }
 
-    private fun borrarCircuito(circuito: Circuito, position: Int) {
+    private fun eliminarCircuito(circuito: Circuito, position: Int) {
         if (circuito.id.isEmpty()) {
-            Toast.makeText(context, "Error: ID del circuito no válido.", Toast.LENGTH_SHORT).show()
+            if (isAdded) Toast.makeText(context, "ID no válido.", Toast.LENGTH_SHORT).show()
             return
         }
 
-        // Paso 1: Borrar el documento de Firestore
-        db.collection("circuito").document(circuito.id)
-            .delete()
+        if (circuito.imagen.startsWith("gs://")) {
+            Firebase.storage.getReferenceFromUrl(circuito.imagen).delete()
+                .addOnFailureListener { e -> Log.w(TAG, "Error borrando imagen.", e) }
+        }
+        if (circuito.video.startsWith("gs://")) {
+            Firebase.storage.getReferenceFromUrl(circuito.video).delete()
+                .addOnFailureListener { e -> Log.w(TAG, "Error borrando video.", e) }
+        }
+
+        db.collection("circuito").document(circuito.id).delete()
             .addOnSuccessListener {
-                Log.d(TAG, "Circuito '${circuito.nombre}' borrado de Firestore.")
-                Toast.makeText(
-                    context,
-                    "Circuito '${circuito.nombre}' borrado.",
-                    Toast.LENGTH_SHORT
-                ).show()
-
-                // Paso 2: (Opcional pero recomendado) Borrar archivos asociados de Firebase Storage
-                // Si la URL de la imagen es una URL de Firebase Storage (gs://...)
-                if (circuito.imagen.startsWith("gs://")) {
-                    val imagenRef = storage.getReferenceFromUrl(circuito.imagen)
-                    imagenRef.delete().addOnSuccessListener {
-                        Log.d(TAG, "Imagen ${circuito.imagen} borrada de Storage.")
-                    }.addOnFailureListener { e ->
-                        Log.w(TAG, "Error al borrar imagen ${circuito.imagen} de Storage.", e)
-                    }
+                if (!isAdded) return@addOnSuccessListener
+                val index = listaCircuitos.indexOfFirst { it.id == circuito.id }
+                if (index != -1) {
+                    listaCircuitos.removeAt(index)
+                    circuitoAdapter.notifyItemRemoved(index)
+                } else {
+                    cargarCircuitos() // Recargar si no se encuentra por alguna razón
                 }
-                // Haz lo mismo para el video si también lo almacenas en Firebase Storage
-                if (circuito.video.startsWith("gs://")) {
-                    val videoRef = storage.getReferenceFromUrl(circuito.video)
-                    videoRef.delete().addOnSuccessListener {
-                        Log.d(TAG, "Video ${circuito.video} borrado de Storage.")
-                    }.addOnFailureListener { e ->
-                        Log.w(TAG, "Error al borrar video ${circuito.video} de Storage.", e)
-                    }
-                }
-
-                // Paso 3: Actualizar la UI eliminando el ítem del adaptador
-                // Es importante hacerlo DESPUÉS de confirmar el borrado en Firestore
-                // para mantener la consistencia.
-                // listaDeCircuitos.removeAt(position) // Ya no es necesario si el adaptador tiene su propio método
-                circuitoAdapter.removeItem(position)
-
-
+                if (isAdded) Toast.makeText(context, "'${circuito.nombre}' eliminado.", Toast.LENGTH_SHORT).show()
             }
             .addOnFailureListener { e ->
-                Log.w(TAG, "Error al borrar circuito '${circuito.nombre}' de Firestore.", e)
-                Toast.makeText(context, "Error al borrar circuito: ${e.message}", Toast.LENGTH_LONG)
-                    .show()
+                if (!isAdded) return@addOnFailureListener
+                Log.w(TAG, "Error eliminando '${circuito.nombre}'.", e)
+                if (isAdded) Toast.makeText(context, "Error al eliminar: ${e.message}", Toast.LENGTH_SHORT).show()
             }
-    }
-
-    companion object {
-        @JvmStatic
-        fun newInstance() = Circuitos()
     }
 }

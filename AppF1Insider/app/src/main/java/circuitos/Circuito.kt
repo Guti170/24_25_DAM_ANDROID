@@ -1,7 +1,7 @@
 package circuitos
 
 import android.os.Parcelable
-import kotlinx.parcelize.Parcelize // Importante
+import kotlinx.parcelize.Parcelize
 
 @Parcelize // Anotación para generar automáticamente el código Parcelable
 data class Circuito(
@@ -10,9 +10,7 @@ data class Circuito(
     val imagen: String = "",
     val descripcion: String = "",
     val video: String = ""
-    // Puedes añadir más campos si los tienes
 ) : Parcelable { // Implementar Parcelable
     // Constructor vacío requerido por Firestore para deserialización automática
-    // No es necesario modificarlo para Parcelable si usas @Parcelize
     constructor() : this("", "", "", "", "")
 }

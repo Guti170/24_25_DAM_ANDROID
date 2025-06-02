@@ -28,9 +28,9 @@ class MenuPrincipal : AppCompatActivity() {
     private lateinit var topAppBar: MaterialToolbar
     private lateinit var bottomNavigationView: BottomNavigationView
 
-    // Variables para almacenar la información del usuario
     private var userEmail: String? = null
     private var userDisplayName: String? = null
+    private var isAdminUser: Boolean = false // NUEVO: Para almacenar el estado de admin
 
     companion object {
         private const val TAG = "MenuPrincipal"
@@ -52,10 +52,11 @@ class MenuPrincipal : AppCompatActivity() {
 
         auth = Firebase.auth
 
-        // Recuperar el email y nombre del Intent
+        // Recuperar datos del Intent
         userEmail = intent.getStringExtra("USER_EMAIL")
         userDisplayName = intent.getStringExtra("USER_DISPLAY_NAME")
-        Log.d(TAG, "Usuario recibido: Email='${userEmail}', Nombre='${userDisplayName}'")
+        isAdminUser = intent.getBooleanExtra("IS_ADMIN", false) // Recuperar el estado de admin
+        Log.d(TAG, "Usuario: Email='${userEmail}', Nombre='${userDisplayName}', EsAdmin='${isAdminUser}'")
 
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -73,28 +74,33 @@ class MenuPrincipal : AppCompatActivity() {
                 else -> false
             }
         }
-        // Asegúrate de que el menú se infla solo una vez o que no cause problemas si se llama múltiples veces
-        // Si topAppBar.inflateMenu ya está en el XML o se infla de otra manera, esta línea podría ser redundante
-        // o necesitar una condición para no inflarlo repetidamente.
-        // Por ahora, lo dejamos como estaba en tu código original.
-        if (topAppBar.menu.size() == 0) { // Solo inflar si no tiene menú aún
+        if (topAppBar.menu.size() == 0) {
             topAppBar.inflateMenu(R.menu.top_app_bar_menu)
         }
 
-
         bottomNavigationView.setOnItemSelectedListener { item ->
             var selectedFragment: Fragment? = null
+            val args = Bundle().apply { // Crear Bundle para pasar argumentos a los fragmentos
+                putBoolean("IS_ADMIN_USER", isAdminUser)
+                // Puedes pasar más datos si los fragmentos los necesitan
+                putString("USER_EMAIL", userEmail)
+            }
+
             when (item.itemId) {
-                R.id.nav_opcion1 -> selectedFragment = Circuitos() // Asumo que Circuitos es tu fragmento
-                R.id.nav_opcion2 -> selectedFragment = Pilotos()
-                R.id.nav_opcion3 -> selectedFragment = Escuderias()
-                R.id.nav_opcion4 -> selectedFragment = Calendario()
+                R.id.nav_opcion1 -> selectedFragment = Circuitos().apply { arguments = args }
+                R.id.nav_opcion2 -> selectedFragment = Pilotos().apply { arguments = args }
+                R.id.nav_opcion3 -> selectedFragment = Escuderias().apply { arguments = args }
+                R.id.nav_opcion4 -> selectedFragment = Calendario().apply { arguments = args } // Asumiendo que Calendario también podría necesitarlo
                 R.id.nav_opcion5 -> {
-                    // Crear instancia de Perfil y pasar argumentos
                     selectedFragment = Perfil.newInstance(
                         email = userEmail,
                         displayName = userDisplayName
-                    )
+                    ).apply {
+                        // Si Perfil también necesita saber si es admin:
+                        val perfilArgs = arguments ?: Bundle()
+                        perfilArgs.putBoolean("IS_ADMIN_USER", isAdminUser)
+                        arguments = perfilArgs
+                    }
                 }
             }
             if (selectedFragment != null) {
@@ -104,35 +110,31 @@ class MenuPrincipal : AppCompatActivity() {
         }
 
         if (savedInstanceState == null) {
-            // Cargar el fragmento inicial. Asegúrate que R.id.nav_opcion1 existe en tu menú.
-            // Y que Circuitos() es el fragmento que quieres cargar por defecto.
             bottomNavigationView.selectedItemId = R.id.nav_opcion1
-            // loadFragment(Circuitos()) // Esto se manejará por el listener si selectedItemId se establece
         }
     }
 
     private fun loadFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, fragment) // Asegúrate que R.id.fragment_container es el ID de tu FrameLayout o FragmentContainerView
+            .replace(R.id.fragment_container, fragment)
             .commit()
     }
 
     private fun signOut() {
-        Log.d(TAG, "signOut: Initiating sign out process")
+        Log.d(TAG, "signOut: Iniciando proceso de cierre de sesión")
         auth.signOut()
-        Log.d(TAG, "Firebase signOut successful.")
         googleSignInClient.signOut().addOnCompleteListener(this) { task ->
             if (task.isSuccessful) {
-                Log.d(TAG, "Google signOut successful.")
+                Log.d(TAG, "Google signOut exitoso.")
             } else {
-                Log.w(TAG, "Google signOut failed.", task.exception)
+                Log.w(TAG, "Google signOut falló.", task.exception)
             }
             navigateToLoginScreen()
         }
     }
 
     private fun navigateToLoginScreen() {
-        Log.d(TAG, "Navigating to MainActivity (Login Screen).")
+        Log.d(TAG, "Navegando a MainActivity (Pantalla de Login).")
         val intent = Intent(this, MainActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)

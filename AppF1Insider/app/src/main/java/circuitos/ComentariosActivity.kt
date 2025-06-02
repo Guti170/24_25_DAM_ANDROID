@@ -1,4 +1,4 @@
-package circuitos // O tu paquete
+package circuitos
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -34,17 +34,17 @@ class ComentariosActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
 
     private var circuitoId: String? = null
-    private var nombreCircuito: String? = null // Opcional, para el título
+    private var nombreCircuito: String? = null
 
     companion object {
         const val EXTRA_CIRCUITO_ID = "extra_circuito_id"
-        const val EXTRA_NOMBRE_CIRCUITO = "extra_nombre_circuito" // Opcional
+        const val EXTRA_NOMBRE_CIRCUITO = "extra_nombre_circuito"
         private const val TAG = "ComentariosActivity"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_comentarios) // Crearemos este layout
+        setContentView(R.layout.activity_comentarios)
 
         db = Firebase.firestore
         auth = Firebase.auth
@@ -138,8 +138,6 @@ class ComentariosActivity : AppCompatActivity() {
         }
 
         buttonEnviarComentario.isEnabled = false
-        // Podrías mostrar un ProgressBar más pequeño aquí si el general está muy lejos
-        // progressBarEnvioComentario.visibility = View.VISIBLE
 
         val nuevoComentario = Comentario(
             circuitoId = circuitoId!!,

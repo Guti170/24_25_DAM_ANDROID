@@ -1,4 +1,4 @@
-package escuderias // O tu paquete de activities
+package escuderias
 
 import android.annotation.SuppressLint
 import android.app.Activity

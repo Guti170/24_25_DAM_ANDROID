@@ -1,5 +1,6 @@
 package com.example.appf1insider
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
@@ -16,27 +17,20 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
-// ARG_USER_DISPLAY_NAME y ARG_USER_PHOTO_URL ya no son necesarios si no se usan
 private const val ARG_USER_EMAIL = "user_email"
 
 class Perfil : Fragment() {
     private var userEmail: String? = null
-    // userDisplayName y userPhotoUrl ya no son necesarios
-
     private lateinit var auth: FirebaseAuth
 
-    // Vistas que SÍ existen en el XML proporcionado
     private lateinit var textViewUserEmail: TextView
-    private lateinit var textViewAppInfo: TextView // Asumo que textViewAppInfoLabel es solo una etiqueta estática
+    private lateinit var textViewAppInfo: TextView
     private lateinit var buttonPrivacyPolicy: Button
     private lateinit var buttonLogout: Button
-
-    // imageViewProfile y textViewUserDisplayName eliminados
 
     companion object {
         private const val TAG = "PerfilFragment"
 
-        // newInstance modificado para aceptar solo email, ya que displayName y photoUrl no se usan
         @JvmStatic
         fun newInstance(email: String?, displayName: String?) = // Solo email
             Perfil().apply {
@@ -55,6 +49,7 @@ class Perfil : Fragment() {
         auth = Firebase.auth
     }
 
+    @SuppressLint("StringFormatInvalid")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -63,11 +58,7 @@ class Perfil : Fragment() {
 
         // Inicialización de las vistas que existen en el XML
         textViewUserEmail = view.findViewById(R.id.textViewUserEmail)
-        // textViewUserDisplayName ya no se inicializa
-        // imageViewProfile ya no se inicializa
 
-        // textViewAppInfoLabel es una etiqueta estática en el XML,
-        // pero textViewAppInfo es el que se actualiza dinámicamente.
         textViewAppInfo = view.findViewById(R.id.textViewAppInfo)
         buttonPrivacyPolicy = view.findViewById(R.id.buttonPrivacyPolicy)
         buttonLogout = view.findViewById(R.id.buttonLogout)
