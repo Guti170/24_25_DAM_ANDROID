@@ -1,4 +1,4 @@
-package com.example.appf1insider // O tu paquete de activities
+package circuitos // O tu paquete de activities
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -11,8 +11,6 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Toast
-import androidx.core.view.isVisible // Asegúrate de tener esta importación
-import com.example.appf1insider.model.Circuito
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase

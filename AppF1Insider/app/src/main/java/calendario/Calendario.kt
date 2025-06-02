@@ -1,4 +1,4 @@
-package com.example.appf1insider
+package calendario
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -11,8 +11,7 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.appf1insider.adapter.CalendarioAdapter // CAMBIO: Adaptador de Calendario
-import com.example.appf1insider.model.EventoCalendario // CAMBIO: Modelo de EventoCalendario
+import com.example.appf1insider.R
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#15151E"
-    tools:context=".Pilotos">
+    tools:context="pilotos.Pilotos">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewPilotos"

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#15151E"
     android:padding="8dp"
-    tools:context=".ComentariosPilotoActivity">
+    tools:context="pilotos.ComentariosPilotoActivity">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewComentariosPiloto"

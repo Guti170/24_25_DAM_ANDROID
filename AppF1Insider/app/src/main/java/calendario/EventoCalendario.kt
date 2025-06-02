@@ -1,4 +1,4 @@
-package com.example.appf1insider.model
+package calendario
 
 data class EventoCalendario(
     val id: String = "",

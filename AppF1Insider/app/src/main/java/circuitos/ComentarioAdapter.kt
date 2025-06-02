@@ -1,4 +1,4 @@
-package com.example.appf1insider.adapter
+package circuitos
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.appf1insider.R
-import com.example.appf1insider.model.Comentario
 import java.text.SimpleDateFormat
 import java.util.Locale
 

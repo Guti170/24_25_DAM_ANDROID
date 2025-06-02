@@ -1,4 +1,4 @@
-package com.example.appf1insider // O tu paquete de activities
+package pilotos // O tu paquete de activities
 
 import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
@@ -11,7 +11,6 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.core.view.isVisible
 import com.example.appf1insider.R
-import com.example.appf1insider.model.Piloto // Importa el modelo Piloto
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase

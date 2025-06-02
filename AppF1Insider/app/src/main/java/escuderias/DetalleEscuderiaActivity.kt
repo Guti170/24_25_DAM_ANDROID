@@ -1,4 +1,4 @@
-package com.example.appf1insider // O tu paquete de activities
+package escuderias // O tu paquete de activities
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -16,7 +16,6 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import com.bumptech.glide.Glide
 import com.example.appf1insider.R
-import com.example.appf1insider.model.Escuderia
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
@@ -41,7 +40,9 @@ class DetalleEscuderiaActivity : AppCompatActivity() {
     private val editEscuderiaLauncher: ActivityResultLauncher<Intent> =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == EditEscuderiaActivity.RESULT_ESCUDERIA_EDITADA) {
-                val escuderiaActualizada = result.data?.getParcelableExtra<Escuderia>(EditEscuderiaActivity.EXTRA_ESCUDERIA_ACTUALIZADA)
+                val escuderiaActualizada = result.data?.getParcelableExtra<Escuderia>(
+                    EditEscuderiaActivity.EXTRA_ESCUDERIA_ACTUALIZADA
+                )
                 if (escuderiaActualizada != null) {
                     Log.d(TAG, "Escudería actualizada recibida: ${escuderiaActualizada.nombre}")
                     escuderiaRecibida = escuderiaActualizada

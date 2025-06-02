@@ -1,11 +1,11 @@
-package com.example.appf1insider.model
+package circuitos
 
 import com.google.firebase.firestore.ServerTimestamp
 import java.util.Date
 
-data class ComentarioPiloto(
+data class Comentario(
     var id: String = "", // ID del comentario, generado por Firestore
-    val itemId: String = "", // ID del circuito O DEL PILOTO al que pertenece el comentario
+    val circuitoId: String = "", // ID del circuito al que pertenece el comentario
     val usuarioEmail: String = "", // Email del usuario que comenta
     val texto: String = "",
     @ServerTimestamp

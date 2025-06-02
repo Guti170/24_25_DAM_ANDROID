@@ -1,4 +1,4 @@
-package com.example.appf1insider.model
+package escuderias
 
 import com.google.firebase.firestore.ServerTimestamp
 import java.util.Date

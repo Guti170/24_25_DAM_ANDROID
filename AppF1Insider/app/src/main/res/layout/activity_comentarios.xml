@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#15151E"
     android:padding="8dp"
-    tools:context=".ComentariosActivity">
+    tools:context="circuitos.ComentariosActivity">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewComentarios"

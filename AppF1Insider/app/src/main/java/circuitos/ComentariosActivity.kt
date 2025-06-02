@@ -1,9 +1,9 @@
-package com.example.appf1insider
+package circuitos // O tu paquete
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.MenuItem // Asegúrate que este import está
+import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -11,9 +11,7 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.appf1insider.adapter.ComentarioAdapter
-import com.example.appf1insider.model.Comentario
-import com.example.appf1insider.model.ComentarioEscuderia
+import com.example.appf1insider.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -22,7 +20,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 
-class ComentariosEscuderiaActivity : AppCompatActivity() {
+class ComentariosActivity : AppCompatActivity() {
 
     private lateinit var recyclerViewComentarios: RecyclerView
     private lateinit var editTextNuevoComentario: EditText
@@ -35,41 +33,39 @@ class ComentariosEscuderiaActivity : AppCompatActivity() {
     private lateinit var db: FirebaseFirestore
     private lateinit var auth: FirebaseAuth
 
-    private var escuderiaId: String? = null
-    private var nombreEscuderia: String? = null
+    private var circuitoId: String? = null
+    private var nombreCircuito: String? = null // Opcional, para el título
 
     companion object {
-        const val EXTRA_ESCUDERIA_ID = "extra_escuderia_id"
-        const val EXTRA_NOMBRE_ESCUDERIA = "extra_nombre_escuderia"
-        private const val TAG = "ComentariosEscuderiaAct"
+        const val EXTRA_CIRCUITO_ID = "extra_circuito_id"
+        const val EXTRA_NOMBRE_CIRCUITO = "extra_nombre_circuito" // Opcional
+        private const val TAG = "ComentariosActivity"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // Asegúrate que el nombre del layout es correcto
-        setContentView(R.layout.activity_comentarios_escuderia)
+        setContentView(R.layout.activity_comentarios) // Crearemos este layout
 
         db = Firebase.firestore
         auth = Firebase.auth
 
-        escuderiaId = intent.getStringExtra(EXTRA_ESCUDERIA_ID)
-        nombreEscuderia = intent.getStringExtra(EXTRA_NOMBRE_ESCUDERIA)
+        circuitoId = intent.getStringExtra(EXTRA_CIRCUITO_ID)
+        nombreCircuito = intent.getStringExtra(EXTRA_NOMBRE_CIRCUITO)
 
-        if (escuderiaId == null) {
-            Log.e(TAG, "No se recibió el ID de la escudería.")
-            Toast.makeText(this, "Error: ID de la escudería no encontrado.", Toast.LENGTH_LONG).show()
+        if (circuitoId == null) {
+            Log.e(TAG, "No se recibió el ID del circuito.")
+            Toast.makeText(this, "Error: ID del circuito no encontrado.", Toast.LENGTH_LONG).show()
             finish()
             return
         }
 
-        supportActionBar?.title = nombreEscuderia ?: "Comentarios de la Escudería"
+        supportActionBar?.title = nombreCircuito ?: "Comentarios"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        // Asegúrate que los IDs en el layout activity_comentarios_escuderia.xml coinciden
-        recyclerViewComentarios = findViewById(R.id.recyclerViewComentariosEscuderia)
-        editTextNuevoComentario = findViewById(R.id.editTextNuevoComentarioEscuderia)
-        buttonEnviarComentario = findViewById(R.id.buttonEnviarComentarioEscuderia)
-        progressBarComentarios = findViewById(R.id.progressBarComentariosEscuderia)
+        recyclerViewComentarios = findViewById(R.id.recyclerViewComentarios)
+        editTextNuevoComentario = findViewById(R.id.editTextNuevoComentario)
+        buttonEnviarComentario = findViewById(R.id.buttonEnviarComentario)
+        progressBarComentarios = findViewById(R.id.progressBarComentarios)
 
         setupRecyclerView()
         cargarComentarios()
@@ -80,16 +76,19 @@ class ComentariosEscuderiaActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView() {
-        comentarioAdapter = ComentarioAdapter(listaDeComentarios)
-        recyclerViewComentarios.layoutManager = LinearLayoutManager(this)
+        comentarioAdapter = ComentarioAdapter(listaDeComentarios) // Crearemos este adaptador
+        recyclerViewComentarios.layoutManager = LinearLayoutManager(this).apply {
+            // reverseLayout = true // Si quieres los más nuevos arriba y el input abajo
+            // stackFromEnd = true
+        }
         recyclerViewComentarios.adapter = comentarioAdapter
     }
 
     private fun cargarComentarios() {
         progressBarComentarios.visibility = View.VISIBLE
-        db.collection("escuderias").document(escuderiaId!!)
+        db.collection("circuitos").document(circuitoId!!)
             .collection("comentarios")
-            .orderBy("timestamp", Query.Direction.ASCENDING)
+            .orderBy("timestamp", Query.Direction.ASCENDING) // Los más antiguos primero
             .addSnapshotListener { snapshots, e ->
                 progressBarComentarios.visibility = View.GONE
                 if (e != null) {
@@ -110,6 +109,7 @@ class ComentariosEscuderiaActivity : AppCompatActivity() {
                 listaDeComentarios.clear()
                 listaDeComentarios.addAll(tempList)
                 comentarioAdapter.notifyDataSetChanged()
+                // Scroll al último comentario añadido si la lista no está vacía
                 if (listaDeComentarios.isNotEmpty()) {
                     recyclerViewComentarios.smoothScrollToPosition(listaDeComentarios.size - 1)
                 }
@@ -127,40 +127,52 @@ class ComentariosEscuderiaActivity : AppCompatActivity() {
 
         if (usuarioActual == null) {
             Toast.makeText(this, "Debes iniciar sesión para comentar.", Toast.LENGTH_SHORT).show()
+            // Opcional: Redirigir a la pantalla de login
+            // startActivity(Intent(this, LoginActivity::class.java))
             return
         }
 
-        if (escuderiaId == null) { // Doble check
-            Toast.makeText(this, "Error: ID de la escudería no disponible.", Toast.LENGTH_SHORT).show()
+        if (circuitoId == null) {
+            Toast.makeText(this, "Error: ID del circuito no disponible.", Toast.LENGTH_SHORT).show()
             return
         }
 
         buttonEnviarComentario.isEnabled = false
+        // Podrías mostrar un ProgressBar más pequeño aquí si el general está muy lejos
+        // progressBarEnvioComentario.visibility = View.VISIBLE
 
-        val nuevoComentario = ComentarioEscuderia(
-            itemId = escuderiaId!!,
-            usuarioEmail = usuarioActual.email ?: "Anónimo",
+        val nuevoComentario = Comentario(
+            circuitoId = circuitoId!!,
+            usuarioEmail = usuarioActual.email ?: "Anónimo", // Usar email o un placeholder
             texto = textoComentario
+            // El timestamp se añadirá por el servidor con @ServerTimestamp
         )
 
-        db.collection("escuderias").document(escuderiaId!!)
+        db.collection("circuitos").document(circuitoId!!)
             .collection("comentarios")
             .add(nuevoComentario)
             .addOnSuccessListener {
                 Log.d(TAG, "Comentario añadido con ID: ${it.id}")
                 editTextNuevoComentario.text.clear()
+                // El SnapshotListener en cargarComentarios() actualizará la UI automáticamente.
+                // No es necesario llamar a notifyDataSetChanged() aquí directamente si usas SnapshotListener.
+                // progressBarEnvioComentario.visibility = View.GONE
                 buttonEnviarComentario.isEnabled = true
+                // Opcional: Ocultar teclado
+                // val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                // imm.hideSoftInputFromWindow(editTextNuevoComentario.windowToken, 0)
             }
             .addOnFailureListener { e ->
                 Log.w(TAG, "Error añadiendo comentario", e)
                 Toast.makeText(this, "Error al enviar comentario: ${e.message}", Toast.LENGTH_SHORT).show()
+                // progressBarEnvioComentario.visibility = View.GONE
                 buttonEnviarComentario.isEnabled = true
             }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
-            onBackPressedDispatcher.onBackPressed() // Correcto para manejar el botón "Up"
+            onBackPressedDispatcher.onBackPressed()
             return true
         }
         return super.onOptionsItemSelected(item)

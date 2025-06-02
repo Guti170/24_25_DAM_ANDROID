@@ -1,4 +1,4 @@
-package com.example.appf1insider.model
+package escuderias
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize // Asegúrate de tener esta importación

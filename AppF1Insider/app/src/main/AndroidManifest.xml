@@ -13,46 +13,46 @@
         android:theme="@style/Theme.AppF1Insider"
         tools:targetApi="31">
         <activity
-            android:name=".ComentariosEscuderiaActivity"
+            android:name="escuderias.ComentariosEscuderiaActivity"
             android:exported="false" />
         <activity
-            android:name=".ComentariosPilotoActivity"
+            android:name="pilotos.ComentariosPilotoActivity"
             android:exported="false" />
         <activity
             android:name=".ComentariosPilotosActivity"
             android:exported="false" />
         <activity
-            android:name=".ComentariosActivity"
+            android:name="circuitos.ComentariosActivity"
             android:exported="false" />
         <activity
-            android:name=".EditEscuderiaActivity"
+            android:name="escuderias.EditEscuderiaActivity"
             android:exported="false" />
         <activity
-            android:name=".EditPilotoActivity"
+            android:name="pilotos.EditPilotoActivity"
             android:exported="false" />
         <activity
-            android:name=".EditCircuitoActivity"
+            android:name="circuitos.EditCircuitoActivity"
             android:exported="false" />
         <activity
-            android:name=".AddEscuderiaActivity"
+            android:name="escuderias.AddEscuderiaActivity"
             android:exported="false" />
         <activity
-            android:name=".AddPilotoActivity"
+            android:name="pilotos.AddPilotoActivity"
             android:exported="false" />
         <activity
-            android:name=".AddCircuitoActivity"
+            android:name="circuitos.AddCircuitoActivity"
             android:exported="false" />
         <activity
-            android:name=".DetalleEscuderiaActivity"
+            android:name="escuderias.DetalleEscuderiaActivity"
             android:exported="false" />
         <activity
-            android:name=".DetallePilotoActivity"
+            android:name="pilotos.DetallePilotoActivity"
             android:exported="false" />
         <activity
-            android:name=".DetalleCircuitoActivity"
+            android:name="circuitos.DetalleCircuitoActivity"
             android:exported="false" />
         <activity
-            android:name=".Circuitos"
+            android:name="circuitos.Circuitos"
             android:exported="false" />
         <activity android:name=".MenuPrincipal" />
         <activity

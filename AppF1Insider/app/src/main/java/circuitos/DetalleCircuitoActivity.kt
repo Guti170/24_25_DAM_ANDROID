@@ -1,4 +1,4 @@
-package com.example.appf1insider // O tu paquete de activities
+package circuitos // O tu paquete de activities
 
 import android.annotation.SuppressLint
 import android.app.Activity // Necesario para Activity.RESULT_OK
@@ -16,7 +16,6 @@ import android.widget.VideoView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import com.bumptech.glide.Glide
-import com.example.appf1insider.model.Circuito
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
@@ -42,7 +41,9 @@ class DetalleCircuitoActivity : AppCompatActivity() {
     private val editCircuitoLauncher: ActivityResultLauncher<Intent> =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == EditCircuitoActivity.RESULT_CIRCUITO_EDITADO) {
-                val circuitoActualizado = result.data?.getParcelableExtra<Circuito>(EditCircuitoActivity.EXTRA_CIRCUITO_ACTUALIZADO)
+                val circuitoActualizado = result.data?.getParcelableExtra<Circuito>(
+                    EditCircuitoActivity.EXTRA_CIRCUITO_ACTUALIZADO
+                )
                 if (circuitoActualizado != null) {
                     Log.d(TAG, "Circuito actualizado recibido: ${circuitoActualizado.nombre}")
                     circuitoRecibido = circuitoActualizado

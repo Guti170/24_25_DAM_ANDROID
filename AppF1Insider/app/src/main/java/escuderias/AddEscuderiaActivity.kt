@@ -1,4 +1,4 @@
-package com.example.appf1insider // O tu paquete de activities
+package escuderias // O tu paquete de activities
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -12,7 +12,6 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.core.view.isVisible
 import com.example.appf1insider.R
-import com.example.appf1insider.model.Escuderia // Importa el modelo Escuderia
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase

@@ -1,4 +1,4 @@
-package com.example.appf1insider
+package escuderias
 
 import android.app.Activity
 import android.content.Intent
@@ -14,8 +14,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.appf1insider.adapter.EscuderiaAdapter
-import com.example.appf1insider.model.Escuderia
+import com.example.appf1insider.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore

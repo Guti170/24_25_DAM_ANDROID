@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#15151E"
-    tools:context=".DetalleEscuderiaActivity">
+    tools:context="escuderias.DetalleEscuderiaActivity">
 
     <ScrollView
         android:layout_width="match_parent"

@@ -1,4 +1,4 @@
-package com.example.appf1insider // O el paquete donde tengas tus fragmentos
+package pilotos // O el paquete donde tengas tus fragmentos
 
 import android.app.Activity
 import android.content.Intent
@@ -14,9 +14,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.appf1insider.adapter.PilotoAdapter
-import com.example.appf1insider.model.Piloto
-import com.example.appf1insider.DetallePilotoActivity // Asegúrate que la importación es correcta
+import com.example.appf1insider.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore

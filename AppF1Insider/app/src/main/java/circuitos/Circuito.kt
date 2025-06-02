@@ -1,4 +1,4 @@
-package com.example.appf1insider.model
+package circuitos
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize // Importante
