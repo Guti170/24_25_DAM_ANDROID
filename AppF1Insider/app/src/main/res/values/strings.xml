@@ -18,15 +18,21 @@
     <string name="privacy_policy_button_ok">Aceptar</string>
     <string name="app_info_placeholder">F1 Insider es una aplicación dedicada a ofrecerte la mejor información sobre el mundo de la Fórmula 1. Nuestro objetivo es mantenerte al día con noticias actualizadas, análisis de carreras, clasificaciones, datos de pilotos y escuderías, todo en un solo lugar. Trabajamos para que vivas la F1 con pasión y estés siempre un paso adelante, con contenido claro, preciso y pensado para verdaderos fans.</string>
     <string name="app_info_fallback">F1 Insider es una aplicación dedicada a ofrecerte la mejor información sobre el mundo de la Fórmula 1. Nuestro objetivo es mantenerte al día con noticias actualizadas, análisis de carreras, clasificaciones, datos de pilotos y escuderías, todo en un solo lugar. Trabajamos para que vivas la F1 con pasión y estés siempre un paso adelante, con contenido claro, preciso y pensado para verdaderos fans.</string>
-    <string name="descripcion_imagen_piloto" translatable="false">Imagen del Piloto</string>
-    <string name="label_estadisticas" translatable="false">Estadísticas</string>
-    <string name="label_descripcion" translatable="false">Descripción</string>
-    <string name="descripcion_imagen_escuderia" translatable="false">Imagen de la Escudería</string>
+    <string name="descripcion_imagen_piloto">Imagen del Piloto</string>
+    <string name="label_estadisticas">Estadísticas</string>
+    <string name="label_descripcion">Descripción</string>
+    <string name="descripcion_imagen_escuderia">Imagen de la Escudería</string>
     <string name="descripcion_fab_add_circuito">Añadir nuevo circuito</string>
-    <string name="descripcion_fab_add_piloto" translatable="false">Añadir nuevo piloto</string>
-    <string name="descripcion_fab_add_escuderia" translatable="false">Añadir nueva escudería</string>
-    <string name="descripcion_fab_edit_circuito" translatable="false">Editar circuito</string>
-    <string name="descripcion_fab_edit_piloto" translatable="false">Editar piloto</string>
-    <string name="descripcion_fab_edit_escuderia" translatable="false">Editar escudería</string>
+    <string name="descripcion_fab_add_piloto">Añadir nuevo piloto</string>
+    <string name="descripcion_fab_add_escuderia">Añadir nueva escudería</string>
+    <string name="descripcion_fab_edit_circuito">Editar circuito</string>
+    <string name="descripcion_fab_edit_piloto">Editar piloto</string>
+    <string name="descripcion_fab_edit_escuderia">Editar escudería</string>
+    <string name="hintBuscarEscuderia">Buscar escuderia...</string>
+    <string name="hintBuscarCircuito">Buscar circuito...</string>
+    <string name="hintBuscarPiloto">Buscar piloto...</string>
+    <string name="textGuardarCircuito">Guardar Circuito</string>
+    <string name="textGuardarEscuderia">Guardar Escuderia</string>
+    <string name="textGuardarPiloto">Guardar Piloto</string>
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

@@ -7,13 +7,31 @@
     android:background="#15151E"
     tools:context="pilotos.Pilotos">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewPilotos"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/item_piloto" />
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/searchViewPilotos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@drawable/search_view_background"
+            android:textColorHint="@android:color/white"
+            app:iconifiedByDefault="false"
+            app:queryHint="@string/hintBuscarPiloto" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewPilotos"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:visibility="gone"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_piloto" />
+
+    </LinearLayout>
 
     <ProgressBar
         android:id="@+id/progressBarPilotos"
@@ -31,6 +49,6 @@
         android:backgroundTint="#FF1E00"
         android:layout_margin="16dp"
         android:contentDescription="@string/descripcion_fab_add_piloto"
-        app:srcCompat="@drawable/ic_add" /> <!-- Reutilizamos el ícono de "añadir" -->
+        app:srcCompat="@drawable/ic_add" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

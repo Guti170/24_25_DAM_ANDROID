@@ -7,13 +7,31 @@
     android:background="#15151E"
     tools:context="circuitos.Circuitos">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewCircuitos"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/item_circuito" />
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/searchViewCircuitos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@drawable/search_view_background"
+            android:textColorHint="@android:color/white"
+            app:iconifiedByDefault="false"
+            app:queryHint="@string/hintBuscarCircuito" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewCircuitos"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:visibility="gone"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_circuito" />
+
+    </LinearLayout>
 
     <ProgressBar
         android:id="@+id/progressBarCircuitos"

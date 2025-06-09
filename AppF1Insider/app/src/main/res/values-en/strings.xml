@@ -19,5 +19,20 @@
     <string name="privacy_policy_button_ok">Accept</string>
     <string name="app_info_placeholder">F1 Insider is an app dedicated to bringing you the best information about the world of Formula 1. Our goal is to keep you up to date with the latest news, race analysis, standings, and data on drivers and teams—all in one place. We work to help you experience F1 with passion and stay one step ahead, with clear, accurate, and fan-focused content.</string>
     <string name="app_info_fallback">F1 Insider is an app dedicated to bringing you the best information about the world of Formula 1. Our goal is to keep you up to date with the latest news, race analysis, standings, and data on drivers and teams—all in one place. We work to help you experience F1 with passion and stay one step ahead, with clear, accurate, and fan-focused content.</string>
+    <string name="descripcion_imagen_piloto">Pilot Image</string>
+    <string name="label_estadisticas">Statistics</string>
+    <string name="label_descripcion">Description</string>
+    <string name="descripcion_imagen_escuderia">Image of the Team</string>
     <string name="descripcion_fab_add_circuito">Add new circuit</string>
+    <string name="descripcion_fab_add_piloto">Add new pilot</string>
+    <string name="descripcion_fab_add_escuderia">Add new team</string>
+    <string name="descripcion_fab_edit_circuito">Edit circuit</string>
+    <string name="descripcion_fab_edit_piloto">Edit pilot</string>
+    <string name="descripcion_fab_edit_escuderia">Edit team</string>
+    <string name="hintBuscarEscuderia">Search for a team...</string>
+    <string name="hintBuscarCircuito">Search circuit...</string>
+    <string name="hintBuscarPiloto">Search pilot...</string>
+    <string name="textGuardarCircuito">Save Circuit</string>
+    <string name="textGuardarEscuderia">Save Team</string>
+    <string name="textGuardarPiloto">Save Pilot</string>
 </resources>
